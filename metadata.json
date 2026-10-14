@@ -1,0 +1,6 @@
+{
+  "name": "Bruna OS",
+  "description": "Sistema operacional pessoal integrado unindo excelência acadêmica na FDR (Perfil 0807) e LDS (Direito Societário), rotina de hábitos, treinos, autonomia financeira e estante de leituras.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
