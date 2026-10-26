@@ -83,14 +83,10 @@ export const SimuladorPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Abas */}
-      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
+      <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span className="text-xs font-medium text-stone-400 block">Simulações de Desempenho</span>
-            <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
-              Simulador de Notas e Metas
-            </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-600 max-w-2xl">
               Simule o impacto de notas no CR, MC e MCN sem alterar o histórico real.
             </p>
           </div>
@@ -296,7 +292,7 @@ export const SimuladorPage: React.FC = () => {
                               [componente.codigo]: parseFloat(e.target.value),
                             })
                           }
-                          className="w-24 accent-emerald-700 cursor-pointer"
+                          className="w-24 accent-[#8b1538] cursor-pointer"
                         />
                         <input
                           type="number"
@@ -448,7 +444,7 @@ export const SimuladorPage: React.FC = () => {
                     type="checkbox"
                     checked={excluirComplementares}
                     onChange={(e) => setExcluirComplementares(e.target.checked)}
-                    className="accent-emerald-700 rounded"
+                    className="accent-[#8b1538] rounded"
                   />
                   <span className="text-xs text-stone-700">
                     Excluir 240h complementares ({chFuturaComNota}h com nota)

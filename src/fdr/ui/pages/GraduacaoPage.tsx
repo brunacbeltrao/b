@@ -77,14 +77,10 @@ export const GraduacaoPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Abas */}
-      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
+      <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span className="text-xs font-medium text-stone-400 block">Requisitos de Conclusão</span>
-            <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
-              Graduação e Atividades
-            </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-600 max-w-2xl">
               Atividades Complementares (240h), Estágios Supervisionados, TCC e ENADE.
             </p>
           </div>
@@ -146,7 +142,7 @@ export const GraduacaoPage: React.FC = () => {
               atual={totalHorasComp}
               total={metaHorasComp}
               porcentagem={pctComp}
-              corBarra="bg-emerald-700"
+              corBarra="bg-[#8b1538]"
             />
           </div>
 
@@ -293,7 +289,7 @@ export const GraduacaoPage: React.FC = () => {
                   atual={est.horasCumpridas}
                   total={totalExigido}
                   porcentagem={pct}
-                  corBarra="bg-emerald-700"
+                  corBarra="bg-[#8b1538]"
                 />
               </div>
             );
@@ -399,7 +395,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="checkbox"
                 checked={store.enade.ingressante}
                 onChange={(e) => store.atualizarEnade({ ingressante: e.target.checked })}
-                className="w-4 h-4 accent-emerald-700 rounded cursor-pointer"
+                className="w-4 h-4 accent-[#8b1538] rounded cursor-pointer"
               />
             </div>
             <p className="text-xs text-stone-500">
@@ -425,7 +421,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="checkbox"
                 checked={store.enade.concluinte}
                 onChange={(e) => store.atualizarEnade({ concluinte: e.target.checked })}
-                className="w-4 h-4 accent-emerald-700 rounded cursor-pointer"
+                className="w-4 h-4 accent-[#8b1538] rounded cursor-pointer"
               />
             </div>
             <p className="text-xs text-stone-500">

@@ -319,7 +319,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
                         onClick={() => setStatus('completed')}
                         className={`py-2 px-2 rounded-xl font-medium transition-all cursor-pointer text-center flex items-center justify-center gap-1 ${
                           status === 'completed'
-                            ? 'bg-emerald-700 text-white shadow-xs font-bold'
+                            ? 'bg-[#8b1538] text-white font-medium'
                             : 'text-[#625d66] hover:text-[#1c1a1e]'
                         }`}
                       >

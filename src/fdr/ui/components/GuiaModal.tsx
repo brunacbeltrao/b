@@ -121,7 +121,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
           </div>
           <div className="w-full h-1.5 rounded-full bg-[#e6e4e8] overflow-hidden">
             <div
-              className="h-full bg-emerald-700 rounded-full transition-all duration-300"
+              className="h-full bg-[#8b1538] rounded-full transition-all duration-300"
               style={{ width: `${progresso.porcentagem}%` }}
             />
           </div>

@@ -169,13 +169,9 @@ export const EstudosPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* Header Editorial */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#e6e4e8]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <span className="text-xs font-medium text-stone-400 block">Metodologia & Estudos</span>
-          <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-0.5">
-            Para Estudar Melhor
-          </h2>
-          <p className="text-xs text-stone-500">
+          <p className="text-sm text-stone-600 max-w-2xl">
             Acompanhamento semanal, caderno de erros de provas, fila de leitura com fichamentos e súmulas salvas.
           </p>
         </div>
@@ -256,7 +252,7 @@ export const EstudosPage: React.FC = () => {
                     onClick={() => store.atualizarMetaSemanal(qtd)}
                     className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer ${
                       store.metaSemanal?.metaTopicos === qtd
-                        ? 'bg-emerald-700 text-white font-semibold'
+                        ? 'bg-[#8b1538] text-white font-medium'
                         : 'bg-[#f6f5f7] text-stone-600 hover:bg-stone-200/60 border border-[#e6e4e8]'
                     }`}
                   >
@@ -272,7 +268,7 @@ export const EstudosPage: React.FC = () => {
               </div>
               <div className="w-full h-3 bg-[#e6e4e8] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-emerald-700 rounded-full transition-all duration-500"
+                  className="h-full bg-[#8b1538] rounded-full transition-all duration-500"
                   style={{ width: `${resumoSemanal.porcentagemMeta}%` }}
                 />
               </div>
@@ -559,7 +555,7 @@ export const EstudosPage: React.FC = () => {
                       </div>
                       <div className="w-full h-2 bg-[#e6e4e8] rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-emerald-700 rounded-full transition-all duration-300"
+                          className="h-full bg-[#8b1538] rounded-full transition-all duration-300"
                           style={{ width: `${porcentagem}%` }}
                         />
                       </div>

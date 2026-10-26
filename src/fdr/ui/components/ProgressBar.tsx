@@ -15,7 +15,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   atual,
   total,
   porcentagem,
-  corBarra = 'bg-emerald-700',
+  corBarra = 'bg-[#8b1538]',
   unidade = 'h',
   subtitulo,
 }) => {

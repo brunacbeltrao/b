@@ -38,16 +38,10 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
   return (
     <div className="space-y-8 pb-6">
       {/* Header Editorial */}
-      <div className="space-y-3 pb-2 border-b border-[#e6e4e8]">
-        <span className="text-xs font-medium text-stone-400 block">
-          Faculdade de Direito do Recife • UFPE
-        </span>
+      <div className="space-y-3">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif-title text-2xl font-semibold text-stone-900">
-              Visão Geral da Graduação
-            </h2>
-            <p className="text-xs text-stone-500 mt-1 max-w-xl">
+            <p className="text-sm text-stone-600 max-w-2xl">
               5º período letivo ({store.perfil.periodoAtual}) • {progresso.total.atual}h integralizadas de {store.perfil.chExigida.total}h ({progresso.total.porcentagem}% do curso).
             </p>
           </div>
@@ -82,7 +76,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           onClick={() => aoMudarAba('hoje')}
-          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-emerald-700/40 transition-all group cursor-pointer flex items-center justify-between gap-3"
+          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-stone-300 transition-all group cursor-pointer flex items-center justify-between gap-3"
         >
           <div className="space-y-1">
             <span className="text-xs font-medium text-emerald-800 block">Ação Diária</span>
@@ -97,7 +91,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
         </button>
         <button
           onClick={() => aoMudarAba('estudos')}
-          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-emerald-700/40 transition-all group cursor-pointer flex items-center justify-between gap-3"
+          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-stone-300 transition-all group cursor-pointer flex items-center justify-between gap-3"
         >
           <div className="space-y-1">
             <span className="text-xs font-medium text-emerald-800 block">Para Estudar Melhor</span>
@@ -238,7 +232,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
               atual={progresso.obrigatorias.atual}
               total={progresso.obrigatorias.total}
               porcentagem={progresso.obrigatorias.porcentagem}
-              corBarra="bg-emerald-700"
+              corBarra="bg-[#8b1538]"
             />
             <ProgressBar
               titulo="Eletivas do Perfil"

@@ -90,14 +90,10 @@ export const PlanejadorPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Previsão e Sugestão */}
-      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
+      <div className="space-y-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="text-xs font-medium text-stone-400 block">Distribuição Curricular</span>
-            <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
-              Planejador de Semestres
-            </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-600 max-w-2xl">
               Planeje semestres futuros de 2027.1 até 2031.2 com validação contínua de travas e teto de até 480h.
             </p>
           </div>

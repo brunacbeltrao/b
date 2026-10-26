@@ -134,12 +134,8 @@ export const ConfigPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-6">
-      <div className="space-y-2 pb-4 border-b border-[#e6e4e8]">
-        <span className="text-xs font-medium text-stone-400 block">Parâmetros e Dados</span>
-        <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
-          Ajustes e Calibração
-        </h2>
-        <p className="text-xs text-stone-500">
+      <div className="space-y-2">
+        <p className="text-sm text-stone-600 max-w-2xl">
           Calibre os parâmetros estatísticos do curso, realize backup em JSON ou verifique as fórmulas com o PRD.
         </p>
         {usandoFallback && (

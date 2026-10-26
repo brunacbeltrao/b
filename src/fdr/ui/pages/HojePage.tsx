@@ -84,18 +84,9 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
   return (
     <div className="space-y-6 pb-6">
       {/* Top Banner Editorial */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#e6e4e8]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-stone-400">Dia a dia • FDR UFPE</span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
-              5º Período Noturno
-            </span>
-          </div>
-          <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
-            Hoje na Faculdade
-          </h2>
-          <p className="text-xs text-stone-500">
+          <p className="text-sm text-stone-600 max-w-2xl">
             {DIAS_SEMANA_NOMES[hoje.getDay()]},{' '}
             {hoje.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
@@ -175,14 +166,14 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                 onClick={() => setDiaSelecionado(item.dia)}
                 className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                   selecionado
-                    ? 'border-emerald-700 bg-emerald-50 text-emerald-900 font-semibold shadow-2xs'
+                    ? 'border-[#ead3da] bg-[#f7ecef] text-[#6f0f2c] font-medium'
                     : 'border-[#e6e4e8] bg-white hover:bg-stone-50 text-stone-600'
                 }`}
               >
                 <div className="flex items-center justify-center gap-1">
                   <span className="text-sm font-medium">{item.rotulo}</span>
                   {ehHoje && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#8b1538]" />
                   )}
                 </div>
                 <span className="block text-[10px] opacity-75 truncate mt-0.5">
@@ -285,7 +276,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                         }
                         className={`flex-1 sm:flex-none px-3.5 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           estaPresente
-                            ? 'bg-emerald-700 text-white shadow-2xs font-semibold'
+                            ? 'bg-[#8b1538] text-white font-medium'
                             : 'bg-[#f6f5f7] text-stone-600 hover:bg-emerald-50 hover:text-emerald-800 border border-[#e6e4e8]'
                         }`}
                         title="Marcar presença na aula de hoje"
@@ -349,14 +340,14 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                   return (
                     <div
                       key={topico.id}
-                      className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex items-start justify-between gap-3 hover:border-emerald-700/40 transition-all"
+                      className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex items-start justify-between gap-3 hover:border-stone-300 transition-all"
                     >
                       <div className="flex items-start gap-2.5">
                         <input
                           type="checkbox"
                           checked={topico.concluido}
                           onChange={(e) => store.marcarTopico(topico.id, e.target.checked)}
-                          className="mt-1 w-4 h-4 rounded text-emerald-700 accent-emerald-700 cursor-pointer"
+                          className="mt-1 w-4 h-4 rounded text-emerald-700 accent-[#8b1538] cursor-pointer"
                         />
                         <div>
                           <div className="flex items-center gap-2 font-mono text-[11px] text-stone-400">
