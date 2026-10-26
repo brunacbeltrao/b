@@ -136,7 +136,7 @@ export const ConfigPage: React.FC = () => {
     <div className="space-y-6 pb-6">
       <div className="space-y-2 pb-4 border-b border-[#e6e4e8]">
         <span className="text-xs font-medium text-stone-400 block">Parâmetros e Dados</span>
-        <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
+        <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
           Ajustes e Calibração
         </h2>
         <p className="text-xs text-stone-500">

@@ -61,29 +61,29 @@ export const ConductCodeModal: React.FC<ConductCodeModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="p-6 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between border-b border-[#8b1538]">
+        <div className="p-6 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LdsCrest size={32} color="#f6f5f7" />
             <div>
-              <div className="eyebrow-lds text-[#f6f5f7]/80 text-xs">
+              <div className="eyebrow-lds text-stone-500 text-xs">
                 ESTATUTO & REGIMENTO INTERNO
               </div>
-              <h2 className="font-serif-title text-2xl font-bold text-white leading-tight">
+              <h2 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] leading-tight">
                 Código de Conduta da LDS FDR
               </h2>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 cursor-pointer"
+            className="text-stone-500 hover:text-[#1c1a1e] p-1 rounded-full hover:bg-stone-100 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto space-y-4 font-['Source_Serif_4',serif] text-sm text-[#1c1a1e]">
-          <div className="p-4 bg-[#f6f5f7] border-l-4 border-[#8b1538] rounded-r-2xl text-xs text-[#625d66] leading-relaxed">
+        <div className="p-6 overflow-y-auto space-y-4 text-sm text-[#1c1a1e]">
+          <div className="p-4 bg-[#f6f5f7] border-[#8b1538] rounded-xl text-xs text-[#625d66] leading-relaxed">
             <span className="font-bold text-[#8b1538]">Normas de Convivência: </span>
             O presente regramento vincula todos os pesquisadores, membros efetivos e membros do período de ingresso durante as atividades do Grupo de Estudos e projetos extraordinários da entidade.
           </div>
@@ -98,7 +98,7 @@ export const ConductCodeModal: React.FC<ConductCodeModalProps> = ({
                   <span className="text-[11px] font-bold text-[#8b1538] bg-[#f6f5f7] px-2 py-0.5 rounded-full border border-[#625d66]/30">
                     Art. {idx + 1}
                   </span>
-                  <h4 className="font-serif-title font-bold text-[#1c1a1e] text-base">
+                  <h4 className="font-serif-title font-semibold text-[#1c1a1e] text-base">
                     {rule.title}
                   </h4>
                 </div>

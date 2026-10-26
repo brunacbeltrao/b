@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Lesson, LessonMaterial, LessonLink, BibliographyItem } from '../types';
 import { FACULTY_MEMBERS } from '../data/curriculum';
 import {
@@ -55,6 +55,14 @@ export const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
   const [materials, setMaterials] = useState<LessonMaterial[]>(lesson.materials || []);
   const [links, setLinks] = useState<LessonLink[]>(lesson.links || []);
   const [bibliography, setBibliography] = useState<BibliographyItem[]>(lesson.bibliographyItems || []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
 
   const [showAddLink, setShowAddLink] = useState(false);
   const [newLinkTitle, setNewLinkTitle] = useState('');
@@ -184,28 +192,28 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
 
   return (
     <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
+      <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Modal Top Banner */}
-        <div className="p-6 bg-[#6f0f2c] text-[#f6f5f7] flex items-start justify-between relative shadow-md">
+        <div className="p-6 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-start justify-between relative">
           <div className="pr-6 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="eyebrow-lds text-[#f6f5f7]/85 text-xs font-medium">
+              <span className="eyebrow-lds text-stone-500 text-xs font-medium">
                 AULA {lesson.lessonNumber.toString().padStart(2, '0')} • {lesson.phase}
               </span>
               <span className={`text-[10px] px-3 py-0.5 rounded-full font-bold uppercase tracking-wider ${
                 status === 'completed'
-                  ? 'bg-emerald-600 text-white shadow-2xs'
+                  ? 'bg-emerald-600 text-[#1c1a1e] shadow-2xs'
                   : status === 'current'
-                  ? 'bg-[#625d66] text-white shadow-2xs'
-                  : 'bg-white/20 text-white'
+                  ? 'bg-[#625d66] text-[#1c1a1e] shadow-2xs'
+                  : 'bg-stone-100 text-[#1c1a1e]'
               }`}>
                 {status === 'completed' ? '✓ Aula Realizada' : status === 'current' ? '★ Em Andamento' : 'Próxima Aula'}
               </span>
             </div>
-            <h2 className="font-serif-title text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+            <h2 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] leading-tight">
               {lesson.title}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-white/80 pt-1">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-stone-500 pt-1">
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#e6e4e8]" />
                 <span>{lesson.fullDate} ({lesson.dateStr})</span>
@@ -218,7 +226,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
               {actualProfessor && (
                 <>
                   <span aria-hidden="true">•</span>
-                  <span className="flex items-center gap-1.5 font-semibold text-white">
+                  <span className="flex items-center gap-1.5 font-semibold text-[#1c1a1e]">
                     <GraduationCap className="w-3.5 h-3.5 text-[#e6e4e8]" />
                     <span>Prof. {actualProfessor}</span>
                   </span>
@@ -228,7 +236,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+            className="text-stone-500 hover:text-[#1c1a1e] p-2 rounded-full hover:bg-stone-100 transition-colors cursor-pointer shrink-0"
             title="Fechar"
           >
             <X className="w-5 h-5" />
@@ -386,7 +394,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
 
               {/* Central Key Points */}
               <div className="bg-white border border-[#e6e4e8] rounded-2xl p-5 shadow-xs space-y-3">
-                <h3 className="font-serif-title text-xl font-bold text-[#8b1538] flex items-center gap-2">
+                <h3 className="font-serif-title text-xl font-semibold text-[#1c1a1e] flex items-center gap-2">
                   <span>Tópicos & Normas Fundamentais Abordadas</span>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -409,7 +417,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
               {/* Attached Materials */}
               <div className="bg-white border border-[#e6e4e8] rounded-2xl p-5 shadow-xs space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-serif-title text-xl font-bold text-[#1c1a1e] flex items-center gap-2">
+                  <h3 className="font-serif-title text-xl font-semibold text-[#1c1a1e] flex items-center gap-2">
                     <FileText className="w-4 h-4 text-[#8b1538]" />
                     <span>Materiais e Documentos Anexados ({materials.length})</span>
                   </h3>
@@ -468,7 +476,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Presentation className="w-5 h-5 text-[#8b1538]" />
-                    <h3 className="font-serif-title text-2xl font-bold text-[#8b1538]">
+                    <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
                       Slides da Aula do Professor
                     </h3>
                   </div>
@@ -589,7 +597,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
               <div className="bg-white border border-[#e6e4e8] rounded-2xl p-6 shadow-xs space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-serif-title text-2xl font-bold text-[#8b1538] flex items-center gap-2">
+                    <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] flex items-center gap-2">
                       <BookMarked className="w-5 h-5" />
                       <span>Bibliografia & Doutrina da Aula</span>
                     </h3>
@@ -699,7 +707,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
                           </span>
                           <span className="font-bold text-xs text-[#6f0f2c]">{item.author}</span>
                         </div>
-                        <div className="font-['Source_Serif_4',serif] text-sm font-semibold text-[#1c1a1e]">
+                        <div className="text-sm font-semibold text-[#1c1a1e]">
                           "{item.title}"
                         </div>
                         {(item.work || item.pages) && (
@@ -730,7 +738,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
               <div className="bg-white border border-[#e6e4e8] rounded-2xl p-6 shadow-xs space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-serif-title text-2xl font-bold text-[#8b1538] flex items-center gap-2">
+                    <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] flex items-center gap-2">
                       <LinkIcon className="w-5 h-5" />
                       <span>Links Úteis, Jurisprudência & Fontes</span>
                     </h3>
@@ -863,7 +871,7 @@ ${lesson.legislation.map(l => `- ${l.lawTag} ${l.article}: "${l.text}"`).join('\
               <div className="bg-white border border-[#e6e4e8] rounded-2xl p-6 shadow-xs space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-serif-title text-2xl font-bold text-[#8b1538] flex items-center gap-2">
+                    <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] flex items-center gap-2">
                       <BookOpen className="w-5 h-5" />
                       <span>Caderno de Anotações do Aluno</span>
                     </h3>

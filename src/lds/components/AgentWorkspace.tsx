@@ -175,20 +175,11 @@ ${result.data.doctrineQuotes?.map((dq: any) => `> "${dq.quote}" — ${dq.author}
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:py-8 px-2 sm:px-6 lg:px-8 font-['Source_Serif_4',serif]">
+    <div className="">
       {/* Workspace Header */}
-      <div className="mb-8 border-b border-[#625d66]/25 pb-6">
+      <div className="mb-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="eyebrow-lds text-[#8b1538] tracking-[0.16em] font-semibold text-xs mb-1">
-              SISTEMA INTELIGENTE LDS FDR • GOOGLE GEMINI
-            </div>
-            <h1 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#8b1538] tracking-tight">
-              Tira-Dúvidas IA & Revisão das Aulas
-            </h1>
-            <p className="mt-1 text-sm text-[#625d66] font-sans">
-              Tire dúvidas dogmáticas, debata os precedentes da CVM e gere esquemas de estudo prontos para o seu caderno de anotações.
-            </p>
           </div>
 
           {/* Mode Switcher */}
@@ -283,25 +274,25 @@ ${result.data.doctrineQuotes?.map((dq: any) => `> "${dq.quote}" — ${dq.author}
       {activeTab === 'chat' ? (
         <div className="max-w-4xl mx-auto bg-[#f6f5f7] border border-[#e6e4e8] rounded-2xl shadow-md overflow-hidden flex flex-col h-[650px]">
           {/* Chat header */}
-          <div className="bg-[#6f0f2c] text-[#f6f5f7] px-6 py-4 flex items-center justify-between">
+          <div className="bg-white text-[#1c1a1e] border-b border-[#e6e4e8] px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <LdsCrest size={32} color="#f6f5f7" />
               <div>
-                <div className="font-serif-title text-xl font-bold">
+                <div className="font-serif-title text-xl font-semibold">
                   Tutor Inteligente de Direito Societário
                 </div>
-                <div className="text-[11px] text-[#f6f5f7]/80">
+                <div className="text-[11px] text-stone-500">
                   Faculdade de Direito do Recife • Modelo Gemini 3.8 Flash
                 </div>
               </div>
             </div>
-            <div className="text-xs text-[#f6f5f7]/90 bg-white/20 px-3 py-1 rounded-full">
+            <div className="text-xs text-stone-500 bg-stone-100 px-3 py-1 rounded-full">
               Grounding no Programa 2026.2
             </div>
           </div>
 
           {/* Chat message feed */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 font-['Source_Serif_4',serif]">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
             {chatMessages.map(msg => (
               <div
                 key={msg.id}
@@ -315,7 +306,7 @@ ${result.data.doctrineQuotes?.map((dq: any) => `> "${dq.quote}" — ${dq.author}
                 <div
                   className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed shadow-xs ${
                     msg.role === 'user'
-                      ? 'bg-[#8b1538] text-white font-sans rounded-br-xs'
+                      ? 'bg-[#8b1538] text-[#1c1a1e] font-sans rounded-br-xs'
                       : 'bg-white text-[#1c1a1e] border border-[#e6e4e8] rounded-bl-xs'
                   }`}
                 >
@@ -447,7 +438,7 @@ ${result.data.doctrineQuotes?.map((dq: any) => `> "${dq.quote}" — ${dq.author}
             <div className="bg-white border border-[#e6e4e8] rounded-2xl p-6 sm:p-8 shadow-xs space-y-5">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e6e4e8] pb-4">
                 <div>
-                  <h3 className="font-serif-title text-2xl font-bold text-[#8b1538]">
+                  <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
                     Esquema Sintético para Anotações
                   </h3>
                   <p className="text-xs text-[#625d66]">

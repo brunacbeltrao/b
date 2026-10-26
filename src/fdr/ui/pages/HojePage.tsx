@@ -92,7 +92,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
               5º Período Noturno
             </span>
           </div>
-          <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
+          <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
             Hoje na Faculdade
           </h2>
           <p className="text-xs text-stone-500">

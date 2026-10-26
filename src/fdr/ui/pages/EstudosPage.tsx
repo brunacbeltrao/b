@@ -172,7 +172,7 @@ export const EstudosPage: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#e6e4e8]">
         <div>
           <span className="text-xs font-medium text-stone-400 block">Metodologia & Estudos</span>
-          <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-0.5">
+          <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-0.5">
             Para Estudar Melhor
           </h2>
           <p className="text-xs text-stone-500">

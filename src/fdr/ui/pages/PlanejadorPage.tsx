@@ -94,7 +94,7 @@ export const PlanejadorPage: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-medium text-stone-400 block">Distribuição Curricular</span>
-            <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
+            <h2 className="font-serif-title text-2xl font-semibold text-stone-900 mt-1">
               Planejador de Semestres
             </h2>
             <p className="text-xs text-stone-500 mt-0.5">

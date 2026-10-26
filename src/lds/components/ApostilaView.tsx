@@ -182,7 +182,7 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
             </span>
             <LdsCrest size={32} color="#8b1538" className="opacity-80" />
           </div>
-          <h1 className="font-serif-title text-2xl sm:text-3xl lg:text-4xl font-bold text-[#8b1538] tracking-tight mb-2 leading-tight">
+          <h1 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] tracking-tight mb-2 leading-tight">
             {isEditing ? (
               <input
                 type="text"
@@ -214,14 +214,14 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
               className="w-full bg-white border border-[#625d66] rounded p-2 text-sm"
             />
           ) : (
-            <p className="first-letter:text-4xl first-letter:font-serif-title first-letter:font-bold first-letter:float-left first-letter:mr-2.5 first-letter:text-[#8b1538]">
+            <p className="first-letter:text-2xl first-letter:font-serif-title first-letter:font-semibold first-letter:float-left first-letter:mr-2.5 first-letter:text-[#1c1a1e]">
               {apostila.introduction}
             </p>
           )}
         </div>
 
         {/* 2. CALLOUT DE PONTOS-CHAVE */}
-        <div className="mb-8 p-4 sm:p-5 bg-[#f6f5f7] border-l-4 border-[#625d66] rounded-r-2xl shadow-xs border border-r-[#e6e4e8] border-y-[#e6e4e8]">
+        <div className="mb-8 p-4 sm:p-5 bg-[#f6f5f7] border-[#625d66] rounded-xl shadow-xs border border-y-[#e6e4e8]">
           <h2 className="eyebrow-lds text-[#625d66] font-medium text-xs mb-2">
             PONTOS-CHAVE
           </h2>
@@ -274,7 +274,7 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
             {apostila.doctrineQuotes.map((doc, idx) => (
               <figure
                 key={idx}
-                className="pl-5 border-l-2 border-[#8b1538] py-1 my-4"
+                className="pl-5 border-[#8b1538] py-1 my-4"
               >
                 <blockquote className="font-['Source_Serif_4',serif] italic text-base sm:text-lg text-[#1c1a1e] leading-relaxed">
                   "{doc.quote}"
@@ -330,7 +330,7 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
 
         {/* 6. ANÁLISE DOGMÁTICA E CASOS PRÁTICOS */}
         <section className="mb-8">
-          <h2 className="font-serif-title text-xl sm:text-2xl font-bold text-[#8b1538] mb-4 border-b border-[#e6e4e8] pb-2">
+          <h2 className="font-serif-title text-xl font-semibold text-[#1c1a1e] mb-4 border-b border-[#e6e4e8] pb-2">
             Desenvolvimento Dogmático e Aplicação Prática
           </h2>
           {isEditing ? (
@@ -347,7 +347,7 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
                   return (
                     <h3
                       key={pIdx}
-                      className="font-serif-title text-lg font-bold text-[#6f0f2c] mt-6 mb-2"
+                      className="font-serif-title text-lg font-semibold text-[#6f0f2c] mt-6 mb-2"
                     >
                       {paragraph.replace('### ', '')}
                     </h3>
@@ -367,14 +367,14 @@ export const ApostilaView: React.FC<ApostilaViewProps> = ({
         {apostila.jurisprudenceCase && (
           <div className="mb-8 p-4 sm:p-5 bg-[#f6f5f7] border border-[#625d66]/35 rounded-2xl">
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="eyebrow-lds text-[#8b1538] font-bold text-xs uppercase">
+              <span className="eyebrow-lds text-[#8b1538] font-bold text-xs">
                 Jurisprudência & Precedente Aplicável
               </span>
               <span className="text-[11px] text-[#625d66] bg-white px-2 py-0.5 rounded border border-[#625d66]/25">
                 {apostila.jurisprudenceCase.courtOrAgency}
               </span>
             </div>
-            <h4 className="font-serif-title text-lg font-bold text-[#1c1a1e] mb-1">
+            <h4 className="font-serif-title text-lg font-semibold text-[#1c1a1e] mb-1">
               {apostila.jurisprudenceCase.title}
             </h4>
             <div className="text-xs font-mono text-[#625d66] mb-2">

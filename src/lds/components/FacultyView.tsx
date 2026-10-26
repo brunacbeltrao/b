@@ -32,20 +32,11 @@ export const FacultyView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:py-8 px-2 sm:px-6 lg:px-8">
+    <div className="">
       {/* Header */}
-      <div className="mb-8 border-b border-[#625d66]/25 pb-6">
+      <div className="mb-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="eyebrow-lds text-[#8b1538] tracking-[0.16em] font-semibold text-xs mb-1">
-              GOVERNANÇA & QUADRO ACADÊMICO
-            </div>
-            <h1 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#8b1538] tracking-tight">
-              Corpo Docente, Diretoria e Orientadores
-            </h1>
-            <p className="mt-1 text-sm text-[#625d66] font-sans">
-              Estrutura estatutária da Liga de Direito Societário e Mercado de Capitais da Faculdade de Direito do Recife (FDR / UFPE).
-            </p>
           </div>
           <div className="flex items-center gap-1.5 p-1 bg-[#f6f5f7] border border-[#625d66]/25 rounded-2xl overflow-x-auto self-start sm:self-auto">
             <button
@@ -91,7 +82,7 @@ export const FacultyView: React.FC = () => {
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="eyebrow-lds text-[#8b1538] font-bold text-xs uppercase">
+                <span className="eyebrow-lds text-[#8b1538] font-bold text-xs">
                   {member.role}
                 </span>
                 <span className="text-[10px] px-2 py-0.5 bg-[#f6f5f7] text-[#6f0f2c] rounded-full border border-[#625d66]/25">
@@ -99,11 +90,11 @@ export const FacultyView: React.FC = () => {
                 </span>
               </div>
               <div className="flex items-start gap-3 mb-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-center font-serif-title text-xl font-bold shrink-0 shadow-xs border border-[#625d66]/30">
+                <div className="w-12 h-12 rounded-full bg-stone-100 text-stone-700 flex items-center justify-center text-base font-semibold shrink-0 shadow-xs border border-[#625d66]/30">
                   {member.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                 </div>
                 <div>
-                  <h3 className="font-serif-title text-xl font-bold text-[#1c1a1e]">
+                  <h3 className="font-serif-title text-xl font-semibold text-[#1c1a1e]">
                     {member.name}
                   </h3>
                   <p className="text-xs text-[#625d66] font-medium leading-tight">
@@ -111,7 +102,7 @@ export const FacultyView: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-xs text-[#1c1a1e] leading-relaxed font-['Source_Serif_4',serif] mb-4">
+              <p className="text-xs text-[#1c1a1e] leading-relaxed mb-4">
                 {member.bio}
               </p>
             </div>
@@ -131,10 +122,10 @@ export const FacultyView: React.FC = () => {
       {/* Governance Banner */}
       <div className="mt-12 p-6 bg-[#f6f5f7] border border-[#625d66]/35 rounded-2xl shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1">
-          <div className="eyebrow-lds text-[#8b1538] text-xs font-bold uppercase">
+          <div className="eyebrow-lds text-[#8b1538] text-xs font-bold">
             CONSTITUIÇÃO INSTITUCIONAL DA LIGA
           </div>
-          <h3 className="font-serif-title text-2xl font-bold text-[#1c1a1e]">
+          <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
             Liga de Direito Societário e Mercado de Capitais (LDS FDR)
           </h3>
           <p className="text-xs text-[#625d66] max-w-2xl font-serif">

@@ -19,7 +19,7 @@ import { RepositoryView } from '../../lds/components/RepositoryView';
 import { GlossaryView } from '../../lds/components/GlossaryView';
 import { FacultyView } from '../../lds/components/FacultyView';
 import { ConductCodeModal } from '../../lds/components/ConductCodeModal';
-import { LdsCrest, LdsLogo } from '../../lds/components/LdsBrand';
+import { SectionTabs } from '../ui';
 import { Lesson, DocumentItem } from '../../lds/types';
 import { LESSONS_DATABASE } from '../../lds/data/curriculum';
 import { INITIAL_DOCUMENTS } from '../../lds/data/documents';
@@ -184,97 +184,31 @@ export const LdsView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Sub-navegação do Módulo LDS */}
-      <div className="bg-white p-2.5 rounded-2xl border border-[#e6e4e8] shadow-2xs flex flex-wrap items-center justify-between gap-3">
-        {/* Navigation Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-          <button
-            onClick={() => setActiveTab('cronograma')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-              activeTab === 'cronograma'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
-            }`}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Acompanhar Aulas</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('glossario')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-              activeTab === 'glossario'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
-            }`}
-          >
-            <BookMarked className="w-3.5 h-3.5" />
-            <span>Glossário Societário</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('repositorio')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-              activeTab === 'repositorio'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Repositório & Materiais</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('agente')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-              activeTab === 'agente'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
-            }`}
-          >
-            <Cpu className="w-3.5 h-3.5" />
-            <span>Tira-Dúvidas IA</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('docentes')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-              activeTab === 'docentes'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
-            }`}
-          >
-            <Users className="w-3.5 h-3.5" />
-            <span>Corpo Docente & Diretoria</span>
-          </button>
+    <div>
+      <div className="flex flex-wrap items-end justify-between gap-x-4">
+        <div className="flex-1 min-w-0">
+          <SectionTabs
+            value={activeTab}
+            onChange={setActiveTab}
+            tabs={[
+              { id: 'cronograma', label: 'Aulas' },
+              { id: 'repositorio', label: 'Materiais' },
+              { id: 'glossario', label: 'Glossário' },
+              { id: 'agente', label: 'Tira-dúvidas' },
+              { id: 'docentes', label: 'Docentes' },
+            ]}
+          />
         </div>
-
-        {/* Quick Actions (Conduta & Dúvidas) */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsConductModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-[#8b1538] border border-stone-200 rounded-xl transition-colors bg-white hover:bg-stone-50 cursor-pointer"
-            title="Código de Conduta da LDS FDR"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
-            <span>Código de Conduta</span>
-          </button>
-          <button
-            onClick={() => {
-              setSelectedLessonForAgent(selectedLessonForAgent || 1);
-              setActiveTab('agente');
-            }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-[#8b1538] hover:brightness-110 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Dúvidas da Aula</span>
-          </button>
-        </div>
+        <button
+          onClick={() => setIsConductModalOpen(true)}
+          className="mb-6 text-sm text-stone-500 hover:text-[#8b1538] whitespace-nowrap"
+        >
+          Código de conduta
+        </button>
       </div>
 
       {/* Main SubTab Content Area */}
-      <div className="bg-[#f6f5f7]/40 rounded-2xl border border-[#e6e4e8] p-1 sm:p-3">
+      <div>
         {activeTab === 'cronograma' && (
           <ScheduleView
             lessons={lessons}
@@ -327,27 +261,6 @@ export const LdsView: React.FC = () => {
           <FacultyView />
         )}
       </div>
-
-      {/* Institutional LDS Footer */}
-      <footer className="bg-[#6f0f2c] text-[#f6f5f7] py-8 px-6 rounded-2xl border border-[#8b1538] shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4 text-center md:text-left">
-            <LdsCrest size={44} color="#f6f5f7" />
-            <div>
-              <div className="font-serif-title text-xl font-bold tracking-tight">
-                Liga de Direito Societário e Mercado de Capitais (LDS FDR)
-              </div>
-              <div className="text-xs text-[#f6f5f7]/80">
-                Faculdade de Direito do Recife • Universidade Federal de Pernambuco (UFPE) • Fundada em 1827
-              </div>
-            </div>
-          </div>
-          <div className="text-center md:text-right text-xs text-[#f6f5f7]/70 space-y-0.5">
-            <div>Praça Adolfo Cirne, s/n • Boa Vista, Recife - PE • CEP 50050-060</div>
-            <div>Ambiente Pessoal de Acompanhamento das Aulas, Slides, Bibliografia & Anotações</div>
-          </div>
-        </div>
-      </footer>
 
       {/* Code of Conduct Modal */}
       <ConductCodeModal

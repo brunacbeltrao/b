@@ -133,20 +133,11 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:py-8 px-2 sm:px-6 lg:px-8 font-['Source_Serif_4',serif]">
+    <div className="">
       {/* Header section */}
-      <div className="mb-8 border-b border-[#625d66]/25 pb-8">
+      <div className="mb-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="eyebrow-lds text-[#8b1538] tracking-[0.16em] font-semibold text-xs">
-              DICIONÁRIO DE DIREITO SOCIETÁRIO & MERCADO DE CAPITAIS
-            </div>
-            <h1 className="font-serif-title text-3xl sm:text-4xl lg:text-5xl font-bold text-[#8b1538] tracking-tight">
-              Glossário Acadêmico LDS FDR
-            </h1>
-            <p className="text-sm sm:text-base text-[#625d66] max-w-3xl font-sans">
-              Compilação sistemática de conceitos, cláusulas contratuais, regras de governança e brocardos corporativos aprendidos ao longo das aulas.
-            </p>
           </div>
           <button
             onClick={() => setIsAddModalOpen(true)}
@@ -240,7 +231,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({
             <div>
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 className="font-serif-title text-2xl font-bold text-[#8b1538] leading-tight group-hover:text-[#6f0f2c] transition-colors">
+                  <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] leading-tight group-hover:text-[#6f0f2c] transition-colors">
                     {item.term}
                   </h3>
                   {item.latinOrEnglish && (
@@ -256,7 +247,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({
                 </div>
               </div>
 
-              <p className="text-sm text-[#1c1a1e] leading-relaxed mt-3 mb-4 font-['Source_Serif_4',serif]">
+              <p className="text-sm text-[#1c1a1e] leading-relaxed mt-3 mb-4">
                 {item.definition}
               </p>
 
@@ -313,7 +304,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({
       {filteredTerms.length === 0 && (
         <div className="text-center py-16 bg-[#f6f5f7] border border-[#e6e4e8] rounded-2xl mt-6">
           <BookMarked className="w-12 h-12 text-[#625d66] mx-auto mb-3 opacity-60" />
-          <h3 className="font-serif-title text-2xl font-bold text-[#1c1a1e]">
+          <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
             Nenhum termo encontrado
           </h3>
           <p className="text-xs text-[#625d66] mt-1">
@@ -325,17 +316,17 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({
       {/* Add New Term Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
-            <div className="p-6 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between border-b border-[#8b1538]">
+          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="p-6 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BookMarked className="w-5 h-5 text-[#625d66]" />
-                <h2 className="font-serif-title text-2xl font-bold text-white">
+                <h2 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
                   Cadastrar Termo no Glossário Societário
                 </h2>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-white/80 hover:text-white p-1 rounded-full cursor-pointer"
+                className="text-stone-500 hover:text-[#1c1a1e] p-1 rounded-full cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

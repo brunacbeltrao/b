@@ -114,42 +114,15 @@ export const RepositoryView: React.FC<RepositoryViewProps> = ({
     setNewTags('');
   };
 
-  const getTypeBadgeColor = (type: DocumentType) => {
-    switch (type) {
-      case 'Slide':
-        return 'bg-[#6f0f2c] text-white';
-      case 'Material de Aula':
-        return 'bg-[#8b1538] text-white';
-      case 'Link Útil':
-        return 'bg-[#625d66] text-white';
-      case 'Norma':
-        return 'bg-emerald-800 text-white';
-      case 'Doutrina':
-        return 'bg-amber-900 text-white';
-      case 'Jurisprudência':
-        return 'bg-blue-900 text-white';
-      case 'Parecer CVM':
-        return 'bg-[#1c1a1e] text-[#f6f5f7]';
-      default:
-        return 'bg-[#625d66] text-white';
-    }
-  };
+  // Document types are labels, not alarms: one quiet tag style for all of them
+  const getTypeBadgeColor = (_type: DocumentType) => 'bg-stone-100 text-stone-700';
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:py-8 px-2 sm:px-6 lg:px-8">
+    <div className="">
       {/* Header */}
-      <div className="mb-8 border-b border-[#625d66]/25 pb-6">
+      <div className="mb-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="eyebrow-lds text-[#8b1538] tracking-[0.16em] font-semibold text-xs mb-1">
-              REPOSITÓRIO GERAL • BIBLIOTECA DA LDS FDR
-            </div>
-            <h1 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#8b1538] tracking-tight">
-              Repositório, Slides & Materiais
-            </h1>
-            <p className="mt-1 text-sm text-[#625d66] font-sans">
-              Acervo unificado: tudo o que você anexa nas aulas é automaticamente catalogado aqui, além de decisões da CVM, precedentes do STJ e doutrina.
-            </p>
           </div>
           <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
             <button
@@ -239,7 +212,7 @@ export const RepositoryView: React.FC<RepositoryViewProps> = ({
         {filteredDocs.length === 0 ? (
           <div className="col-span-full py-16 text-center text-[#625d66]">
             <BookOpen className="w-12 h-12 text-[#625d66]/50 mx-auto mb-3" />
-            <h3 className="font-serif-title text-2xl font-bold text-[#8b1538]">
+            <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
               Nenhum material encontrado com os filtros atuais
             </h3>
             <p className="text-xs mt-1 font-sans">
@@ -265,13 +238,13 @@ export const RepositoryView: React.FC<RepositoryViewProps> = ({
                     Aula {doc.lessonNumber.toString().padStart(2, '0')}
                   </span>
                 </div>
-                <h3 className="font-serif-title text-xl font-bold text-[#1c1a1e] mb-1.5 line-clamp-2 leading-snug">
+                <h3 className="font-serif-title text-xl font-semibold text-[#1c1a1e] mb-1.5 line-clamp-2 leading-snug">
                   {doc.title}
                 </h3>
                 <p className="text-xs text-[#625d66] italic mb-3">
                   {doc.source}
                 </p>
-                <p className="text-xs text-[#1c1a1e] leading-relaxed line-clamp-3 mb-4 font-['Source_Serif_4',serif]">
+                <p className="text-xs text-[#1c1a1e] leading-relaxed line-clamp-3 mb-4">
                   {doc.summary}
                 </p>
                 {doc.tags && doc.tags.length > 0 && (
@@ -340,19 +313,19 @@ export const RepositoryView: React.FC<RepositoryViewProps> = ({
       {/* Reading Full Document Modal */}
       {readingDoc && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
-            <div className="p-5 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between">
+          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="p-5 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-center justify-between">
               <div>
-                <div className="text-xs text-[#f6f5f7]/85">
+                <div className="text-xs text-stone-500">
                   {readingDoc.type} • Vinculado à Aula {readingDoc.lessonNumber.toString().padStart(2, '0')}
                 </div>
-                <h2 className="font-serif-title text-xl sm:text-2xl font-bold text-white">
+                <h2 className="font-serif-title text-xl font-semibold text-[#1c1a1e]">
                   {readingDoc.title}
                 </h2>
               </div>
               <button
                 onClick={() => setReadingDoc(null)}
-                className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 cursor-pointer"
+                className="text-stone-500 hover:text-[#1c1a1e] p-1 rounded-full hover:bg-stone-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -411,19 +384,19 @@ export const RepositoryView: React.FC<RepositoryViewProps> = ({
       {/* Add Document Modal Form */}
       {isAddingDoc && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
-            <div className="p-5 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between">
+          <div className="bg-[#f6f5f7] border border-[#8b1538]/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="p-5 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-center justify-between">
               <div>
-                <div className="eyebrow-lds text-[#f6f5f7]/85 text-xs">
+                <div className="eyebrow-lds text-stone-500 text-xs">
                   CADASTRO DE MATERIAL
                 </div>
-                <h2 className="font-serif-title text-2xl font-bold text-white">
+                <h2 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
                   Adicionar Documento / PDF ao Repositório
                 </h2>
               </div>
               <button
                 onClick={() => setIsAddingDoc(false)}
-                className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 cursor-pointer"
+                className="text-stone-500 hover:text-[#1c1a1e] p-1 rounded-full hover:bg-stone-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

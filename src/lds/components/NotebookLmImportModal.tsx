@@ -160,23 +160,23 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
 
   return (
     <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
+      <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Modal Header */}
-        <div className="p-6 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between">
+        <div className="p-6 bg-white text-[#1c1a1e] border-b border-[#e6e4e8] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LdsCrest size={36} color="#f6f5f7" />
             <div>
-              <div className="eyebrow-lds text-[#f6f5f7]/80 text-xs">
+              <div className="eyebrow-lds text-stone-500 text-xs">
                 INTEGRAÇÃO DE CADERNOS & INTELIGÊNCIA ARTIFICIAL
               </div>
-              <h2 className="font-serif-title text-2xl sm:text-3xl font-bold text-white leading-tight">
+              <h2 className="font-serif-title text-2xl font-semibold text-[#1c1a1e] leading-tight">
                 Conectar com NotebookLM & Fontes do Gemini
               </h2>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 cursor-pointer transition-colors"
+            className="text-stone-500 hover:text-[#1c1a1e] p-2 rounded-full hover:bg-stone-100 cursor-pointer transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -188,8 +188,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             onClick={() => setImportMode('guide')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap ${
               importMode === 'guide'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-[#625d66] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-[#1c1a1e] shadow-xs'
+                : 'text-[#625d66] hover:bg-stone-100'
             }`}
           >
             1. Como Funciona a Conexão
@@ -198,8 +198,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             onClick={() => setImportMode('export')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
               importMode === 'export'
-                ? 'bg-[#8b1538] text-white shadow-xs'
-                : 'text-[#625d66] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-[#1c1a1e] shadow-xs'
+                : 'text-[#625d66] hover:bg-stone-100'
             }`}
           >
             <Download className="w-3.5 h-3.5" />
@@ -238,7 +238,7 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Resposta Direta sobre a Conexão</span>
                 </div>
-                <h3 className="font-serif-title text-2xl font-bold text-[#8b1538]">
+                <h3 className="font-serif-title text-2xl font-semibold text-[#1c1a1e]">
                   Sim! É totalmente possível integrar seu NotebookLM e suas fontes com o Sistema LDS FDR.
                 </h3>
                 <p className="text-xs sm:text-sm text-[#1c1a1e] leading-relaxed">
@@ -436,7 +436,7 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                 }}
               >
                 <UploadCloud className="w-12 h-12 text-[#8b1538] mx-auto mb-3" />
-                <h4 className="font-serif-title text-xl font-bold text-[#1c1a1e] mb-1">
+                <h4 className="font-serif-title text-xl font-semibold text-[#1c1a1e] mb-1">
                   Arraste e solte arquivos de fontes aqui
                 </h4>
                 <p className="text-xs text-[#625d66] max-w-md mx-auto mb-4">
