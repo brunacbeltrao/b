@@ -1,8 +1,8 @@
 // API routes shared by the local server (server.ts) and the Vercel function (api/index.ts)
 import express from 'express';
 import { GoogleGenAI, Type } from '@google/genai';
-import { LESSONS_DATABASE, FACULTY_MEMBERS } from '../src/lds/data/curriculum';
-import { INITIAL_DOCUMENTS } from '../src/lds/data/documents';
+import { LESSONS_DATABASE, FACULTY_MEMBERS } from '../src/lds/data/curriculum.js';
+import { INITIAL_DOCUMENTS } from '../src/lds/data/documents.js';
 
 // Gemini client, created on first use so the key from .env is already loaded
 let aiClient: GoogleGenAI | null | undefined;

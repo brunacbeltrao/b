@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import { createApiApp } from './server/app';
+import { createApiApp } from './server/app.js';
 
 dotenv.config({ path: ['.env.local', '.env'] });
 

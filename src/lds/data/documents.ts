@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DocumentItem } from '../types';
+import type { DocumentItem } from '../types';
 
 export const INITIAL_DOCUMENTS: DocumentItem[] = [
   {
