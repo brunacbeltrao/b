@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sun, CalendarDays, GraduationCap, Scale, Menu } from 'lucide-react';
 import { AppProvider, useApp } from './context/AppContext';
@@ -13,6 +13,34 @@ import { RotinaBemEstarView } from './components/views/RotinaBemEstarView';
 import { FinanceView } from './components/views/FinanceView';
 import { BooksView } from './components/views/BooksView';
 import { HealthView } from './components/views/HealthView';
+
+/** Message shown once after returning from Google's consent screen (?google=conectado|erro). */
+const GoogleReturnNotice: React.FC = () => {
+  const [result] = useState(() => new URLSearchParams(window.location.search).get('google'));
+  const [visible, setVisible] = useState(!!result);
+  useEffect(() => {
+    if (!result) return;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('google');
+    window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+    const t = setTimeout(() => setVisible(false), 6000);
+    return () => clearTimeout(t);
+  }, [result]);
+  if (!visible) return null;
+  return (
+    <div
+      role="status"
+      className="fixed z-[60] left-1/2 -translate-x-1/2 bottom-20 lg:bottom-6 max-w-[calc(100vw-2rem)] flex items-center gap-3 px-4 py-2.5 rounded-lg bg-[#1c1a1e] text-white text-sm shadow-lg"
+    >
+      {result === 'conectado'
+        ? 'Google conectado. A agenda e as faturas do Gmail já aparecem aqui.'
+        : 'Não foi possível conectar o Google. Tente de novo em Conta e conexões.'}
+      <button onClick={() => setVisible(false)} className="text-stone-300 hover:text-white" aria-label="Fechar">
+        ✕
+      </button>
+    </div>
+  );
+};
 
 const MainLayout: React.FC = () => {
   const { currentTab, setCurrentTab, setIsMobileNavOpen } = useApp();
@@ -108,6 +136,7 @@ export default function App() {
   return (
     <AppProvider>
       <MainLayout />
+      <GoogleReturnNotice />
     </AppProvider>
   );
 }

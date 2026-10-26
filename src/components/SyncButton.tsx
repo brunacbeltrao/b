@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Cloud, CloudCheck, CloudOff, CloudAlert, RefreshCw } from 'lucide-react';
 import { Modal } from '../fdr/ui/components/Modal';
 import { logout } from '../auth/session';
+import { GOOGLE_CONNECT_URL, disconnectGoogle, useGoogleStatus } from '../google/api';
 import {
   SyncStatus,
   getLastSyncedAt,
@@ -75,8 +76,7 @@ export const SyncButton: React.FC = () => {
       <Modal
         aberto={open}
         aoFechar={() => setOpen(false)}
-        titulo="Sincronização na nuvem"
-        subtitulo="Os mesmos dados no celular e no computador"
+        titulo="Conta e conexões"
         larguraMaxima="max-w-md"
       >
         <div className="space-y-4 text-sm">
@@ -110,10 +110,55 @@ export const SyncButton: React.FC = () => {
               Sair
             </button>
           </div>
+          <GoogleConnection />
         </div>
       </Modal>,
         document.body,
       )}
     </>
+  );
+};
+
+const GoogleConnection: React.FC = () => {
+  const { status, refresh } = useGoogleStatus();
+  const [busy, setBusy] = useState(false);
+  if (!status || !status.configured) return null;
+
+  return (
+    <div className="pt-4 border-t border-[#e6e4e8]">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-sm font-medium text-[#1c1a1e]">Google</div>
+          <div className="text-xs text-stone-500 truncate">
+            {status.connected ? `Conectado: ${status.email || 'conta Google'}` : 'Agenda e faturas do Gmail'}
+          </div>
+        </div>
+        {status.connected ? (
+          <button
+            disabled={busy}
+            onClick={async () => {
+              if (!window.confirm('Desconectar o Google? A agenda e a leitura de faturas param até você conectar de novo.')) return;
+              setBusy(true);
+              try {
+                await disconnectGoogle();
+              } finally {
+                await refresh();
+                setBusy(false);
+              }
+            }}
+            className="h-8 px-2.5 rounded-md border border-[#e6e4e8] text-[13px] text-stone-700 hover:border-stone-300 disabled:opacity-50"
+          >
+            Desconectar
+          </button>
+        ) : (
+          <a
+            href={GOOGLE_CONNECT_URL}
+            className="h-8 px-2.5 inline-flex items-center rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-[13px] font-medium"
+          >
+            Conectar
+          </a>
+        )}
+      </div>
+    </div>
   );
 };

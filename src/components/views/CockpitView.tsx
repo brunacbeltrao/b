@@ -3,6 +3,8 @@ import { Plus, X, ArrowRight, MapPin } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { calculateDaysLeft, todayISO } from '../../utils/dateUtils';
 import { EventCategory } from '../../types';
+import { bucketOf, useBills } from '../../bills/api';
+import { useGoogleEvents, useGoogleStatus } from '../../google/api';
 
 const CATEGORY_LABEL: Record<EventCategory, string> = {
   estagio: 'Trabalho',
@@ -85,9 +87,25 @@ export const CockpitView: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const today = todayISO();
-  const todayEvents = events
-    .filter((e) => e.date === today)
-    .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+  const { status: google } = useGoogleStatus();
+  const { events: googleToday } = useGoogleEvents(today, today, !!google?.connected);
+  const todayEvents = [
+    ...events.filter((e) => e.date === today).map((e) => ({ ...e, source: CATEGORY_LABEL[e.category] || e.category })),
+    ...googleToday.filter((g) => g.date === today).map((g) => ({ ...g, source: 'Google Agenda' })),
+  ].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+  const { bills } = useBills();
+  const billsDue = bills
+    .filter((b) => ['atrasada', 'semana'].includes(bucketOf(b, today)))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const openBills = () => {
+    try {
+      sessionStorage.setItem('bruna_os_finance_section', 'contas');
+    } catch {
+      // ignore
+    }
+    setCurrentTab('financeiro');
+  };
   const doneCount = priorities.filter((p) => p.completed).length;
 
   const deadlines = useMemo(() => {
@@ -213,7 +231,7 @@ export const CockpitView: React.FC = () => {
                   <div className="min-w-0">
                     <div className="text-sm font-medium text-[#1c1a1e]">{ev.title}</div>
                     <div className="text-xs text-stone-500 flex items-center gap-1.5 mt-0.5">
-                      <span>{CATEGORY_LABEL[ev.category] || ev.category}</span>
+                      <span>{ev.source}</span>
                       {ev.location && (
                         <>
                           <span aria-hidden>·</span>
@@ -245,6 +263,31 @@ export const CockpitView: React.FC = () => {
       </div>
 
       <div className="space-y-5 min-w-0">
+        {billsDue.length > 0 && (
+          <Panel
+            title="Contas a vencer"
+            meta={billsDue.some((b) => b.amount) ? BRL.format(billsDue.reduce((s, b) => s + (b.amount || 0), 0)) : undefined}
+            action={{ label: 'Contas', onClick: openBills }}
+          >
+            <ul className="space-y-3">
+              {billsDue.slice(0, 4).map((b) => {
+                const days = calculateDaysLeft(b.date);
+                return (
+                  <li key={b.id} className="flex items-start gap-3">
+                    <div className={`w-16 shrink-0 text-xs font-medium pt-0.5 ${days <= 2 ? 'text-[#8b1538]' : 'text-stone-500'}`}>
+                      {days < 0 ? 'Atrasada' : relativeDays(days)}
+                    </div>
+                    <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
+                      <span className="text-sm text-[#1c1a1e] leading-snug truncate">{b.name}</span>
+                      {b.amount ? <span className="text-sm tabular-nums text-stone-600 shrink-0">{BRL.format(b.amount)}</span> : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </Panel>
+        )}
+
         <Panel title="Próximos prazos" action={{ label: 'Faculdade', onClick: () => setCurrentTab('fdr') }}>
           {deadlines.length === 0 ? (
             <p className="text-sm text-stone-500">Nenhum prazo pela frente.</p>

@@ -6,6 +6,8 @@ import { INITIAL_DOCUMENTS } from '../src/lds/data/documents.js';
 import { registerSyncRoutes } from './sync.js';
 import { registerAuthRoutes, requireAuth } from './auth.js';
 import { registerRecordRoutes } from './records.js';
+import { registerGoogleRoutes } from './google.js';
+import { registerCronRoutes } from './cron.js';
 
 // Gemini client, created on first use so the key from .env is already loaded
 let aiClient: GoogleGenAI | null | undefined;
@@ -91,6 +93,8 @@ export function createApiApp() {
   app.use('/api/gemini', requireAuth);
   registerSyncRoutes(app);
   registerRecordRoutes(app);
+  registerGoogleRoutes(app);
+  registerCronRoutes(app);
 
   // Health check endpoint
   app.get('/api/health', (_req, res) => {

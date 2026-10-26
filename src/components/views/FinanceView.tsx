@@ -4,7 +4,8 @@ import { useApp } from '../../context/AppContext';
 import { todayISO } from '../../utils/dateUtils';
 import { FinancialTransaction } from '../../types';
 import { Modal } from '../../fdr/ui/components/Modal';
-import { BRL, Button, EmptyState, Input, Label, PageActions, Panel, Segmented, Select, cx } from '../ui';
+import { BRL, Button, EmptyState, Input, Label, PageActions, Panel, SectionTabs, Segmented, Select, cx } from '../ui';
+import { BillsSection } from './BillsSection';
 
 const EXPENSE_CATEGORIES = [
   'Alimentação',
@@ -44,6 +45,37 @@ function dayLabel(iso: string): string {
 }
 
 export const FinanceView: React.FC = () => {
+  const [section, setSection] = useState<'lancamentos' | 'contas'>(() => {
+    try {
+      return sessionStorage.getItem('bruna_os_finance_section') === 'contas' ? 'contas' : 'lancamentos';
+    } catch {
+      return 'lancamentos';
+    }
+  });
+  const choose = (s: 'lancamentos' | 'contas') => {
+    setSection(s);
+    try {
+      sessionStorage.setItem('bruna_os_finance_section', s);
+    } catch {
+      // ignore
+    }
+  };
+  return (
+    <div>
+      <SectionTabs
+        value={section}
+        onChange={choose}
+        tabs={[
+          { id: 'lancamentos', label: 'Lançamentos' },
+          { id: 'contas', label: 'Contas a pagar' },
+        ]}
+      />
+      {section === 'contas' ? <BillsSection /> : <TransactionsSection />}
+    </div>
+  );
+};
+
+const TransactionsSection: React.FC = () => {
   const { financialTransactions, addFinancialTransaction, deleteFinancialTransaction } = useApp();
 
   const months = useMemo(() => {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Plus, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, MapPin, Plus, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { CalendarEvent, EventCategory } from '../../types';
 import { getWeekDays, todayISO } from '../../utils/dateUtils';
 import { Modal } from '../../fdr/ui/components/Modal';
 import { Button, EmptyState, Input, Label, Panel, Segmented, Select, Textarea, cx } from '../ui';
+import { createGoogleEvent, useGoogleEvents, useGoogleStatus } from '../../google/api';
 
 /** Categories carry meaning, so they get a small, muted categorical palette (dots only). */
 const CATEGORIES: { key: EventCategory; label: string; dot: string }[] = [
@@ -15,7 +16,16 @@ const CATEGORIES: { key: EventCategory; label: string; dot: string }[] = [
   { key: 'descanso', label: 'Descanso', dot: 'bg-amber-500' },
 ];
 
-const catOf = (key: EventCategory) => CATEGORIES.find((c) => c.key === key);
+const catOf = (key: AgendaItem['category']) => CATEGORIES.find((c) => c.key === key);
+
+/** Local events plus read-only events from Google Agenda (category 'google', with a link back). */
+type AgendaItem = Omit<CalendarEvent, 'category'> & { category: EventCategory | 'google'; link?: string };
+
+function addDays(iso: string, days: number) {
+  const d = parseISO(iso);
+  d.setDate(d.getDate() + days);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 
 function parseISO(iso: string) {
   const [y, m, d] = iso.split('-').map(Number);
@@ -46,9 +56,9 @@ function cleanTitle(title: string) {
     .trim();
 }
 
-const byTime = (a: CalendarEvent, b: CalendarEvent) => (a.time || '').localeCompare(b.time || '');
+const byTime = (a: AgendaItem, b: AgendaItem) => (a.time || '').localeCompare(b.time || '');
 
-const EventRow: React.FC<{ event: CalendarEvent; onDelete: () => void; compact?: boolean }> = ({
+const EventRow: React.FC<{ event: AgendaItem; onDelete: () => void; compact?: boolean }> = ({
   event,
   onDelete,
   compact,
@@ -56,7 +66,13 @@ const EventRow: React.FC<{ event: CalendarEvent; onDelete: () => void; compact?:
   const cat = catOf(event.category);
   return (
     <div className={cx('group relative flex gap-2', compact ? 'py-1.5' : 'py-2.5')}>
-      <span className={cx('mt-1.5 w-1.5 h-1.5 rounded-full shrink-0', cat?.dot || 'bg-stone-400')} aria-hidden />
+      <span
+        className={cx(
+          'mt-1.5 w-1.5 h-1.5 rounded-full shrink-0',
+          event.category === 'google' ? 'ring-1 ring-stone-500 bg-white' : cat?.dot || 'bg-stone-400',
+        )}
+        aria-hidden
+      />
       <div className="min-w-0 flex-1 pr-5">
         <div className={cx('text-[#1c1a1e] leading-snug', compact ? 'text-[13px] line-clamp-3' : 'text-sm font-medium')}>
           {cleanTitle(event.title)}
@@ -72,13 +88,28 @@ const EventRow: React.FC<{ event: CalendarEvent; onDelete: () => void; compact?:
           {!compact && event.description && <p className="text-stone-600">{event.description}</p>}
         </div>
       </div>
-      <button
-        onClick={onDelete}
-        aria-label={`Remover ${event.title}`}
-        className="absolute right-0 top-1.5 p-0.5 rounded text-stone-400 hover:text-stone-700 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
-      >
-        <X className="w-3.5 h-3.5" />
-      </button>
+      {event.category === 'google' ? (
+        event.link && (
+          <a
+            href={event.link}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Abrir ${event.title} no Google Agenda`}
+            title="Abrir no Google Agenda"
+            className="absolute right-0 top-1.5 p-0.5 rounded text-stone-400 hover:text-stone-700 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        )
+      ) : (
+        <button
+          onClick={onDelete}
+          aria-label={`Remover ${event.title}`}
+          className="absolute right-0 top-1.5 p-0.5 rounded text-stone-400 hover:text-stone-700 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
+      )}
     </div>
   );
 };
@@ -89,16 +120,30 @@ export const CalendarView: React.FC = () => {
   const [weekOffset, setWeekOffset] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const [showGoogle, setShowGoogle] = useState(true);
+
   const week = getWeekDays(weekOffset);
-  const visible = events.filter((e) => categoryFilters[e.category] !== false);
   const today = todayISO();
 
-  const confirmDelete = (ev: CalendarEvent) => {
+  const { status: google } = useGoogleStatus();
+  const googleOn = !!google?.connected;
+  const from = week[0].fullDate < today ? week[0].fullDate : today;
+  const horizon = addDays(today, 60);
+  const to = week[6].fullDate > horizon ? week[6].fullDate : horizon;
+  const { events: googleEvents, error: googleError, reload: reloadGoogle } = useGoogleEvents(from, to, googleOn);
+
+  const visible: AgendaItem[] = [
+    ...events.filter((e) => categoryFilters[e.category] !== false),
+    ...(showGoogle ? googleEvents.map((g) => ({ ...g, category: 'google' as const })) : []),
+  ];
+
+  const confirmDelete = (ev: AgendaItem) => {
+    if (ev.category === 'google') return;
     if (window.confirm(`Remover "${ev.title}" da agenda?`)) deleteEvent(ev.id);
   };
 
   const upcoming = visible.filter((e) => e.date >= today).sort((a, b) => a.date.localeCompare(b.date) || byTime(a, b));
-  const upcomingByDay: [string, CalendarEvent[]][] = [];
+  const upcomingByDay: [string, AgendaItem[]][] = [];
   upcoming.forEach((e) => {
     const last = upcomingByDay[upcomingByDay.length - 1];
     if (last && last[0] === e.date) last[1].push(e);
@@ -173,7 +218,26 @@ export const CalendarView: React.FC = () => {
             </button>
           );
         })}
+        {googleOn && (
+          <button
+            onClick={() => setShowGoogle((v) => !v)}
+            aria-pressed={showGoogle}
+            className={cx(
+              'flex items-center gap-1.5 h-7 px-2.5 rounded-full border text-[13px] transition-colors',
+              showGoogle ? 'bg-white border-[#e6e4e8] text-[#1c1a1e]' : 'border-transparent text-stone-400 line-through',
+            )}
+          >
+            <span className={cx('w-1.5 h-1.5 rounded-full ring-1 bg-white', showGoogle ? 'ring-stone-500' : 'ring-stone-300')} />
+            Google Agenda
+          </button>
+        )}
       </div>
+
+      {googleError && (
+        <p className="mb-4 text-[13px] text-amber-800" role="status">
+          {googleError}
+        </p>
+      )}
 
       {mode === 'semana' ? (
         <>
@@ -253,9 +317,15 @@ export const CalendarView: React.FC = () => {
 
       <NewEventModal
         open={modalOpen}
+        googleOn={googleOn}
         onClose={() => setModalOpen(false)}
-        onSave={(ev) => {
-          addEvent(ev);
+        onSave={async (ev, toGoogle, start, end) => {
+          if (toGoogle) {
+            await createGoogleEvent({ title: ev.title, date: ev.date, start, end, location: ev.location, description: ev.description });
+            reloadGoogle();
+          } else {
+            addEvent(ev);
+          }
           setModalOpen(false);
         }}
       />
@@ -265,9 +335,10 @@ export const CalendarView: React.FC = () => {
 
 const NewEventModal: React.FC<{
   open: boolean;
+  googleOn: boolean;
   onClose: () => void;
-  onSave: (ev: Omit<CalendarEvent, 'id'>) => void;
-}> = ({ open, onClose, onSave }) => {
+  onSave: (ev: Omit<CalendarEvent, 'id'>, toGoogle: boolean, start?: string, end?: string) => Promise<void>;
+}> = ({ open, googleOn, onClose, onSave }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(todayISO);
   const [start, setStart] = useState('');
@@ -275,18 +346,35 @@ const NewEventModal: React.FC<{
   const [location, setLocation] = useState('');
   const [category, setCategory] = useState<EventCategory>('fdr');
   const [description, setDescription] = useState('');
+  const [toGoogle, setToGoogle] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !date) return;
-    onSave({
-      title: title.trim(),
-      date,
-      time: start ? (end ? `${start} - ${end}` : start) : undefined,
-      location: location.trim() || undefined,
-      category,
-      description: description.trim() || undefined,
-    });
+    if (!title.trim() || !date || saving) return;
+    setSaving(true);
+    setError('');
+    try {
+      await onSave(
+        {
+          title: title.trim(),
+          date,
+          time: start ? (end ? `${start} - ${end}` : start) : undefined,
+          location: location.trim() || undefined,
+          category,
+          description: description.trim() || undefined,
+        },
+        googleOn && toGoogle,
+        start || undefined,
+        end || undefined,
+      );
+    } catch (err) {
+      setError((err as Error).message);
+      return;
+    } finally {
+      setSaving(false);
+    }
     setTitle('');
     setStart('');
     setEnd('');
@@ -335,11 +423,26 @@ const NewEventModal: React.FC<{
           <Label htmlFor="ev-desc">Notas</Label>
           <Textarea id="ev-desc" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
+        {googleOn && (
+          <label className="flex items-start gap-2 text-sm text-stone-700">
+            <input
+              type="checkbox"
+              checked={toGoogle}
+              onChange={(e) => setToGoogle(e.target.checked)}
+              className="mt-0.5 accent-[#8b1538]"
+            />
+            <span>
+              Salvar no Google Agenda
+              <span className="block text-xs text-stone-500">Aparece no celular e nos lembretes do Google.</span>
+            </span>
+          </label>
+        )}
+        {error && <p className="text-[13px] text-amber-800">{error}</p>}
         <div className="flex justify-end gap-2 pt-1">
           <Button variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="submit" variant="primary" disabled={!title.trim()}>
+          <Button type="submit" variant="primary" disabled={!title.trim() || saving}>
             Salvar
           </Button>
         </div>
