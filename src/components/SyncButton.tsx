@@ -83,7 +83,7 @@ export const SyncButton: React.FC = () => {
         onClick={() => setOpen(true)}
         title={STATUS_LABEL[status]}
         aria-label={STATUS_LABEL[status]}
-        className={`flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white border border-[#ece8e1] shadow-2xs text-xs font-medium hover:border-stone-300 transition-colors ${tone}`}
+        className={`flex items-center gap-1.5 h-9 px-2.5 rounded-md bg-white border border-[#e6e4e8] text-sm hover:border-stone-300 transition-colors ${tone}`}
       >
         <Icon className={`w-4 h-4 ${status === 'syncing' ? 'animate-pulse' : ''}`} />
         <span className="hidden md:inline whitespace-nowrap">{STATUS_LABEL[status]}</span>
@@ -100,7 +100,7 @@ export const SyncButton: React.FC = () => {
       >
         {configured ? (
           <div className="space-y-4 text-sm">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1]">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8]">
               <span className={`flex items-center gap-2 font-semibold ${tone}`}>
                 <Icon className="w-4 h-4" />
                 {STATUS_LABEL[status]}
@@ -115,7 +115,7 @@ export const SyncButton: React.FC = () => {
               <button
                 onClick={handleSyncNow}
                 disabled={busy}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#8b1538] hover:bg-[#72102c] text-white text-xs font-semibold disabled:opacity-60"
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-xs font-semibold disabled:opacity-60"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${busy ? 'animate-spin' : ''}`} />
                 Sincronizar agora
@@ -126,7 +126,7 @@ export const SyncButton: React.FC = () => {
                     disconnect();
                   }
                 }}
-                className="px-3 py-2 rounded-xl border border-[#ece8e1] text-stone-600 hover:bg-stone-50 text-xs font-semibold"
+                className="px-3 py-2 rounded-xl border border-[#e6e4e8] text-stone-600 hover:bg-stone-50 text-xs font-semibold"
               >
                 Desconectar
               </button>
@@ -144,13 +144,13 @@ export const SyncButton: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Senha de sincronização"
-              className="w-full px-3 py-2 rounded-xl border border-[#ece8e1] focus:outline-none focus:border-[#8b1538] text-sm"
+              className="w-full px-3 py-2 rounded-xl border border-[#e6e4e8] focus:outline-none focus:border-[#8b1538] text-sm"
             />
             {error && <p className="text-xs text-rose-700">{error}</p>}
             <button
               type="submit"
               disabled={busy || !password.trim()}
-              className="w-full px-3 py-2 rounded-xl bg-[#8b1538] hover:bg-[#72102c] text-white text-xs font-semibold disabled:opacity-60"
+              className="w-full px-3 py-2 rounded-xl bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-xs font-semibold disabled:opacity-60"
             >
               {busy ? 'Conectando…' : 'Conectar'}
             </button>

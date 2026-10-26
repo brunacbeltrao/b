@@ -17,10 +17,10 @@ export interface PriorityItem {
 export type EventCategory = 
   | 'estagio'        // #0d9488 (Projetos / Atividades)
   | 'lds'            // #8b1538 (Bordô/Vinho)
-  | 'fdr'            // #3b628a (Azul/Marinho suave)
+  | 'fdr'            // #625d66 (Azul/Marinho suave)
   | 'descanso'       // #c89d56 (Dourado/Champagne)
   | 'espiritualidade'
-  | 'pessoal';       // #c48b9f (Rosa seco)
+  | 'pessoal';       // #c9a3ae (Rosa seco)
 
 export interface CalendarEvent {
   id: string;

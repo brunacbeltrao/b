@@ -115,12 +115,12 @@ export const SemestrePage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header Geral do Semestre */}
-      <div className="space-y-4 pb-4 border-b border-[#ece8e1]">
+      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Período Letivo em Curso</span>
+              <span className="text-xs font-medium text-stone-400">Período Letivo em Curso</span>
             </div>
             <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
               Semestre {store.perfil.periodoAtual}
@@ -129,16 +129,16 @@ export const SemestrePage: React.FC = () => {
               5º período • {matriculadas.length} disciplinas matriculadas (180h).
             </p>
           </div>
-          <div className="p-3 bg-white rounded-xl border border-[#ece8e1] shadow-2xs flex items-center gap-3">
+          <div className="p-3 bg-white rounded-xl border border-[#e6e4e8] shadow-2xs flex items-center gap-3">
             <div>
-              <span className="text-[9px] uppercase tracking-wider text-stone-400 block font-semibold">
+              <span className="text-xs text-stone-400 block font-semibold">
                 Conteúdo Geral dos Guias
               </span>
               <span className="font-mono text-xs text-stone-900 font-bold">
                 {progressoGeralSemestre.concluidos} / {progressoGeralSemestre.total} tópicos
               </span>
             </div>
-            <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-[#faf8f5] text-stone-800 border border-[#ece8e1]">
+            <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-[#f6f5f7] text-stone-800 border border-[#e6e4e8]">
               {progressoGeralSemestre.porcentagem}%
             </span>
           </div>
@@ -147,8 +147,8 @@ export const SemestrePage: React.FC = () => {
 
       {/* Próximas Avaliações Marcadas */}
       {proximasAvaliacoes.length > 0 && (
-        <div className="p-4 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block flex items-center gap-1.5">
+        <div className="p-4 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+          <span className="text-xs font-medium text-stone-400 block flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5 text-emerald-700" />
             <span>Próximas Avaliações do Semestre</span>
           </span>
@@ -161,7 +161,7 @@ export const SemestrePage: React.FC = () => {
               return (
                 <div
                   key={av.id}
-                  className="p-3 rounded-xl border border-[#ece8e1] bg-[#faf8f5] flex items-center justify-between gap-3 text-xs"
+                  className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex items-center justify-between gap-3 text-xs"
                 >
                   <div>
                     <span className="font-mono text-[10px] text-stone-400">
@@ -176,11 +176,11 @@ export const SemestrePage: React.FC = () => {
                     </p>
                   </div>
                   {av.nota != null ? (
-                    <span className="font-mono font-bold text-xs px-2 py-0.5 rounded-md bg-white text-stone-900 border border-[#ece8e1]">
+                    <span className="font-mono font-bold text-xs px-2 py-0.5 rounded-md bg-white text-stone-900 border border-[#e6e4e8]">
                       {av.nota.toFixed(1)}
                     </span>
                   ) : (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded text-stone-400 bg-white border border-[#ece8e1]">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded text-stone-400 bg-white border border-[#e6e4e8]">
                       Pendente
                     </span>
                   )}
@@ -207,10 +207,10 @@ export const SemestrePage: React.FC = () => {
           return (
             <div
               key={tentativa.id}
-              className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4"
+              className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4"
             >
               {/* Header da Disciplina */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#ece8e1]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#e6e4e8]">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs font-semibold text-stone-400">
@@ -237,8 +237,8 @@ export const SemestrePage: React.FC = () => {
 
               {/* Grid: Média Parcial, O que falta & Faltas */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="p-3.5 rounded-xl border border-[#ece8e1] bg-[#faf8f5] space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Média Parcial</span>
+                <div className="p-3.5 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] space-y-1">
+                  <span className="text-xs font-medium text-stone-400 block">Média Parcial</span>
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl font-light font-mono text-stone-900">
                       {mediaParcial.media != null ? mediaParcial.media.toFixed(1) : '-'}
@@ -252,8 +252,8 @@ export const SemestrePage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-[#ece8e1] bg-[#faf8f5] space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Meta Restante</span>
+                <div className="p-3.5 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] space-y-1">
+                  <span className="text-xs font-medium text-stone-400 block">Meta Restante</span>
                   <div className="flex items-baseline gap-2">
                     {notaNecessaria.garantida ? (
                       <span className="text-sm font-semibold text-emerald-800 flex items-center gap-1">
@@ -282,9 +282,9 @@ export const SemestrePage: React.FC = () => {
                   )}
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-[#ece8e1] bg-[#faf8f5] space-y-1">
+                <div className="p-3.5 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Faltas (Máx 25%)</span>
+                    <span className="text-xs font-medium text-stone-400">Faltas (Máx 25%)</span>
                     <Button
                       variant="link"
                       size="sm"
@@ -317,7 +317,7 @@ export const SemestrePage: React.FC = () => {
               {/* Avaliações Cadastradas */}
               <div className="space-y-2 pt-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
+                  <span className="text-xs font-medium text-stone-400">
                     Avaliações Registradas ({avaliacoes.length})
                   </span>
                   <Button
@@ -328,7 +328,7 @@ export const SemestrePage: React.FC = () => {
                     + Adicionar Avaliação
                   </Button>
                 </div>
-                <div className="divide-y divide-[#ece8e1] border border-[#ece8e1] rounded-xl bg-[#faf8f5] overflow-hidden">
+                <div className="divide-y divide-[#e6e4e8] border border-[#e6e4e8] rounded-xl bg-[#f6f5f7] overflow-hidden">
                   {avaliacoes.length === 0 ? (
                     <p className="text-xs text-stone-400 italic p-3 text-center">
                       Nenhuma avaliação cadastrada ainda.
@@ -355,7 +355,7 @@ export const SemestrePage: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <span className="font-mono">
                             {av.nota != null ? (
-                              <span className="px-2 py-0.5 rounded-md bg-white text-stone-900 border border-[#ece8e1] font-semibold">
+                              <span className="px-2 py-0.5 rounded-md bg-white text-stone-900 border border-[#e6e4e8] font-semibold">
                                 Nota {av.nota.toFixed(1)}
                               </span>
                             ) : (
@@ -421,7 +421,7 @@ export const SemestrePage: React.FC = () => {
               placeholder="Ex: 1ª Prova Teórica, Seminário..."
               value={formNomeAv}
               onChange={(e) => setFormNomeAv(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -433,7 +433,7 @@ export const SemestrePage: React.FC = () => {
                 type="date"
                 value={formDataAv}
                 onChange={(e) => setFormDataAv(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
               />
             </div>
             <div>
@@ -446,7 +446,7 @@ export const SemestrePage: React.FC = () => {
                 step="0.1"
                 value={formPesoAv}
                 onChange={(e) => setFormPesoAv(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
               />
             </div>
           </div>
@@ -459,10 +459,10 @@ export const SemestrePage: React.FC = () => {
               placeholder="Ex: 8,5 (deixe vazio se pendente)"
               value={formNotaAv}
               onChange={(e) => setFormNotaAv(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
             />
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalAvaliacaoAberto(false)}
@@ -495,7 +495,7 @@ export const SemestrePage: React.FC = () => {
               required
               value={formDataFalta}
               onChange={(e) => setFormDataFalta(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
             />
           </div>
           <div>
@@ -507,10 +507,10 @@ export const SemestrePage: React.FC = () => {
               min="1"
               value={formQtdFalta}
               onChange={(e) => setFormQtdFalta(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
             />
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalFaltaAberto(false)}

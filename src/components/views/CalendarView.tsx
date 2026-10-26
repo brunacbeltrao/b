@@ -54,17 +54,17 @@ export const CalendarView: React.FC = () => {
     {
       key: 'lds',
       name: 'LDS (Grupo Societário FDR 20h)',
-      badgeBg: 'bg-[#fce4e4]',
+      badgeBg: 'bg-[#f7ecef]',
       textColor: 'text-[#8b1538]',
       dotColor: 'bg-[#8b1538]',
-      border: 'border-[#f3ccd1]',
+      border: 'border-[#ead3da]',
     },
     {
       key: 'fdr',
       name: 'FDR (DPC II, Civil IV, Const II)',
-      badgeBg: 'bg-[#e4ebf5]',
-      textColor: 'text-[#24426b]',
-      dotColor: 'bg-[#3b628a]',
+      badgeBg: 'bg-[#f1eff2]',
+      textColor: 'text-[#1c1a1e]',
+      dotColor: 'bg-[#625d66]',
       border: 'border-[#c7d7e9]',
     },
     {
@@ -78,10 +78,10 @@ export const CalendarView: React.FC = () => {
     {
       key: 'pessoal',
       name: 'Pessoal (Treinos & Amigos)',
-      badgeBg: 'bg-[#faeaf0]',
-      textColor: 'text-[#823b53]',
-      dotColor: 'bg-[#c48b9f]',
-      border: 'border-[#ecccd6]',
+      badgeBg: 'bg-[#f7ecef]',
+      textColor: 'text-[#8b1538]',
+      dotColor: 'bg-[#c9a3ae]',
+      border: 'border-[#ead3da]',
     },
   ];
 
@@ -112,10 +112,10 @@ export const CalendarView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Control Header: Filters, View Mode & Add Button */}
-      <div className="p-5 rounded-2xl bg-white border border-[#ece8e1] shadow-sm space-y-4">
+      <div className="p-5 rounded-2xl bg-white border border-[#e6e4e8] shadow-sm space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h3 className="font-serif-title text-xl font-normal text-[#212021]">
+            <h3 className="font-serif-title text-xl font-normal text-[#1c1a1e]">
               Agenda Integrada • {formatMonthYear()}
             </h3>
             <p className="text-xs text-stone-400 mt-0.5">
@@ -126,10 +126,10 @@ export const CalendarView: React.FC = () => {
           <div className="flex flex-wrap items-center gap-3">
             {/* Week Switcher buttons */}
             {viewMode === 'semanal' && (
-              <div className="p-1 rounded-lg bg-[#faf8f5] border border-[#ece8e1] flex items-center gap-1 text-xs">
+              <div className="p-1 rounded-lg bg-[#f6f5f7] border border-[#e6e4e8] flex items-center gap-1 text-xs">
                 <button
                   onClick={() => setWeekOffset(w => w - 1)}
-                  className="px-2 py-1.5 rounded-md font-medium text-stone-500 hover:text-[#212021] transition-all"
+                  className="px-2 py-1.5 rounded-md font-medium text-stone-500 hover:text-[#1c1a1e] transition-all"
                   aria-label="Semana anterior"
                 >
                   ‹
@@ -139,7 +139,7 @@ export const CalendarView: React.FC = () => {
                   className={`px-2.5 py-1.5 rounded-md font-medium transition-all ${
                     weekOffset === 0
                       ? 'bg-[#8b1538] text-white shadow-2xs font-semibold'
-                      : 'bg-white text-[#212021] shadow-2xs border border-[#ece8e1]'
+                      : 'bg-white text-[#1c1a1e] shadow-2xs border border-[#e6e4e8]'
                   }`}
                   title="Voltar para a semana atual"
                 >
@@ -147,7 +147,7 @@ export const CalendarView: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setWeekOffset(w => w + 1)}
-                  className="px-2 py-1.5 rounded-md font-medium text-stone-500 hover:text-[#212021] transition-all"
+                  className="px-2 py-1.5 rounded-md font-medium text-stone-500 hover:text-[#1c1a1e] transition-all"
                   aria-label="Próxima semana"
                 >
                   ›
@@ -156,13 +156,13 @@ export const CalendarView: React.FC = () => {
             )}
 
             {/* Week / Month Switcher */}
-            <div className="p-1 rounded-lg bg-[#faf8f5] border border-[#ece8e1] flex items-center gap-1 text-xs">
+            <div className="p-1 rounded-lg bg-[#f6f5f7] border border-[#e6e4e8] flex items-center gap-1 text-xs">
               <button
                 onClick={() => setViewMode('semanal')}
                 className={`px-3 py-1.5 rounded-md font-medium transition-all ${
                   viewMode === 'semanal'
-                    ? 'bg-white text-[#212021] shadow-2xs border border-[#ece8e1]'
-                    : 'text-stone-500 hover:text-[#212021]'
+                    ? 'bg-white text-[#1c1a1e] shadow-2xs border border-[#e6e4e8]'
+                    : 'text-stone-500 hover:text-[#1c1a1e]'
                 }`}
               >
                 Visão Semanal
@@ -171,8 +171,8 @@ export const CalendarView: React.FC = () => {
                 onClick={() => setViewMode('mensal')}
                 className={`px-3 py-1.5 rounded-md font-medium transition-all ${
                   viewMode === 'mensal'
-                    ? 'bg-white text-[#212021] shadow-2xs border border-[#ece8e1]'
-                    : 'text-stone-500 hover:text-[#212021]'
+                    ? 'bg-white text-[#1c1a1e] shadow-2xs border border-[#e6e4e8]'
+                    : 'text-stone-500 hover:text-[#1c1a1e]'
                 }`}
               >
                 Visão Mensal
@@ -183,7 +183,7 @@ export const CalendarView: React.FC = () => {
             <button
               id="btn-add-event"
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#8b1538] hover:bg-[#72102c] text-white text-xs font-semibold shadow-2xs transition-all"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-xs font-semibold shadow-2xs transition-all"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Novo Evento</span>
@@ -192,8 +192,8 @@ export const CalendarView: React.FC = () => {
         </div>
 
         {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#f3ece2]">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 flex items-center gap-1.5 mr-1">
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#e6e4e8]">
+          <span className="text-xs font-medium text-stone-400 flex items-center gap-1.5 mr-1">
             <Filter className="w-3 h-3" />
             Filtros:
           </span>
@@ -233,31 +233,31 @@ export const CalendarView: React.FC = () => {
                 key={day.fullDate}
                 className={`rounded-2xl border transition-all flex flex-col min-h-0 md:min-h-[400px] shadow-xs ${
                   isToday
-                    ? 'bg-gradient-to-b from-[#faf8f5] to-white border-[#8b1538] ring-1 ring-[#8b1538]/20'
-                    : 'bg-white border-[#ece8e1]'
+                    ? 'bg-[#f6f5f7] to-white border-[#8b1538] ring-1 ring-[#8b1538]/20'
+                    : 'bg-white border-[#e6e4e8]'
                 }`}
               >
                 {/* Day Header */}
                 <div
                   className={`p-2.5 sm:p-3 border-b text-center ${
                     isToday
-                      ? 'bg-[#fce4e4]/60 border-[#f3ccd1]'
-                      : 'bg-[#faf8f5] border-[#ece8e1]'
+                      ? 'bg-[#f7ecef]/60 border-[#ead3da]'
+                      : 'bg-[#f6f5f7] border-[#e6e4e8]'
                   }`}
                 >
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
+                  <div className="text-xs font-medium text-stone-400">
                     {day.name}
                   </div>
                   <div className="flex items-center justify-center gap-1.5 mt-0.5">
                     <span
                       className={`text-sm sm:text-base font-serif-title font-bold ${
-                        isToday ? 'text-[#8b1538]' : 'text-[#212021]'
+                        isToday ? 'text-[#8b1538]' : 'text-[#1c1a1e]'
                       }`}
                     >
                       {day.display}
                     </span>
                     {isToday && (
-                      <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#8b1538] text-white">
+                      <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-[#8b1538] text-white">
                         Hoje
                       </span>
                     )}
@@ -325,12 +325,12 @@ export const CalendarView: React.FC = () => {
 
       {/* Monthly View */}
       {viewMode === 'mensal' && (
-        <div className="p-6 rounded-2xl bg-white border border-[#ece4d8] shadow-xs space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-[#e6e4e8] shadow-xs space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-serif-title text-lg font-semibold text-[#27211e]">
+            <h4 className="font-serif-title text-lg font-semibold text-[#1c1a1e]">
               Mês Completo • {formatMonthYear()}
             </h4>
-            <div className="text-xs text-[#7e736b]">
+            <div className="text-xs text-[#625d66]">
               Total de {filteredEvents.length} eventos filtrados
             </div>
           </div>
@@ -354,31 +354,31 @@ export const CalendarView: React.FC = () => {
                     >
                       {(cfg?.name || event.category || '').split('(')[0]?.trim() || event.category}
                     </span>
-                    <span className="text-xs font-semibold text-[#544840]">
+                    <span className="text-xs font-semibold text-[#625d66]">
                       {event.date ? event.date.split('-').reverse().slice(0, 2).join('/') : ''}
                     </span>
                   </div>
 
-                  <h5 className="text-sm font-semibold text-[#26201d] mb-1">
+                  <h5 className="text-sm font-semibold text-[#1c1a1e] mb-1">
                     {event.title}
                   </h5>
 
                   {event.time && (
-                    <div className="flex items-center gap-1.5 text-xs text-[#6e6259]">
+                    <div className="flex items-center gap-1.5 text-xs text-[#625d66]">
                       <Clock className="w-3.5 h-3.5 text-stone-400" />
                       <span>{event.time}</span>
                     </div>
                   )}
 
                   {event.location && (
-                    <div className="flex items-center gap-1.5 text-xs text-[#6e6259] mt-0.5">
+                    <div className="flex items-center gap-1.5 text-xs text-[#625d66] mt-0.5">
                       <MapPin className="w-3.5 h-3.5 text-stone-400" />
                       <span>{event.location}</span>
                     </div>
                   )}
 
                   {event.description && (
-                    <p className="text-xs text-[#62564e] mt-2 italic bg-white/50 p-2 rounded-lg">
+                    <p className="text-xs text-[#625d66] mt-2 italic bg-white/50 p-2 rounded-lg">
                       "{event.description}"
                     </p>
                   )}
@@ -401,8 +401,8 @@ export const CalendarView: React.FC = () => {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-lg rounded-2xl bg-white p-6 border border-[#e5dcce] shadow-xl space-y-4 animate-scaleUp">
-            <div className="flex items-center justify-between border-b border-[#f2ece2] pb-3">
-              <h3 className="font-serif-title text-xl font-bold text-[#2a231f]">
+            <div className="flex items-center justify-between border-b border-[#e6e4e8] pb-3">
+              <h3 className="font-serif-title text-xl font-bold text-[#1c1a1e]">
                 Novo Compromisso Integrado
               </h3>
               <button
@@ -415,7 +415,7 @@ export const CalendarView: React.FC = () => {
 
             <form onSubmit={handleCreateEvent} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                <label className="block text-xs font-semibold text-[#625d66] mb-1">
                   Título do Evento *
                 </label>
                 <input
@@ -424,13 +424,13 @@ export const CalendarView: React.FC = () => {
                   placeholder="Ex: Reunião com cliente INPI ou Prova FDR"
                   value={title}
                   onChange={e => setTitle(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61]"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                  <label className="block text-xs font-semibold text-[#625d66] mb-1">
                     Data *
                   </label>
                   <input
@@ -438,12 +438,12 @@ export const CalendarView: React.FC = () => {
                     required
                     value={date}
                     onChange={e => setDate(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61]"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                  <label className="block text-xs font-semibold text-[#625d66] mb-1">
                     Horário (opcional)
                   </label>
                   <input
@@ -451,20 +451,20 @@ export const CalendarView: React.FC = () => {
                     placeholder="Ex: 14:00 - 15:30"
                     value={time}
                     onChange={e => setTime(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61]"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                  <label className="block text-xs font-semibold text-[#625d66] mb-1">
                     Categoria Esfera *
                   </label>
                   <select
                     value={category}
                     onChange={e => setCategory(e.target.value as EventCategory)}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61]"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                   >
                     <option value="fdr">FDR (Azul suave)</option>
                     <option value="lds">LDS (Bordô #8b1538)</option>
@@ -475,7 +475,7 @@ export const CalendarView: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                  <label className="block text-xs font-semibold text-[#625d66] mb-1">
                     Localização
                   </label>
                   <input
@@ -483,13 +483,13 @@ export const CalendarView: React.FC = () => {
                     placeholder="Ex: Biblioteca FDR / Sala 14 / Remoto"
                     value={location}
                     onChange={e => setLocation(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61]"
+                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#5a4f47] mb-1">
+                <label className="block text-xs font-semibold text-[#625d66] mb-1">
                   Notas / Pauta
                 </label>
                 <textarea
@@ -497,11 +497,11 @@ export const CalendarView: React.FC = () => {
                   placeholder="Detalhes essenciais, pautas ou preparação necessária..."
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#faf8f5] border border-[#e6ded1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c4d61] resize-none"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538] resize-none"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#f2ece2]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#e6e4e8]">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}

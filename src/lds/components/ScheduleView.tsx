@@ -269,23 +269,23 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
     <div className="max-w-7xl mx-auto py-6 sm:py-8 px-2 sm:px-6 lg:px-8 font-['Source_Serif_4',serif]">
       {/* Semester Tracker Header */}
       <div className="mb-10 space-y-6">
-        <div className="bg-gradient-to-br from-[#FAF5EA] via-[#FDFBF7] to-[#F5EEDF] border border-[#A9832E]/30 rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+        <div className="bg-[#f6f5f7] border border-[#625d66]/30 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
             <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/90 border border-[#A9832E]/30 rounded-full text-xs font-['Inter',sans-serif] text-[#A7002F] font-semibold shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/90 border border-[#625d66]/30 rounded-full text-xs text-[#8b1538] font-semibold shadow-2xs">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
                 <span>Ciclo-base 2026.2 em Andamento • FDR / UFPE</span>
               </div>
-              <h1 className="font-['Cormorant_Garamond',serif] text-3xl sm:text-4xl lg:text-5xl font-bold text-[#A7002F] tracking-tight leading-tight">
+              <h1 className="font-serif-title text-3xl sm:text-4xl lg:text-5xl font-bold text-[#8b1538] tracking-tight leading-tight">
                 Acompanhamento das Aulas
               </h1>
-              <p className="text-sm sm:text-base text-[#6B5D4F] leading-relaxed font-sans">
+              <p className="text-sm sm:text-base text-[#625d66] leading-relaxed font-sans">
                 Acompanhe o ciclo das aulas em tempo real: veja os encontros já realizados, cadastre o professor que ministrou cada encontro, acesse os slides da apresentação, consulte a bibliografia e faça suas anotações de aula.
               </p>
               <div className="pt-2 flex flex-wrap items-center gap-2.5">
                 <button
                   onClick={() => setShowAddLessonModal(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#A7002F] hover:bg-[#5C0A22] text-white rounded-full text-xs font-['Inter',sans-serif] font-semibold transition-all cursor-pointer shadow-xs hover:shadow-md"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#8b1538] hover:bg-[#6f0f2c] text-white rounded-full text-xs font-semibold transition-all cursor-pointer shadow-xs hover:shadow-md"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Cadastrar Nova Aula / Encontro</span>
@@ -294,18 +294,18 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
             </div>
 
             {/* Semester progress stats block */}
-            <div className="bg-white/95 border border-[#E5DBCA] rounded-3xl p-6 shrink-0 w-full lg:w-84 shadow-xs space-y-3.5 font-['Inter',sans-serif]">
+            <div className="bg-white/95 border border-[#e6e4e8] rounded-2xl p-6 shrink-0 w-full lg:w-84 shadow-xs space-y-3.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#211A15]">Progresso do Semestre</span>
-                <span className="font-bold text-[#A7002F]">{completedCount} de {lessons.length} aulas ({progressPercent}%)</span>
+                <span className="font-bold text-[#1c1a1e]">Progresso do Semestre</span>
+                <span className="font-bold text-[#8b1538]">{completedCount} de {lessons.length} aulas ({progressPercent}%)</span>
               </div>
-              <div className="w-full bg-[#E5DBCA]/60 h-3 rounded-full overflow-hidden p-0.5">
+              <div className="w-full bg-[#e6e4e8]/60 h-3 rounded-full overflow-hidden p-0.5">
                 <div
-                  className="bg-gradient-to-r from-[#A7002F] via-[#A9832E] to-[#5C0A22] h-full rounded-full transition-all duration-700"
+                  className="bg-[#8b1538] h-full rounded-full transition-all duration-700"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
-              <div className="pt-2 border-t border-[#E5DBCA]/80 flex items-center justify-between text-xs">
+              <div className="pt-2 border-t border-[#e6e4e8]/80 flex items-center justify-between text-xs">
                 <button
                   onClick={() => setSelectedStatus('completed')}
                   className="inline-flex items-center gap-1.5 text-emerald-800 font-bold hover:underline cursor-pointer"
@@ -315,7 +315,7 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 </button>
                 <button
                   onClick={() => setSelectedStatus('upcoming')}
-                  className="text-[#6B5D4F] hover:text-[#211A15] cursor-pointer"
+                  className="text-[#625d66] hover:text-[#1c1a1e] cursor-pointer"
                 >
                   {lessons.length - completedCount} Próximas
                 </button>
@@ -325,21 +325,21 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
 
           {/* Current Lesson Highlight Ribbon */}
           {currentLesson && (
-            <div className="mt-6 pt-5 border-t border-[#A9832E]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-['Inter',sans-serif]">
+            <div className="mt-6 pt-5 border-t border-[#625d66]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="px-3.5 py-1 bg-[#A7002F] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-2xs">
+                <span className="px-3.5 py-1 bg-[#8b1538] text-white rounded-full text-xs font-medium shadow-2xs">
                   Aula em Foco Desta Semana
                 </span>
-                <div className="text-xs text-[#211A15]">
-                  <strong className="font-['Cormorant_Garamond',serif] text-lg text-[#A7002F]">
+                <div className="text-xs text-[#1c1a1e]">
+                  <strong className="font-serif-title text-lg text-[#8b1538]">
                     Aula {currentLesson.lessonNumber.toString().padStart(2, '0')}: {currentLesson.title}
                   </strong>
-                  <span className="hidden sm:inline text-[#6B5D4F]"> ({currentLesson.fullDate})</span>
+                  <span className="hidden sm:inline text-[#625d66]"> ({currentLesson.fullDate})</span>
                 </div>
               </div>
               <button
                 onClick={() => setActiveLessonModal(currentLesson)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#FAF5EA] text-[#A7002F] border border-[#A7002F]/40 rounded-full text-xs font-semibold cursor-pointer transition-colors shadow-2xs self-start sm:self-auto"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#f6f5f7] text-[#8b1538] border border-[#8b1538]/40 rounded-full text-xs font-semibold cursor-pointer transition-colors shadow-2xs self-start sm:self-auto"
               >
                 <span>Acessar Slides, Links & Anotações</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -353,17 +353,17 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setSelectedStatus('all')}
-              className={`px-4 py-2 rounded-full text-xs font-['Inter',sans-serif] transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-full text-xs transition-all cursor-pointer ${
                 selectedStatus === 'all'
-                  ? 'bg-[#A7002F] text-white font-bold shadow-xs'
-                  : 'bg-white border border-[#E5DBCA] text-[#6B5D4F] hover:bg-[#F4EDE0]'
+                  ? 'bg-[#8b1538] text-white font-bold shadow-xs'
+                  : 'bg-white border border-[#e6e4e8] text-[#625d66] hover:bg-[#f6f5f7]'
               }`}
             >
               Todas as Aulas ({lessons.length})
             </button>
             <button
               onClick={() => setSelectedStatus('completed')}
-              className={`px-4 py-2 rounded-full text-xs font-['Inter',sans-serif] transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-full text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
                 selectedStatus === 'completed'
                   ? 'bg-emerald-700 text-white font-bold shadow-xs'
                   : 'bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium hover:bg-emerald-100'
@@ -374,20 +374,20 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
             </button>
             <button
               onClick={() => setSelectedStatus('current')}
-              className={`px-4 py-2 rounded-full text-xs font-['Inter',sans-serif] transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-full text-xs transition-all cursor-pointer ${
                 selectedStatus === 'current'
-                  ? 'bg-[#A7002F] text-white font-bold shadow-xs'
-                  : 'bg-white border border-[#E5DBCA] text-[#6B5D4F] hover:bg-[#F4EDE0]'
+                  ? 'bg-[#8b1538] text-white font-bold shadow-xs'
+                  : 'bg-white border border-[#e6e4e8] text-[#625d66] hover:bg-[#f6f5f7]'
               }`}
             >
               Aula Desta Semana
             </button>
             <button
               onClick={() => setSelectedStatus('upcoming')}
-              className={`px-4 py-2 rounded-full text-xs font-['Inter',sans-serif] transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-full text-xs transition-all cursor-pointer ${
                 selectedStatus === 'upcoming'
-                  ? 'bg-[#5C0A22] text-white font-bold shadow-xs'
-                  : 'bg-white border border-[#E5DBCA] text-[#6B5D4F] hover:bg-[#F4EDE0]'
+                  ? 'bg-[#6f0f2c] text-white font-bold shadow-xs'
+                  : 'bg-white border border-[#e6e4e8] text-[#625d66] hover:bg-[#f6f5f7]'
               }`}
             >
               Próximas Aulas ({lessons.length - completedCount})
@@ -395,43 +395,43 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
           </div>
 
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 pt-1">
-            <div className="flex items-center gap-1.5 p-1 bg-[#F4EDE0]/80 border border-[#A9832E]/30 rounded-full overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-1.5 p-1 bg-[#f6f5f7]/80 border border-[#625d66]/30 rounded-full overflow-x-auto no-scrollbar">
               <button
                 onClick={() => setSelectedPhase('all')}
-                className={`px-3.5 py-1.5 text-xs font-['Inter',sans-serif] rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-full transition-all whitespace-nowrap cursor-pointer ${
                   selectedPhase === 'all'
-                    ? 'bg-white text-[#A7002F] font-bold shadow-2xs'
-                    : 'text-[#6B5D4F] hover:text-[#211A15]'
+                    ? 'bg-white text-[#8b1538] font-bold shadow-2xs'
+                    : 'text-[#625d66] hover:text-[#1c1a1e]'
                 }`}
               >
                 Todas as Fases
               </button>
               <button
                 onClick={() => setSelectedPhase('Direito Societário Básico')}
-                className={`px-3.5 py-1.5 text-xs font-['Inter',sans-serif] rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-full transition-all whitespace-nowrap cursor-pointer ${
                   selectedPhase === 'Direito Societário Básico'
-                    ? 'bg-white text-[#A7002F] font-bold shadow-2xs'
-                    : 'text-[#6B5D4F] hover:text-[#211A15]'
+                    ? 'bg-white text-[#8b1538] font-bold shadow-2xs'
+                    : 'text-[#625d66] hover:text-[#1c1a1e]'
                 }`}
               >
                 Societário Básico
               </button>
               <button
                 onClick={() => setSelectedPhase('Mercado de Capitais')}
-                className={`px-3.5 py-1.5 text-xs font-['Inter',sans-serif] rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-full transition-all whitespace-nowrap cursor-pointer ${
                   selectedPhase === 'Mercado de Capitais'
-                    ? 'bg-white text-[#A7002F] font-bold shadow-2xs'
-                    : 'text-[#6B5D4F] hover:text-[#211A15]'
+                    ? 'bg-white text-[#8b1538] font-bold shadow-2xs'
+                    : 'text-[#625d66] hover:text-[#1c1a1e]'
                 }`}
               >
                 Mercado de Capitais
               </button>
               <button
                 onClick={() => setSelectedPhase('Reorganizações & Prática')}
-                className={`px-3.5 py-1.5 text-xs font-['Inter',sans-serif] rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 text-xs rounded-full transition-all whitespace-nowrap cursor-pointer ${
                   selectedPhase === 'Reorganizações & Prática'
-                    ? 'bg-white text-[#A7002F] font-bold shadow-2xs'
-                    : 'text-[#6B5D4F] hover:text-[#211A15]'
+                    ? 'bg-white text-[#8b1538] font-bold shadow-2xs'
+                    : 'text-[#625d66] hover:text-[#1c1a1e]'
                 }`}
               >
                 Reorganizações & Prática
@@ -439,13 +439,13 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
             </div>
 
             <div className="relative w-full lg:w-72">
-              <Search className="w-3.5 h-3.5 text-[#6B5D4F] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-[#625d66] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Buscar aula, professor, tema..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-[#A9832E]/35 rounded-full text-[#211A15] placeholder-[#6B5D4F]/70 focus:outline-none focus:ring-2 focus:ring-[#A7002F] shadow-2xs"
+                className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-[#625d66]/35 rounded-full text-[#1c1a1e] placeholder-[#625d66]/70 focus:outline-none focus:ring-2 focus:ring-[#8b1538] shadow-2xs"
               />
             </div>
           </div>
@@ -454,7 +454,7 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
 
       {/* Floating feedback alert */}
       {copiedSummaryLessonId !== null && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#211A15] text-[#FAF5EA] px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-[#A9832E] animate-bounce font-['Inter',sans-serif] text-xs">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1c1a1e] text-[#f6f5f7] px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-[#625d66] animate-bounce text-xs">
           <Check className="w-4 h-4 text-emerald-400" />
           <div>
             <strong className="block text-white">Resumo Copiado!</strong>
@@ -479,29 +479,29 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
           return (
             <div
               key={lesson.id}
-              className={`rounded-3xl border transition-all duration-300 flex flex-col justify-between p-6 shadow-xs hover:shadow-lg relative group ${
+              className={`rounded-2xl border transition-all duration-300 flex flex-col justify-between p-6 shadow-xs hover:shadow-lg relative group ${
                 isCurrent
-                  ? 'bg-gradient-to-b from-[#FAF5EA] to-[#F5EEDF] border-[#A7002F] ring-2 ring-[#A7002F]/20'
+                  ? 'bg-[#f6f5f7] border-[#8b1538] ring-2 ring-[#8b1538]/20'
                   : isCompleted
-                  ? 'bg-[#FAF5EA] border-[#D9CBB7] hover:border-[#A7002F]/60'
-                  : 'bg-[#FAF5EA]/85 border-[#E5DBCA] hover:border-[#A9832E]'
+                  ? 'bg-[#f6f5f7] border-[#e6e4e8] hover:border-[#8b1538]/60'
+                  : 'bg-[#f6f5f7]/85 border-[#e6e4e8] hover:border-[#625d66]'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="eyebrow-lds text-[#A7002F] font-bold text-xs tracking-wider">
+                    <span className="eyebrow-lds text-[#8b1538] font-bold text-xs tracking-wider">
                       AULA {lesson.lessonNumber.toString().padStart(2, '0')}
                     </span>
                     <button
                       onClick={e => handleToggleStatus(lesson, e)}
                       title="Clique para alternar status da aula"
-                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-['Inter',sans-serif] font-bold transition-all cursor-pointer ${
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
                         isCompleted
                           ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200'
                           : isCurrent
-                          ? 'bg-[#A7002F] text-white hover:brightness-110'
-                          : 'bg-white text-[#6B5D4F] border border-[#E5DBCA] hover:bg-emerald-50 hover:text-emerald-800'
+                          ? 'bg-[#8b1538] text-white hover:brightness-110'
+                          : 'bg-white text-[#625d66] border border-[#e6e4e8] hover:bg-emerald-50 hover:text-emerald-800'
                       }`}
                     >
                       {isCompleted ? (
@@ -519,29 +519,29 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                       )}
                     </button>
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-['Inter',sans-serif] font-bold text-[#5C0A22] bg-white/90 px-3 py-1 rounded-full border border-[#A9832E]/30 shadow-2xs">
-                    <Calendar className="w-3 h-3 text-[#A9832E]" />
+                  <div className="flex items-center gap-1 text-xs font-bold text-[#6f0f2c] bg-white/90 px-3 py-1 rounded-full border border-[#625d66]/30 shadow-2xs">
+                    <Calendar className="w-3 h-3 text-[#625d66]" />
                     <span>{lesson.dateStr}</span>
                   </div>
                 </div>
 
                 <h3
                   onClick={() => setActiveLessonModal(lesson)}
-                  className="font-['Cormorant_Garamond',serif] text-xl sm:text-2xl font-bold text-[#211A15] group-hover:text-[#A7002F] transition-colors leading-snug mb-2 cursor-pointer"
+                  className="font-serif-title text-xl sm:text-2xl font-bold text-[#1c1a1e] group-hover:text-[#8b1538] transition-colors leading-snug mb-2 cursor-pointer"
                 >
                   {lesson.title}
                 </h3>
 
                 {/* Professor Info */}
-                <div className="p-3.5 bg-white/85 border border-[#E5DBCA] rounded-2xl mb-3 space-y-2 font-['Inter',sans-serif] text-xs shadow-2xs">
+                <div className="p-3.5 bg-white/85 border border-[#e6e4e8] rounded-2xl mb-3 space-y-2 text-xs shadow-2xs">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 truncate">
-                      <GraduationCap className="w-4 h-4 text-[#A7002F] shrink-0" />
+                      <GraduationCap className="w-4 h-4 text-[#8b1538] shrink-0" />
                       <div className="truncate">
-                        <div className="text-[10px] text-[#6B5D4F] uppercase tracking-wider font-semibold">
+                        <div className="text-xs text-[#625d66] font-semibold">
                           {isCompleted ? 'Ministrada por:' : 'Professor:'}
                         </div>
-                        <div className="font-bold text-[#211A15] truncate">
+                        <div className="font-bold text-[#1c1a1e] truncate">
                           {lesson.actualProfessor || lesson.instructorName || 'Cadastrar Professor'}
                         </div>
                       </div>
@@ -552,7 +552,7 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                         setTeacherInputName(lesson.actualProfessor || lesson.instructorName || '');
                         setTeacherInputRole(lesson.actualProfessorRole || lesson.instructorRole || '');
                       }}
-                      className="p-1 text-[#6B5D4F] hover:text-[#A7002F] hover:bg-white rounded-lg transition-colors cursor-pointer shrink-0"
+                      className="p-1 text-[#625d66] hover:text-[#8b1538] hover:bg-white rounded-lg transition-colors cursor-pointer shrink-0"
                       title="Cadastrar / Editar Professor que deu a aula"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
@@ -560,23 +560,23 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                   </div>
 
                   {isEditingTeacher && (
-                    <div className="pt-2 border-t border-[#E5DBCA] space-y-2">
+                    <div className="pt-2 border-t border-[#e6e4e8] space-y-2">
                       <input
                         type="text"
                         placeholder="Nome do professor que deu a aula..."
                         value={teacherInputName}
                         onChange={e => setTeacherInputName(e.target.value)}
-                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-[#A7002F]/40 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#A7002F]"
+                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-[#8b1538]/40 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                       />
                       <input
                         type="text"
                         placeholder="Cargo / Instituição (ex: FDR, Juiz, Advogado)..."
                         value={teacherInputRole}
                         onChange={e => setTeacherInputRole(e.target.value)}
-                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-[#E5DBCA] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#A7002F]"
+                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-[#e6e4e8] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                       />
                       <div className="flex flex-wrap gap-1 text-[10px]">
-                        <span className="text-[#6B5D4F] py-0.5">Sugestões:</span>
+                        <span className="text-[#625d66] py-0.5">Sugestões:</span>
                         {FACULTY_MEMBERS.slice(0, 4).map(f => (
                           <button
                             key={f.id}
@@ -585,7 +585,7 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                               setTeacherInputName(f.name);
                               setTeacherInputRole(f.affiliation || f.role);
                             }}
-                            className="px-2 py-0.5 bg-[#FAF5EA] hover:bg-white border border-[#E5DBCA] rounded-full text-[#A7002F] cursor-pointer"
+                            className="px-2 py-0.5 bg-[#f6f5f7] hover:bg-white border border-[#e6e4e8] rounded-full text-[#8b1538] cursor-pointer"
                           >
                             {f.name}
                           </button>
@@ -595,14 +595,14 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                         <button
                           type="button"
                           onClick={() => setEditingTeacherLessonId(null)}
-                          className="px-2 py-1 text-[11px] text-[#6B5D4F] hover:text-[#211A15]"
+                          className="px-2 py-1 text-[11px] text-[#625d66] hover:text-[#1c1a1e]"
                         >
                           Cancelar
                         </button>
                         <button
                           type="button"
                           onClick={() => handleSaveTeacher(lesson)}
-                          className="px-3 py-1 bg-[#A7002F] text-white rounded-lg text-[11px] font-semibold"
+                          className="px-3 py-1 bg-[#8b1538] text-white rounded-lg text-[11px] font-semibold"
                         >
                           Salvar Professor
                         </button>
@@ -612,38 +612,38 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 </div>
 
                 {/* Slides Pill Ribbon */}
-                <div className="mb-3 font-['Inter',sans-serif]">
+                <div className="mb-3">
                   {lesson.slidesUrl ? (
                     <a
                       href={lesson.slidesUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full p-2.5 bg-gradient-to-r from-[#FAF5EA] to-[#F4EDE0] hover:bg-white border border-[#A9832E]/40 rounded-2xl flex items-center justify-between text-xs text-[#5C0A22] font-semibold transition-all shadow-2xs group/slide"
+                      className="w-full p-2.5 bg-[#f6f5f7] hover:bg-white border border-[#625d66]/40 rounded-2xl flex items-center justify-between text-xs text-[#6f0f2c] font-semibold transition-all shadow-2xs group/slide"
                     >
                       <span className="flex items-center gap-1.5 truncate">
-                        <Presentation className="w-3.5 h-3.5 text-[#A7002F]" />
+                        <Presentation className="w-3.5 h-3.5 text-[#8b1538]" />
                         <span className="truncate">Slides da Aula Disponibilizados</span>
                       </span>
-                      <ExternalLink className="w-3 h-3 text-[#A9832E] group-hover/slide:translate-x-0.5 transition-transform shrink-0" />
+                      <ExternalLink className="w-3 h-3 text-[#625d66] group-hover/slide:translate-x-0.5 transition-transform shrink-0" />
                     </a>
                   ) : hasSlides ? (
                     <button
                       onClick={() => setActiveLessonModal(lesson)}
-                      className="w-full p-2 bg-[#FAF5EA] hover:bg-white border border-[#E5DBCA] rounded-2xl flex items-center justify-between text-xs text-[#5C0A22] font-medium transition-colors"
+                      className="w-full p-2 bg-[#f6f5f7] hover:bg-white border border-[#e6e4e8] rounded-2xl flex items-center justify-between text-xs text-[#6f0f2c] font-medium transition-colors"
                     >
                       <span className="flex items-center gap-1.5">
-                        <Presentation className="w-3.5 h-3.5 text-[#A7002F]" />
+                        <Presentation className="w-3.5 h-3.5 text-[#8b1538]" />
                         <span>Slides Anexados na Aula</span>
                       </span>
-                      <ChevronRight className="w-3 h-3 text-[#6B5D4F]" />
+                      <ChevronRight className="w-3 h-3 text-[#625d66]" />
                     </button>
                   ) : (
                     <button
                       onClick={() => setActiveLessonModal(lesson)}
-                      className="w-full p-1.5 px-3 bg-white/70 hover:bg-white border border-dashed border-[#A9832E]/35 rounded-2xl flex items-center justify-between text-[11px] text-[#6B5D4F] hover:text-[#A7002F] transition-colors"
+                      className="w-full p-1.5 px-3 bg-white/70 hover:bg-white border border-dashed border-[#625d66]/35 rounded-2xl flex items-center justify-between text-[11px] text-[#625d66] hover:text-[#8b1538] transition-colors"
                     >
                       <span className="flex items-center gap-1.5">
-                        <Presentation className="w-3.5 h-3.5 text-[#A7002F]" />
+                        <Presentation className="w-3.5 h-3.5 text-[#8b1538]" />
                         <span>+ Adicionar Link ou Arquivo de Slides</span>
                       </span>
                       <Plus className="w-3 h-3" />
@@ -652,33 +652,33 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 </div>
 
                 {/* Resource Metrics Chips */}
-                <div className="flex flex-wrap items-center gap-1.5 mb-3 font-['Inter',sans-serif] text-[11px]">
+                <div className="flex flex-wrap items-center gap-1.5 mb-3 text-[11px]">
                   <button
                     onClick={() => setActiveLessonModal(lesson)}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-[#F4EDE0] border border-[#E5DBCA] rounded-full text-[#6B5D4F] hover:text-[#211A15] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-[#f6f5f7] border border-[#e6e4e8] rounded-full text-[#625d66] hover:text-[#1c1a1e] transition-colors cursor-pointer"
                   >
-                    <BookMarked className="w-3 h-3 text-[#A9832E]" />
+                    <BookMarked className="w-3 h-3 text-[#625d66]" />
                     <span>{bibCount} Bibliografias</span>
                   </button>
                   <button
                     onClick={() => setActiveLessonModal(lesson)}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-[#F4EDE0] border border-[#E5DBCA] rounded-full text-[#6B5D4F] hover:text-[#211A15] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-[#f6f5f7] border border-[#e6e4e8] rounded-full text-[#625d66] hover:text-[#1c1a1e] transition-colors cursor-pointer"
                   >
-                    <LinkIcon className="w-3 h-3 text-[#A9832E]" />
+                    <LinkIcon className="w-3 h-3 text-[#625d66]" />
                     <span>{linksCount} Links Úteis</span>
                   </button>
                 </div>
 
                 {/* Attached Materials */}
-                <div className="space-y-1.5 mb-3 font-['Inter',sans-serif]">
+                <div className="space-y-1.5 mb-3">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-semibold text-[#6B5D4F] flex items-center gap-1">
-                      <Paperclip className="w-3 h-3 text-[#A9832E]" />
+                    <span className="font-semibold text-[#625d66] flex items-center gap-1">
+                      <Paperclip className="w-3 h-3 text-[#625d66]" />
                       <span>PDFs & Materiais ({materials.length})</span>
                     </span>
                     <button
                       onClick={() => setUploadingPdfLessonId(isUploadingPdf ? null : lesson.id)}
-                      className="text-[#A7002F] font-semibold hover:underline flex items-center gap-0.5 cursor-pointer"
+                      className="text-[#8b1538] font-semibold hover:underline flex items-center gap-0.5 cursor-pointer"
                     >
                       <Plus className="w-3 h-3" />
                       <span>Anexar PDF</span>
@@ -686,11 +686,11 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                   </div>
 
                   {isUploadingPdf && (
-                    <div className="p-3 bg-white border border-[#A7002F]/30 rounded-2xl space-y-2 shadow-xs">
-                      <div className="text-[11px] font-semibold text-[#A7002F]">
+                    <div className="p-3 bg-white border border-[#8b1538]/30 rounded-2xl space-y-2 shadow-xs">
+                      <div className="text-[11px] font-semibold text-[#8b1538]">
                         Adicionar Material Disponibilizado na Aula:
                       </div>
-                      <label className="block w-full border border-dashed border-[#A9832E]/40 hover:border-[#A7002F] rounded-xl p-2 text-center text-xs text-[#6B5D4F] hover:bg-[#FAF5EA] cursor-pointer transition-colors">
+                      <label className="block w-full border border-dashed border-[#625d66]/40 hover:border-[#8b1538] rounded-xl p-2 text-center text-xs text-[#625d66] hover:bg-[#f6f5f7] cursor-pointer transition-colors">
                         <span>Selecionar PDF do computador</span>
                         <input
                           type="file"
@@ -702,19 +702,19 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                           }}
                         />
                       </label>
-                      <div className="text-center text-[10px] text-[#6B5D4F]">ou digite o nome do material:</div>
+                      <div className="text-center text-[10px] text-[#625d66]">ou digite o nome do material:</div>
                       <div className="flex gap-1.5">
                         <input
                           type="text"
                           placeholder="Ex: Slides da Aula - Capital Social.pdf"
                           value={newMaterialTitle}
                           onChange={e => setNewMaterialTitle(e.target.value)}
-                          className="flex-1 px-2.5 py-1 text-xs bg-white border border-[#E5DBCA] rounded-xl focus:outline-none"
+                          className="flex-1 px-2.5 py-1 text-xs bg-white border border-[#e6e4e8] rounded-xl focus:outline-none"
                         />
                         <button
                           type="button"
                           onClick={() => handleAddMaterialToLesson(lesson)}
-                          className="px-3 py-1 bg-[#A7002F] text-white rounded-xl text-xs font-semibold"
+                          className="px-3 py-1 bg-[#8b1538] text-white rounded-xl text-xs font-semibold"
                         >
                           Adicionar
                         </button>
@@ -726,12 +726,12 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                     {materials.map(mat => (
                       <div
                         key={mat.id}
-                        className="flex items-center justify-between gap-2 p-1.5 px-2.5 bg-white/70 hover:bg-white border border-[#E5DBCA] rounded-xl text-xs group/item transition-colors"
+                        className="flex items-center justify-between gap-2 p-1.5 px-2.5 bg-white/70 hover:bg-white border border-[#e6e4e8] rounded-xl text-xs group/item transition-colors"
                       >
                         <div className="flex items-center gap-1.5 truncate">
-                          <FileText className="w-3.5 h-3.5 text-[#A7002F] shrink-0" />
-                          <span className="truncate text-[#211A15] font-medium">{mat.name}</span>
-                          {mat.size && <span className="text-[10px] text-[#6B5D4F] shrink-0">({mat.size})</span>}
+                          <FileText className="w-3.5 h-3.5 text-[#8b1538] shrink-0" />
+                          <span className="truncate text-[#1c1a1e] font-medium">{mat.name}</span>
+                          {mat.size && <span className="text-[10px] text-[#625d66] shrink-0">({mat.size})</span>}
                         </div>
                         <div className="flex items-center gap-1 opacity-80 group-hover/item:opacity-100">
                           <button
@@ -739,14 +739,14 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                               setQaLesson(lesson);
                               setQaQuestion(`O que é abordado no material "${mat.name}" desta aula?`);
                             }}
-                            className="p-1 text-[#6B5D4F] hover:text-[#A7002F]"
+                            className="p-1 text-[#625d66] hover:text-[#8b1538]"
                             title="Perguntar ao Gemini sobre este material"
                           >
-                            <Sparkles className="w-3 h-3 text-[#A9832E]" />
+                            <Sparkles className="w-3 h-3 text-[#625d66]" />
                           </button>
                           <button
                             onClick={e => handleRemoveMaterial(lesson, mat.id, e)}
-                            className="p-1 text-[#6B5D4F] hover:text-red-600"
+                            className="p-1 text-[#625d66] hover:text-red-600"
                             title="Remover material"
                           >
                             <Trash2 className="w-3 h-3" />
@@ -758,13 +758,13 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 </div>
 
                 {/* Inline Student Notes Accordion */}
-                <div className="font-['Inter',sans-serif] mb-3">
+                <div className="mb-3">
                   <button
                     onClick={() => setExpandedNotesLessonId(isNotesExpanded ? null : lesson.id)}
-                    className="w-full flex items-center justify-between text-[11px] text-[#6B5D4F] hover:text-[#211A15] font-semibold py-1 cursor-pointer"
+                    className="w-full flex items-center justify-between text-[11px] text-[#625d66] hover:text-[#1c1a1e] font-semibold py-1 cursor-pointer"
                   >
                     <span>Minhas Anotações de Aula {lesson.personalNotes ? '• Preenchidas' : ''}</span>
-                    <span className="text-xs text-[#A7002F]">{isNotesExpanded ? 'Ocultar' : 'Editar Notas'}</span>
+                    <span className="text-xs text-[#8b1538]">{isNotesExpanded ? 'Ocultar' : 'Editar Notas'}</span>
                   </button>
                   {isNotesExpanded ? (
                     <div className="mt-1 space-y-1.5">
@@ -773,24 +773,24 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                         placeholder="Anote o que o professor falou, pontos de debate, jurisprudência citada ou dúvidas..."
                         value={lesson.personalNotes || ''}
                         onChange={e => handleUpdateNotes(lesson, e.target.value)}
-                        className="w-full p-2.5 bg-white border border-[#A7002F]/30 rounded-2xl text-xs text-[#211A15] focus:outline-none focus:ring-1 focus:ring-[#A7002F] shadow-2xs font-['Source_Serif_4',serif]"
+                        className="w-full p-2.5 bg-white border border-[#8b1538]/30 rounded-2xl text-xs text-[#1c1a1e] focus:outline-none focus:ring-1 focus:ring-[#8b1538] shadow-2xs font-['Source_Serif_4',serif]"
                       />
-                      <div className="text-[10px] text-[#6B5D4F] italic text-right">
+                      <div className="text-[10px] text-[#625d66] italic text-right">
                         Salvo automaticamente no caderno local
                       </div>
                     </div>
                   ) : lesson.personalNotes ? (
-                    <div className="p-2 bg-white/60 border border-[#E5DBCA] rounded-xl text-xs text-[#6B5D4F] italic truncate">
+                    <div className="p-2 bg-white/60 border border-[#e6e4e8] rounded-xl text-xs text-[#625d66] italic truncate">
                       "{lesson.personalNotes.slice(0, 60)}..."
                     </div>
                   ) : null}
                 </div>
 
                 {/* Key Points Preview */}
-                <div className="space-y-1 text-xs text-[#211A15] border-t border-[#E5DBCA] pt-3 font-serif">
+                <div className="space-y-1 text-xs text-[#1c1a1e] border-t border-[#e6e4e8] pt-3 font-serif">
                   {lesson.keyPoints.slice(0, 2).map((kp, idx) => (
                     <div key={idx} className="flex items-start gap-1.5">
-                      <span className="text-[#A9832E] font-bold">•</span>
+                      <span className="text-[#625d66] font-bold">•</span>
                       <span className="line-clamp-2 leading-relaxed">{kp}</span>
                     </div>
                   ))}
@@ -798,18 +798,18 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
               </div>
 
               {/* Bottom Action Bar */}
-              <div className="mt-5 pt-3 border-t border-[#E5DBCA] flex items-center justify-between gap-2 font-['Inter',sans-serif]">
+              <div className="mt-5 pt-3 border-t border-[#e6e4e8] flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => setActiveLessonModal(lesson)}
-                    className="px-3.5 py-1.5 text-xs font-semibold text-[#211A15] bg-white hover:bg-[#F4EDE0] border border-[#A9832E]/30 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                    className="px-3.5 py-1.5 text-xs font-semibold text-[#1c1a1e] bg-white hover:bg-[#f6f5f7] border border-[#625d66]/30 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                   >
-                    <BookOpen className="w-3.5 h-3.5 text-[#A7002F]" />
+                    <BookOpen className="w-3.5 h-3.5 text-[#8b1538]" />
                     <span>Acessar Aula</span>
                   </button>
                   <button
                     onClick={e => handleCopyLessonSummary(lesson, e)}
-                    className="px-2.5 py-1.5 text-xs font-medium text-[#5C0A22] bg-[#FAF5EA] hover:bg-white border border-[#A9832E]/30 rounded-full transition-colors cursor-pointer flex items-center gap-1 shadow-2xs"
+                    className="px-2.5 py-1.5 text-xs font-medium text-[#6f0f2c] bg-[#f6f5f7] hover:bg-white border border-[#625d66]/30 rounded-full transition-colors cursor-pointer flex items-center gap-1 shadow-2xs"
                     title="Copiar resumo e referências da aula"
                   >
                     {copiedSummaryLessonId === lesson.lessonNumber ? (
@@ -819,7 +819,7 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3.5 h-3.5 text-[#A7002F]" />
+                        <Copy className="w-3.5 h-3.5 text-[#8b1538]" />
                         <span className="hidden sm:inline">Copiar Resumo</span>
                       </>
                     )}
@@ -832,10 +832,10 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                       setQaQuestion('');
                       setQaAnswer(null);
                     }}
-                    className="px-3 py-1.5 text-xs font-semibold text-[#FAF5EA] bg-[#5C0A22] hover:bg-[#A7002F] rounded-full transition-colors cursor-pointer flex items-center gap-1 shadow-2xs"
+                    className="px-3 py-1.5 text-xs font-semibold text-[#f6f5f7] bg-[#6f0f2c] hover:bg-[#8b1538] rounded-full transition-colors cursor-pointer flex items-center gap-1 shadow-2xs"
                     title="Tirar dúvida com IA sobre esta aula"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#FAF5EA]" />
+                    <Sparkles className="w-3.5 h-3.5 text-[#f6f5f7]" />
                     <span>Dúvidas IA</span>
                   </button>
                 </div>
@@ -848,15 +848,15 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
       {/* Quick Gemini Lesson Q&A Modal */}
       {qaLesson && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#FAF5EA] border border-[#A7002F]/30 rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
-            <div className="p-5 bg-gradient-to-r from-[#5C0A22] to-[#A7002F] text-white flex items-center justify-between">
+          <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
+            <div className="p-5 bg-[#6f0f2c] text-white flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <Sparkles className="w-5 h-5 text-[#FAF5EA]" />
+                <Sparkles className="w-5 h-5 text-[#f6f5f7]" />
                 <div>
-                  <div className="text-[10px] font-['Inter',sans-serif] uppercase tracking-wider text-white/80">
+                  <div className="text-xs text-white/80">
                     TUTOR INTELIGENTE LDS FDR • GEMINI
                   </div>
-                  <h3 className="font-['Cormorant_Garamond',serif] text-xl font-bold leading-tight">
+                  <h3 className="font-serif-title text-xl font-bold leading-tight">
                     Aula {qaLesson.lessonNumber}: {qaLesson.title}
                   </h3>
                 </div>
@@ -869,46 +869,46 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
               </button>
             </div>
             <div className="p-6 overflow-y-auto space-y-4 flex-1">
-              <div className="text-xs text-[#6B5D4F] font-['Inter',sans-serif]">
+              <div className="text-xs text-[#625d66]">
                 Pergunte sobre conceitos jurídicos, matérias dos slides ou sobre as anotações feitas nesta aula:
               </div>
-              <form onSubmit={handleAskGemini} className="space-y-3 font-['Inter',sans-serif]">
+              <form onSubmit={handleAskGemini} className="space-y-3">
                 <div className="flex gap-2">
                   <input
                     type="text"
                     placeholder="Ex: Como a CVM entende o abuso do poder de controle neste tema?"
                     value={qaQuestion}
                     onChange={e => setQaQuestion(e.target.value)}
-                    className="flex-1 bg-white border border-[#A9832E]/35 rounded-2xl px-4 py-2.5 text-xs text-[#211A15] focus:outline-none focus:ring-2 focus:ring-[#A7002F]"
+                    className="flex-1 bg-white border border-[#625d66]/35 rounded-2xl px-4 py-2.5 text-xs text-[#1c1a1e] focus:outline-none focus:ring-2 focus:ring-[#8b1538]"
                   />
                   <button
                     type="submit"
                     disabled={qaLoading || !qaQuestion.trim()}
-                    className="px-4 py-2 bg-[#A7002F] disabled:opacity-50 text-white rounded-2xl text-xs font-semibold cursor-pointer hover:bg-[#5C0A22]"
+                    className="px-4 py-2 bg-[#8b1538] disabled:opacity-50 text-white rounded-2xl text-xs font-semibold cursor-pointer hover:bg-[#6f0f2c]"
                   >
                     {qaLoading ? 'Pensando...' : 'Perguntar'}
                   </button>
                 </div>
               </form>
               {qaAnswer && (
-                <div className="p-4 bg-white border border-[#A9832E]/30 rounded-2xl shadow-xs space-y-2">
-                  <div className="flex items-center gap-1.5 text-xs font-['Inter',sans-serif] font-bold text-[#A7002F]">
-                    <Sparkles className="w-3.5 h-3.5 text-[#A9832E]" />
+                <div className="p-4 bg-white border border-[#625d66]/30 rounded-2xl shadow-xs space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#8b1538]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#625d66]" />
                     <span>Resposta Fundamentada (Gemini LDS FDR):</span>
                   </div>
-                  <div className="text-xs sm:text-sm text-[#211A15] leading-relaxed whitespace-pre-line font-sans">
+                  <div className="text-xs sm:text-sm text-[#1c1a1e] leading-relaxed whitespace-pre-line font-sans">
                     {qaAnswer}
                   </div>
                 </div>
               )}
             </div>
-            <div className="p-4 bg-[#F4EDE0] border-t border-[#E5DBCA] flex items-center justify-between text-xs font-['Inter',sans-serif]">
-              <span className="text-[#6B5D4F]">
+            <div className="p-4 bg-[#f6f5f7] border-t border-[#e6e4e8] flex items-center justify-between text-xs">
+              <span className="text-[#625d66]">
                 Contextualizado com as notas e os {qaLesson.materials?.length || 0} materiais da aula.
               </span>
               <button
                 onClick={() => setQaLesson(null)}
-                className="px-4 py-1.5 bg-white border border-[#A9832E]/30 rounded-xl text-[#211A15] hover:bg-[#FAF5EA]"
+                className="px-4 py-1.5 bg-white border border-[#625d66]/30 rounded-xl text-[#1c1a1e] hover:bg-[#f6f5f7]"
               >
                 Fechar
               </button>
@@ -920,9 +920,9 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
       {/* Add New Lesson Modal */}
       {showAddLessonModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#FAF5EA] border border-[#A7002F]/30 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
-            <div className="p-5 bg-gradient-to-r from-[#5C0A22] to-[#A7002F] text-white flex items-center justify-between">
-              <h3 className="font-['Cormorant_Garamond',serif] text-2xl font-bold">
+          <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
+            <div className="p-5 bg-[#6f0f2c] text-white flex items-center justify-between">
+              <h3 className="font-serif-title text-2xl font-bold">
                 Cadastrar Nova Aula no Cronograma
               </h3>
               <button
@@ -932,35 +932,35 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 ✕
               </button>
             </div>
-            <form onSubmit={handleCreateNewLesson} className="p-6 space-y-4 font-['Inter',sans-serif] text-xs">
+            <form onSubmit={handleCreateNewLesson} className="p-6 space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-[#211A15] mb-1">Título da Aula *</label>
+                <label className="block font-bold text-[#1c1a1e] mb-1">Título da Aula *</label>
                 <input
                   type="text"
                   required
                   placeholder="Ex: Dissolução Parcial de Sociedade e Apuração de Haveres"
                   value={newLessonTitle}
                   onChange={e => setNewLessonTitle(e.target.value)}
-                  className="w-full bg-white border border-[#A9832E]/35 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#A7002F]"
+                  className="w-full bg-white border border-[#625d66]/35 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-[#211A15] mb-1">Data do Encontro</label>
+                  <label className="block font-bold text-[#1c1a1e] mb-1">Data do Encontro</label>
                   <input
                     type="text"
                     placeholder="Ex: 14 de outubro de 2026"
                     value={newLessonDate}
                     onChange={e => setNewLessonDate(e.target.value)}
-                    className="w-full bg-white border border-[#E5DBCA] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
+                    className="w-full bg-white border border-[#e6e4e8] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-[#211A15] mb-1">Fase Temática</label>
+                  <label className="block font-bold text-[#1c1a1e] mb-1">Fase Temática</label>
                   <select
                     value={newLessonPhase}
                     onChange={e => setNewLessonPhase(e.target.value as any)}
-                    className="w-full bg-white border border-[#E5DBCA] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
+                    className="w-full bg-white border border-[#e6e4e8] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
                   >
                     <option value="Direito Societário Básico">Direito Societário Básico</option>
                     <option value="Mercado de Capitais">Mercado de Capitais</option>
@@ -969,26 +969,26 @@ ${(lesson.legislation || []).map(l => `### ${l.lawTag} - ${l.article} (${l.sourc
                 </div>
               </div>
               <div>
-                <label className="block font-bold text-[#211A15] mb-1">Professor Responsável / Convidado</label>
+                <label className="block font-bold text-[#1c1a1e] mb-1">Professor Responsável / Convidado</label>
                 <input
                   type="text"
                   placeholder="Ex: Dr. Marcelo Von Adamek"
                   value={newLessonProfessor}
                   onChange={e => setNewLessonProfessor(e.target.value)}
-                  className="w-full bg-white border border-[#E5DBCA] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
+                  className="w-full bg-white border border-[#e6e4e8] rounded-xl px-3.5 py-2 text-xs focus:outline-none"
                 />
               </div>
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#E5DBCA]">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#e6e4e8]">
                 <button
                   type="button"
                   onClick={() => setShowAddLessonModal(false)}
-                  className="px-4 py-2 text-[#6B5D4F] hover:text-[#211A15]"
+                  className="px-4 py-2 text-[#625d66] hover:text-[#1c1a1e]"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#A7002F] text-white rounded-full font-semibold shadow-xs hover:bg-[#5C0A22]"
+                  className="px-5 py-2 bg-[#8b1538] text-white rounded-full font-semibold shadow-xs hover:bg-[#6f0f2c]"
                 >
                   Cadastrar Aula
                 </button>

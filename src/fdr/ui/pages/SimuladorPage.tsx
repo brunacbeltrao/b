@@ -83,10 +83,10 @@ export const SimuladorPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Abas */}
-      <div className="space-y-4 pb-4 border-b border-[#ece8e1]">
+      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Simulações de Desempenho</span>
+            <span className="text-xs font-medium text-stone-400 block">Simulações de Desempenho</span>
             <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
               Simulador de Notas e Metas
             </h2>
@@ -94,7 +94,7 @@ export const SimuladorPage: React.FC = () => {
               Simule o impacto de notas no CR, MC e MCN sem alterar o histórico real.
             </p>
           </div>
-          <div className="flex items-center gap-1.5 bg-stone-100 p-1 rounded-xl border border-[#ece8e1]">
+          <div className="flex items-center gap-1.5 bg-stone-100 p-1 rounded-xl border border-[#e6e4e8]">
             <Button
               variant="ghost"
               size="sm"
@@ -119,9 +119,9 @@ export const SimuladorPage: React.FC = () => {
         <div className="space-y-6">
           {/* Cartões de Comparação: Atual vs Simulado */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-2">
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">CR (Rendimento)</span>
+                <span className="text-xs font-medium text-stone-400">CR (Rendimento)</span>
                 <span className="font-mono text-emerald-700 font-semibold">
                   {resultadoSimulacao.deltaCr >= 0 ? '+' : ''}
                   {resultadoSimulacao.deltaCr.toFixed(4).replace('.', ',')}
@@ -141,14 +141,14 @@ export const SimuladorPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#ece8e1]">
+              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#e6e4e8]">
                 {resultadoSimulacao.simulado.chComNota}h computadas com nota.
               </p>
             </div>
 
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-2">
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">MC (Conclusão)</span>
+                <span className="text-xs font-medium text-stone-400">MC (Conclusão)</span>
                 <span className="font-mono text-emerald-700 font-semibold">
                   {resultadoSimulacao.deltaMc >= 0 ? '+' : ''}
                   {resultadoSimulacao.deltaMc.toFixed(4).replace('.', ',')}
@@ -168,14 +168,14 @@ export const SimuladorPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#ece8e1]">
+              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#e6e4e8]">
                 {resultadoSimulacao.simulado.chAprovada}h aprovadas com êxito.
               </p>
             </div>
 
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-2">
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">MCN Normalizada</span>
+                <span className="text-xs font-medium text-stone-400">MCN Normalizada</span>
                 <span className="font-mono text-stone-500">
                   {resultadoSimulacao.deltaMcn >= 0 ? '+' : ''}
                   {Math.round(resultadoSimulacao.deltaMcn)} pts
@@ -197,15 +197,15 @@ export const SimuladorPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#ece8e1]">
+              <p className="text-[11px] text-stone-400 pt-1 border-t border-[#e6e4e8]">
                 Padronizada na média dos concluintes.
               </p>
             </div>
           </div>
 
           {/* Atalhos Rápidos */}
-          <div className="p-4 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Atalhos rápidos:</span>
+          <div className="p-4 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
+            <span className="text-xs font-medium text-stone-400">Atalhos rápidos:</span>
             <div className="flex flex-wrap items-center gap-1.5">
               <Button
                 variant="soft"
@@ -240,14 +240,14 @@ export const SimuladorPage: React.FC = () => {
           </div>
 
           {/* Tabela de Disciplinas Matriculadas em 2026.2 */}
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
-            <div className="pb-2 border-b border-[#ece8e1]">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Disciplinas em Avaliação</span>
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
+            <div className="pb-2 border-b border-[#e6e4e8]">
+              <span className="text-xs font-medium text-stone-400 block">Disciplinas em Avaliação</span>
               <h3 className="font-bold text-sm text-stone-900">
                 Semestre 2026.2 ({matriculadas.reduce((s, m) => s + m.componente.ch, 0)}h)
               </h3>
             </div>
-            <div className="divide-y divide-[#ece8e1]">
+            <div className="divide-y divide-[#e6e4e8]">
               {matriculadas.map(({ componente }) => {
                 const notaAtual = notasSimuladas[componente.codigo] ?? 7.0;
                 const situacaoAtual = situacoesSimuladas[componente.codigo] ?? 'APR';
@@ -278,7 +278,7 @@ export const SimuladorPage: React.FC = () => {
                             [componente.codigo]: e.target.value as 'APR' | 'REP',
                           })
                         }
-                        className="h-8 px-2.5 text-xs rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                        className="h-8 px-2.5 text-xs rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                       >
                         <option value="APR">Aprovação</option>
                         <option value="REP">Reprovação</option>
@@ -313,7 +313,7 @@ export const SimuladorPage: React.FC = () => {
                               ),
                             })
                           }
-                          className="w-16 h-8 px-2 text-center font-mono text-xs rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                          className="w-16 h-8 px-2 text-center font-mono text-xs rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                         />
                       </div>
                     </div>
@@ -323,14 +323,14 @@ export const SimuladorPage: React.FC = () => {
             </div>
 
             {/* Salvar Cenário */}
-            <form onSubmit={handleSalvarCenario} className="pt-3 border-t border-[#ece8e1] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+            <form onSubmit={handleSalvarCenario} className="pt-3 border-t border-[#e6e4e8] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
               <div className="flex-1 flex items-center gap-2">
                 <input
                   type="text"
                   placeholder="Nome do cenário para salvar..."
                   value={nomeCenarioParaSalvar}
                   onChange={(e) => setNomeCenarioParaSalvar(e.target.value)}
-                  className="p-2 rounded-xl border border-[#ece8e1] bg-white max-w-sm text-xs text-stone-800"
+                  className="p-2 rounded-xl border border-[#e6e4e8] bg-white max-w-sm text-xs text-stone-800"
                 />
                 <Button
                   type="submit"
@@ -352,13 +352,13 @@ export const SimuladorPage: React.FC = () => {
 
           {/* Cenários Salvos */}
           {store.cenarios.length > 0 && (
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Cenários Gravados</span>
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+              <span className="text-xs font-medium text-stone-400 block">Cenários Gravados</span>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {store.cenarios.map((cenario) => (
                   <div
                     key={cenario.id}
-                    className="p-3 rounded-xl border border-[#ece8e1] bg-[#faf8f5] flex flex-col justify-between gap-2"
+                    className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex flex-col justify-between gap-2"
                   >
                     <div>
                       <h4 className="font-semibold text-xs text-stone-900">
@@ -370,7 +370,7 @@ export const SimuladorPage: React.FC = () => {
                           .join(' • ')}
                       </p>
                     </div>
-                    <div className="pt-2 border-t border-[#ece8e1] flex items-center justify-between text-xs">
+                    <div className="pt-2 border-t border-[#e6e4e8] flex items-center justify-between text-xs">
                       <Button
                         variant="link"
                         size="sm"
@@ -399,9 +399,9 @@ export const SimuladorPage: React.FC = () => {
 
       {abaAtiva === 'inverso' && (
         <div className="space-y-6">
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Planejamento Reverso</span>
+              <span className="text-xs font-medium text-stone-400 block">Planejamento Reverso</span>
               <h3 className="font-bold text-sm text-stone-900">
                 Qual média necessária para atingir sua meta de conclusão?
               </h3>
@@ -421,7 +421,7 @@ export const SimuladorPage: React.FC = () => {
                   step="0.05"
                   value={crAlvo}
                   onChange={(e) => setCrAlvo(parseFloat(e.target.value) || 0)}
-                  className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                  className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
                 />
                 <span className="text-[11px] text-stone-400">Ex: 8,50 ou 9,00</span>
               </div>
@@ -435,7 +435,7 @@ export const SimuladorPage: React.FC = () => {
                   step="30"
                   value={chRestante}
                   onChange={(e) => setChRestante(parseInt(e.target.value, 10) || 0)}
-                  className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                  className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
                 />
                 <span className="text-[11px] text-stone-400">Padrão: 2.700h</span>
               </div>
@@ -443,7 +443,7 @@ export const SimuladorPage: React.FC = () => {
                 <label className="block text-stone-500 mb-1">
                   Atividades sem Nota
                 </label>
-                <label className="flex items-center gap-2 p-2.5 rounded-xl border border-[#ece8e1] bg-[#faf8f5] cursor-pointer">
+                <label className="flex items-center gap-2 p-2.5 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={excluirComplementares}
@@ -458,10 +458,10 @@ export const SimuladorPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
+          <div className="p-6 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
+                <span className="text-xs font-medium text-stone-400 block">
                   Resultado para CR-Alvo {crAlvo.toFixed(2)}
                 </span>
                 <div className="flex items-baseline gap-3 mt-1">
@@ -479,14 +479,14 @@ export const SimuladorPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <div className="text-right sm:border-l sm:pl-6 border-[#ece8e1]">
+              <div className="text-right sm:border-l sm:pl-6 border-[#e6e4e8]">
                 <span className="text-xs text-stone-400 block">Teto com nota 10 em tudo:</span>
                 <p className="text-xl font-light font-mono text-stone-900">
                   CR {resultadoInverso.teto.toFixed(3).replace('.', ',')}
                 </p>
               </div>
             </div>
-            <div className="text-xs leading-relaxed text-stone-600 pt-3 border-t border-[#ece8e1]">
+            <div className="text-xs leading-relaxed text-stone-600 pt-3 border-t border-[#e6e4e8]">
               {resultadoInverso.possivel ? (
                 <p>
                   Meta viável: mantendo média ponderada de{' '}

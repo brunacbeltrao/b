@@ -49,7 +49,7 @@ export const FdrGraduacaoView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Sub-navegação do Módulo FDR */}
-      <div className="bg-white p-2 rounded-2xl border border-[#ece8e1] shadow-2xs overflow-x-auto">
+      <div className="bg-white p-2 rounded-2xl border border-[#e6e4e8] shadow-2xs overflow-x-auto">
         <div className="flex items-center gap-1 min-w-max">
           {navItems.map((item) => {
             const Icone = item.icone;
@@ -61,10 +61,10 @@ export const FdrGraduacaoView: React.FC = () => {
                 className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   ativo
                     ? 'bg-[#8b1538] text-white shadow-2xs'
-                    : 'text-stone-600 hover:text-stone-900 hover:bg-[#faf8f5]'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-[#f6f5f7]'
                 }`}
               >
-                <Icone className={`w-3.5 h-3.5 ${ativo ? 'text-[#fce4e4]' : 'text-stone-400'}`} />
+                <Icone className={`w-3.5 h-3.5 ${ativo ? 'text-[#f7ecef]' : 'text-stone-400'}`} />
                 <span>{item.rotulo}</span>
               </button>
             );

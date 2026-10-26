@@ -71,17 +71,17 @@ export const BooksView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header com estética de biblioteca refinada */}
-      <div className="rounded-2xl bg-gradient-to-r from-[#faf7f2] via-[#f5ede0] to-[#f0e3ce] p-6 border border-[#e8d9c2] shadow-xs relative overflow-hidden">
+      <div className="rounded-2xl bg-[#f6f5f7] p-6 border border-[#e6e4e8] shadow-xs relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-semibold text-[#8c6b32] uppercase tracking-wide">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#625d66]">
               <span>Estante Intelectual</span>
               <span aria-hidden="true">·</span>
               <span>Formação 2026</span>
               <span aria-hidden="true">·</span>
               <span>FDR & Leituras</span>
             </div>
-            <h1 className="font-serif-title text-2xl md:text-3xl font-normal text-[#212021] tracking-tight">
+            <h1 className="font-serif-title text-2xl md:text-3xl font-normal text-[#1c1a1e] tracking-tight">
               Livros & Leituras 2026
             </h1>
             <p className="text-sm text-stone-600 font-sans-ui leading-relaxed">
@@ -92,7 +92,7 @@ export const BooksView: React.FC = () => {
           <button
             id="btn-new-book"
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#8c6b32] hover:bg-[#785b29] text-white font-semibold text-xs transition-all shadow-xs shrink-0"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#625d66] hover:bg-[#625d66] text-white font-semibold text-xs transition-all shadow-xs shrink-0"
           >
             <Plus className="w-4 h-4" />
             <span>Adicionar à Estante</span>
@@ -105,15 +105,15 @@ export const BooksView: React.FC = () => {
       {/* Meta Anual 2026 Banner */}
       <section
         id="card-meta-leitura"
-        className="rounded-2xl bg-white p-6 border border-[#ece8e1] shadow-xs space-y-4"
+        className="rounded-2xl bg-white p-6 border border-[#e6e4e8] shadow-xs space-y-4"
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-[#faf2e3] text-[#8c6b32] border border-[#eee0c9]">
+            <div className="p-3 rounded-xl bg-[#faf2e3] text-[#625d66] border border-[#eee0c9]">
               <Award className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-serif-title text-xl font-bold text-[#212021]">
+              <h2 className="font-serif-title text-xl font-bold text-[#1c1a1e]">
                 Desafio Literário 2026
               </h2>
               <p className="text-xs text-stone-500">
@@ -123,10 +123,10 @@ export const BooksView: React.FC = () => {
           </div>
 
           <div className="text-right">
-            <div className="text-2xl font-serif-title font-bold text-[#8c6b32]">
+            <div className="text-2xl font-serif-title font-bold text-[#625d66]">
               {readBooksCount} / {totalBooksGoal}
             </div>
-            <div className="text-[11px] text-stone-400 uppercase font-semibold">
+            <div className="text-xs text-stone-400 font-semibold">
               {goalProgressPercent}% alcançado
             </div>
           </div>
@@ -134,14 +134,14 @@ export const BooksView: React.FC = () => {
 
         <div className="w-full bg-stone-100 h-2.5 rounded-full overflow-hidden">
           <div
-            className="bg-[#8c6b32] h-full rounded-full transition-all duration-500"
+            className="bg-[#625d66] h-full rounded-full transition-all duration-500"
             style={{ width: `${goalProgressPercent}%` }}
           />
         </div>
       </section>
 
       {/* Filtros e Busca */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-[#ece8e1] shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-[#e6e4e8] shadow-2xs">
         {/* Status filters */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {(['todos', 'lendo', 'quero_ler', 'lido'] as const).map(st => (
@@ -150,7 +150,7 @@ export const BooksView: React.FC = () => {
               onClick={() => setFilterStatus(st)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize transition-all ${
                 filterStatus === st
-                  ? 'bg-[#8c6b32] text-white shadow-2xs'
+                  ? 'bg-[#625d66] text-white shadow-2xs'
                   : 'bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200/80'
               }`}
             >
@@ -173,7 +173,7 @@ export const BooksView: React.FC = () => {
             placeholder="Buscar título ou autor..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+            className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
           />
         </div>
       </div>
@@ -181,11 +181,11 @@ export const BooksView: React.FC = () => {
       {/* Grid de Livros da Estante */}
       {filteredBooks.length === 0 ? (
         <div className="rounded-2xl bg-white p-12 text-center border border-dashed border-[#ddcaa9] space-y-4">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#faf4ea] flex items-center justify-center text-[#8c6b32]">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#f6f5f7] flex items-center justify-center text-[#625d66]">
             <BookOpen className="w-7 h-7" />
           </div>
           <div className="space-y-1 max-w-md mx-auto">
-            <h3 className="font-serif-title text-lg font-bold text-[#212021]">
+            <h3 className="font-serif-title text-lg font-bold text-[#1c1a1e]">
               Sua estante pessoal está pronta
             </h3>
             <p className="text-xs text-stone-500 leading-relaxed">
@@ -194,7 +194,7 @@ export const BooksView: React.FC = () => {
           </div>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#8c6b32] hover:bg-[#785b29] text-white font-semibold text-xs transition-all shadow-xs"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#625d66] hover:bg-[#625d66] text-white font-semibold text-xs transition-all shadow-xs"
           >
             <Plus className="w-4 h-4" />
             <span>Cadastrar Meu Primeiro Livro</span>
@@ -207,11 +207,11 @@ export const BooksView: React.FC = () => {
           return (
             <div
               key={book.id}
-              className="rounded-2xl bg-white p-5 border border-[#ede3d4] shadow-xs hover:border-[#b88c42] transition-all flex flex-col justify-between space-y-4"
+              className="rounded-2xl bg-white p-5 border border-[#ede3d4] shadow-xs hover:border-[#625d66] transition-all flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2.5">
                 <div className="flex items-start justify-between gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#faf4ea] text-[#8c6b32] border border-[#ebdcc4]">
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-[#f6f5f7] text-[#625d66] border border-[#e6e4e8]">
                     {book.category}
                   </span>
                   <div className="flex items-center gap-1">
@@ -235,7 +235,7 @@ export const BooksView: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-serif-title font-bold text-base text-[#212021] leading-snug line-clamp-2">
+                  <h3 className="font-serif-title font-bold text-base text-[#1c1a1e] leading-snug line-clamp-2">
                     {book.title}
                   </h3>
                   <p className="text-xs text-stone-500 mt-0.5">
@@ -244,7 +244,7 @@ export const BooksView: React.FC = () => {
                 </div>
 
                 {book.notes && (
-                  <p className="text-xs text-stone-600 italic bg-[#faf8f5] p-2.5 rounded-xl border border-[#eee5d8] leading-relaxed line-clamp-3">
+                  <p className="text-xs text-stone-600 italic bg-[#f6f5f7] p-2.5 rounded-xl border border-[#eee5d8] leading-relaxed line-clamp-3">
                     "{book.notes}"
                   </p>
                 )}
@@ -254,14 +254,14 @@ export const BooksView: React.FC = () => {
               <div className="space-y-2 pt-3 border-t border-[#f4ede2]">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-stone-500 font-medium">Progresso</span>
-                  <span className="font-mono font-bold text-[#8c6b32]">
+                  <span className="font-mono font-bold text-[#625d66]">
                     {book.currentPage} / {book.totalPages} pág. ({progressPercent}%)
                   </span>
                 </div>
 
-                <div className="w-full bg-[#eee4d5] h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#e6e4e8] h-1.5 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#8c6b32] h-full rounded-full transition-all"
+                    className="bg-[#625d66] h-full rounded-full transition-all"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -279,13 +279,13 @@ export const BooksView: React.FC = () => {
                       </button>
                       <button
                         onClick={() => updateBookProgress(book.id, Math.min(book.totalPages, book.currentPage + 10))}
-                        className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#f5ede0] hover:bg-[#ebdcc4] text-[#8c6b32]"
+                        className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#f6f5f7] hover:bg-[#e6e4e8] text-[#625d66]"
                       >
                         +10
                       </button>
                       <button
                         onClick={() => updateBookProgress(book.id, Math.min(book.totalPages, book.currentPage + 25))}
-                        className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#8c6b32] text-white hover:bg-[#775a28]"
+                        className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#625d66] text-white hover:bg-[#775a28]"
                       >
                         +25
                       </button>
@@ -303,7 +303,7 @@ export const BooksView: React.FC = () => {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 border border-stone-200 shadow-xl space-y-4">
-            <h3 className="font-serif-title text-xl font-bold text-[#212021]">
+            <h3 className="font-serif-title text-xl font-bold text-[#1c1a1e]">
               Adicionar Livro à Estante 2026
             </h3>
             <form onSubmit={handleCreateBook} className="space-y-3">
@@ -317,7 +317,7 @@ export const BooksView: React.FC = () => {
                   placeholder="Ex: Teoria Geral do Processo"
                   value={title}
                   onChange={e => setTitle(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                 />
               </div>
 
@@ -331,7 +331,7 @@ export const BooksView: React.FC = () => {
                   placeholder="Ex: Fredie Didier Jr."
                   value={author}
                   onChange={e => setAuthor(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                 />
               </div>
 
@@ -343,7 +343,7 @@ export const BooksView: React.FC = () => {
                   <select
                     value={category}
                     onChange={e => setCategory(e.target.value as BookCategory)}
-                    className="w-full px-2.5 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                    className="w-full px-2.5 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                   >
                     <option value="Jurídico">Jurídico</option>
                     <option value="Filosofia & Teoria">Filosofia & Teoria</option>
@@ -360,7 +360,7 @@ export const BooksView: React.FC = () => {
                   <select
                     value={status}
                     onChange={e => setStatus(e.target.value as any)}
-                    className="w-full px-2.5 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                    className="w-full px-2.5 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                   >
                     <option value="quero_ler">Quero Ler</option>
                     <option value="lendo">Lendo Agora</option>
@@ -380,7 +380,7 @@ export const BooksView: React.FC = () => {
                     placeholder="480"
                     value={totalPages}
                     onChange={e => setTotalPages(e.target.value === '' ? '' : Number(e.target.value))}
-                    className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                   />
                 </div>
                 <div>
@@ -392,7 +392,7 @@ export const BooksView: React.FC = () => {
                     placeholder="0"
                     value={currentPage}
                     onChange={e => setCurrentPage(e.target.value === '' ? '' : Number(e.target.value))}
-                    className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32]"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66]"
                   />
                 </div>
               </div>
@@ -406,7 +406,7 @@ export const BooksView: React.FC = () => {
                   placeholder="Trecho importante ou reflexão sobre o livro..."
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
-                  className="w-full p-2.5 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8c6b32] resize-none"
+                  className="w-full p-2.5 text-xs rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#625d66] resize-none"
                 />
               </div>
 
@@ -420,7 +420,7 @@ export const BooksView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold rounded-xl bg-[#8c6b32] text-white hover:bg-[#785b29]"
+                  className="px-4 py-2 text-xs font-bold rounded-xl bg-[#625d66] text-white hover:bg-[#625d66]"
                 >
                   Salvar na Estante
                 </button>

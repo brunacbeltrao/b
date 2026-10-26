@@ -377,7 +377,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         particleCount: 70,
         spread: 60,
         origin: { y: 0.75 },
-        colors: ['#c48b9f', '#d4af37', '#a9cf44', '#8b1538', '#fce4e4'],
+        colors: ['#c9a3ae', '#d4af37', '#3f7a55', '#8b1538', '#f7ecef'],
       });
     } catch {
       // ignore

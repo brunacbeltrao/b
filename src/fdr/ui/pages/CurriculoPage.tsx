@@ -120,10 +120,10 @@ export const CurriculoPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Filtros e Busca */}
-      <div className="space-y-4 pb-4 border-b border-[#ece8e1]">
+      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Currículo 0807-2014.2</span>
+            <span className="text-xs font-medium text-stone-400 block">Currículo 0807-2014.2</span>
             <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
               Grade Curricular
             </h2>
@@ -139,7 +139,7 @@ export const CurriculoPage: React.FC = () => {
                 placeholder="Buscar por disciplina ou código..."
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#ece8e1] bg-white text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#e6e4e8] bg-white text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#8b1538]"
               />
             </div>
           </div>
@@ -162,7 +162,7 @@ export const CurriculoPage: React.FC = () => {
           <select
             value={filtroPeriodo}
             onChange={(e) => setFiltroPeriodo(e.target.value)}
-            className="h-8 px-2.5 text-xs rounded-full border border-[#ece8e1] bg-white text-stone-700 font-medium"
+            className="h-8 px-2.5 text-xs rounded-full border border-[#e6e4e8] bg-white text-stone-700 font-medium"
           >
             <option value="todos">Todos os períodos</option>
             {periodos.map((p) => (
@@ -182,7 +182,7 @@ export const CurriculoPage: React.FC = () => {
           const chPeriodo = compsDoPeriodo.reduce((s, c) => s + c.ch, 0);
           return (
             <div key={periodo} className="space-y-3">
-              <div className="flex items-center justify-between pb-1 border-b border-[#ece8e1]">
+              <div className="flex items-center justify-between pb-1 border-b border-[#e6e4e8]">
                 <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
                   <span>{periodo}º Período</span>
                 </h3>
@@ -202,7 +202,7 @@ export const CurriculoPage: React.FC = () => {
                     <div
                       key={comp.codigo}
                       onClick={() => setComponenteSelecionado(comp)}
-                      className="p-4 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs transition-all cursor-pointer hover:border-[#8b1538]/40 flex flex-col justify-between gap-3 group"
+                      className="p-4 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs transition-all cursor-pointer hover:border-[#8b1538]/40 flex flex-col justify-between gap-3 group"
                     >
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
@@ -218,7 +218,7 @@ export const CurriculoPage: React.FC = () => {
                           {comp.nome}
                         </h4>
                       </div>
-                      <div className="pt-2 border-t border-[#f2ede4] flex items-center justify-between text-xs text-stone-400 font-mono">
+                      <div className="pt-2 border-t border-[#e6e4e8] flex items-center justify-between text-xs text-stone-400 font-mono">
                         <span>{comp.ch}h</span>
                         {ultima ? (
                           <span className="text-stone-700 font-medium">
@@ -252,11 +252,11 @@ export const CurriculoPage: React.FC = () => {
               const status = statusMapa.get(componenteSelecionado.codigo) || 'PENDENTE';
               const badge = obterBadgeStatus(status);
               return (
-                <div className="p-3.5 rounded-xl border border-[#ece8e1] bg-[#faf8f5] flex items-center justify-between">
+                <div className="p-3.5 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${badge.dot}`} />
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Situação Curricular</span>
+                      <span className="text-xs font-medium text-stone-400 block">Situação Curricular</span>
                       <p className="text-sm font-semibold text-stone-900">{badge.texto}</p>
                     </div>
                   </div>
@@ -274,12 +274,12 @@ export const CurriculoPage: React.FC = () => {
 
             {/* Histórico de Tentativas */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Histórico de Matrículas e Notas</span>
+              <span className="text-xs font-medium text-stone-400 block">Histórico de Matrículas e Notas</span>
               {(() => {
                 const ts = store.tentativas.filter((t) => t.codigo === componenteSelecionado.codigo);
                 if (ts.length === 0) {
                   return (
-                    <p className="text-xs text-stone-400 italic p-3 bg-[#faf8f5] rounded-xl">
+                    <p className="text-xs text-stone-400 italic p-3 bg-[#f6f5f7] rounded-xl">
                       Nenhuma tentativa registrada até o momento.
                     </p>
                   );
@@ -289,13 +289,13 @@ export const CurriculoPage: React.FC = () => {
                     {ts.map((t) => (
                       <div
                         key={t.id}
-                        className="p-3 rounded-xl border border-[#ece8e1] bg-white flex items-center justify-between text-xs"
+                        className="p-3 rounded-xl border border-[#e6e4e8] bg-white flex items-center justify-between text-xs"
                       >
                         <div className="flex items-center gap-3">
                           <span className="font-mono font-semibold text-stone-900">
                             {t.semestre}
                           </span>
-                          <span className="px-1.5 py-0.2 rounded text-[11px] font-mono bg-[#faf8f5] text-stone-600 border border-[#ece8e1]">
+                          <span className="px-1.5 py-0.2 rounded text-[11px] font-mono bg-[#f6f5f7] text-stone-600 border border-[#e6e4e8]">
                             {t.situacao}
                           </span>
                           {t.nota != null && (
@@ -338,7 +338,7 @@ export const CurriculoPage: React.FC = () => {
 
             {/* Pré-requisitos e Co-requisitos */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Requisitos da Disciplina</span>
+              <span className="text-xs font-medium text-stone-400 block">Requisitos da Disciplina</span>
               <div className="space-y-1.5 text-xs">
                 {componenteSelecionado.preReq.length === 0 &&
                 componenteSelecionado.coReq.length === 0 &&
@@ -353,7 +353,7 @@ export const CurriculoPage: React.FC = () => {
                       return (
                         <div
                           key={pre}
-                          className="flex items-center justify-between p-2.5 rounded-xl border border-[#ece8e1] bg-white"
+                          className="flex items-center justify-between p-2.5 rounded-xl border border-[#e6e4e8] bg-white"
                         >
                           <div className="flex items-center gap-2">
                             {ok ? (
@@ -382,7 +382,7 @@ export const CurriculoPage: React.FC = () => {
                       return (
                         <div
                           key={co}
-                          className="flex items-center justify-between p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                          className="flex items-center justify-between p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                         >
                           <div className="flex items-center gap-2">
                             <BookOpen className="w-3.5 h-3.5 text-stone-400" />
@@ -397,7 +397,7 @@ export const CurriculoPage: React.FC = () => {
                       );
                     })}
                     {componenteSelecionado.chMin > 0 && (
-                      <div className="p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-600">
+                      <div className="p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-600">
                         <strong className="text-stone-900">Carga Horária Mínima:</strong> {componenteSelecionado.chMin} horas integralizadas antes.
                       </div>
                     )}
@@ -408,7 +408,7 @@ export const CurriculoPage: React.FC = () => {
 
             {/* Disciplinas que esta destrava */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Disciplinas que esta destrava</span>
+              <span className="text-xs font-medium text-stone-400 block">Disciplinas que esta destrava</span>
               {(() => {
                 const destravadas = buscarDependentesDiretos(
                   componenteSelecionado.codigo,
@@ -426,7 +426,7 @@ export const CurriculoPage: React.FC = () => {
                     {destravadas.map((d) => (
                       <div
                         key={d.codigo}
-                        className="p-2.5 rounded-xl bg-[#faf8f5] border border-[#ece8e1] flex items-center gap-2"
+                        className="p-2.5 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] flex items-center gap-2"
                       >
                         <ArrowRight className="w-3 h-3 text-emerald-700 shrink-0" />
                         <div>
@@ -465,7 +465,7 @@ export const CurriculoPage: React.FC = () => {
               placeholder="Ex: 2026.2"
               value={formSemestre}
               onChange={(e) => setFormSemestre(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
           </div>
           <div>
@@ -475,7 +475,7 @@ export const CurriculoPage: React.FC = () => {
             <select
               value={formSituacao}
               onChange={(e) => setFormSituacao(e.target.value as Situacao)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-medium text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-medium text-stone-800"
             >
               <option value="APR">APR - Aprovada (Média ≥ 7,0)</option>
               <option value="APRN">APRN - Aprovada na Final (Nota ≥ 3,0)</option>
@@ -498,7 +498,7 @@ export const CurriculoPage: React.FC = () => {
                 placeholder="Ex: 8,5 (ou vazio)"
                 value={formNota}
                 onChange={(e) => setFormNota(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
             <div>
@@ -511,11 +511,11 @@ export const CurriculoPage: React.FC = () => {
                 max="100"
                 value={formFreq}
                 onChange={(e) => setFormFreq(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalTentativaAberto(false)}

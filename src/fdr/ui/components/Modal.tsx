@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -34,18 +35,19 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!aberto) return null;
 
-  return (
+  // Portal so sticky/blurred ancestors can't trap or clip the dialog
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div
-        className="fixed inset-0 bg-stone-900/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-stone-900/40"
         onClick={aoFechar}
       />
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative bg-white text-stone-900 rounded-2xl shadow-xl border border-[#ece8e1] w-full ${larguraMaxima} my-auto max-h-[92dvh] flex flex-col z-10 overflow-hidden`}
+        className={`relative bg-white text-stone-900 rounded-xl shadow-2xl w-full ${larguraMaxima} my-auto max-h-[92dvh] flex flex-col z-10 overflow-hidden`}
       >
-        <div className="px-5 py-4 border-b border-[#ece8e1] flex items-start justify-between gap-4 bg-[#faf8f5]">
+        <div className="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
           <div>
             <h3 className="text-base font-semibold text-stone-900 leading-tight">
               {titulo}
@@ -65,10 +67,11 @@ export const Modal: React.FC<ModalProps> = ({
             <X className="w-4 h-4" />
           </button>
         </div>
-        <div className="p-5 overflow-y-auto space-y-4">
+        <div className="px-5 pb-5 pt-1 overflow-y-auto space-y-4">
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

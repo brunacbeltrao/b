@@ -160,16 +160,16 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
 
   return (
     <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-[#FAF5EA] border border-[#A7002F]/30 rounded-3xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
+      <div className="bg-[#f6f5f7] border border-[#8b1538]/30 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden font-['Source_Serif_4',serif]">
         {/* Modal Header */}
-        <div className="p-6 bg-gradient-to-r from-[#5C0A22] to-[#A7002F] text-[#FAF5EA] flex items-center justify-between">
+        <div className="p-6 bg-[#6f0f2c] text-[#f6f5f7] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <LdsCrest size={36} color="#FAF5EA" />
+            <LdsCrest size={36} color="#f6f5f7" />
             <div>
-              <div className="eyebrow-lds text-[#FAF5EA]/80 text-[10px] tracking-widest uppercase">
+              <div className="eyebrow-lds text-[#f6f5f7]/80 text-xs">
                 INTEGRAÇÃO DE CADERNOS & INTELIGÊNCIA ARTIFICIAL
               </div>
-              <h2 className="font-['Cormorant_Garamond',serif] text-2xl sm:text-3xl font-bold text-white leading-tight">
+              <h2 className="font-serif-title text-2xl sm:text-3xl font-bold text-white leading-tight">
                 Conectar com NotebookLM & Fontes do Gemini
               </h2>
             </div>
@@ -183,13 +183,13 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
         </div>
 
         {/* Tab mode selection */}
-        <div className="p-3 bg-[#F4EDE0] border-b border-[#E5DBCA] flex items-center gap-1.5 overflow-x-auto no-scrollbar font-['Inter',sans-serif] text-xs font-semibold">
+        <div className="p-3 bg-[#f6f5f7] border-b border-[#e6e4e8] flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs font-semibold">
           <button
             onClick={() => setImportMode('guide')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap ${
               importMode === 'guide'
-                ? 'bg-[#A7002F] text-white shadow-xs'
-                : 'text-[#6B5D4F] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-white shadow-xs'
+                : 'text-[#625d66] hover:bg-white/60'
             }`}
           >
             1. Como Funciona a Conexão
@@ -198,8 +198,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             onClick={() => setImportMode('export')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
               importMode === 'export'
-                ? 'bg-[#A7002F] text-white shadow-xs'
-                : 'text-[#6B5D4F] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-white shadow-xs'
+                : 'text-[#625d66] hover:bg-white/60'
             }`}
           >
             <Download className="w-3.5 h-3.5" />
@@ -209,8 +209,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             onClick={() => setImportMode('paste')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
               importMode === 'paste'
-                ? 'bg-[#A7002F] text-white shadow-xs'
-                : 'text-[#6B5D4F] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-white shadow-xs'
+                : 'text-[#625d66] hover:bg-white/60'
             }`}
           >
             <Copy className="w-3.5 h-3.5" />
@@ -220,8 +220,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             onClick={() => setImportMode('file')}
             className={`px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
               importMode === 'file'
-                ? 'bg-[#A7002F] text-white shadow-xs'
-                : 'text-[#6B5D4F] hover:bg-white/60'
+                ? 'bg-[#8b1538] text-white shadow-xs'
+                : 'text-[#625d66] hover:bg-white/60'
             }`}
           >
             <UploadCloud className="w-3.5 h-3.5" />
@@ -230,61 +230,61 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-5 text-sm text-[#211A15] flex-1">
+        <div className="p-6 overflow-y-auto space-y-5 text-sm text-[#1c1a1e] flex-1">
           {importMode === 'guide' ? (
             <div className="space-y-5">
-              <div className="p-5 bg-white border border-[#A9832E]/30 rounded-2xl space-y-3 shadow-xs">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FAF5EA] border border-[#A9832E]/30 rounded-full text-xs font-['Inter',sans-serif] text-[#A7002F] font-bold">
+              <div className="p-5 bg-white border border-[#625d66]/30 rounded-2xl space-y-3 shadow-xs">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#f6f5f7] border border-[#625d66]/30 rounded-full text-xs text-[#8b1538] font-bold">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Resposta Direta sobre a Conexão</span>
                 </div>
-                <h3 className="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#A7002F]">
+                <h3 className="font-serif-title text-2xl font-bold text-[#8b1538]">
                   Sim! É totalmente possível integrar seu NotebookLM e suas fontes com o Sistema LDS FDR.
                 </h3>
-                <p className="text-xs sm:text-sm text-[#211A15] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#1c1a1e] leading-relaxed">
                   O <strong>NotebookLM do Google</strong> opera com o conceito de <em>fontes documentais</em> (PDFs, anotações de texto e links). Como ele é uma ferramenta do Google sem login de terceiros, a conexão entre o seu caderno de pesquisa do NotebookLM e este sistema funciona em dois sentidos práticos:
                 </p>
               </div>
 
               {/* 3 Step Integration Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-['Inter',sans-serif] text-xs">
-                <div className="p-4 bg-white border border-[#E5DBCA] rounded-2xl space-y-2 shadow-2xs">
-                  <div className="w-7 h-7 rounded-full bg-[#A7002F] text-white flex items-center justify-center font-bold text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-4 bg-white border border-[#e6e4e8] rounded-2xl space-y-2 shadow-2xs">
+                  <div className="w-7 h-7 rounded-full bg-[#8b1538] text-white flex items-center justify-center font-bold text-xs">
                     1
                   </div>
-                  <h4 className="font-bold text-[#211A15] text-sm">Do LDS FDR → para seu NotebookLM</h4>
-                  <p className="text-[#6B5D4F] leading-relaxed">
+                  <h4 className="font-bold text-[#1c1a1e] text-sm">Do LDS FDR → para seu NotebookLM</h4>
+                  <p className="text-[#625d66] leading-relaxed">
                     Clique na aba <strong>"2. Exportar Fonte"</strong> ou no botão <em>NotebookLM</em> de qualquer aula: você baixa ou copia um arquivo <code>.md</code> completo com todos os artigos de lei, doutrina e anotações para carregar direto no seu NotebookLM!
                   </p>
                 </div>
-                <div className="p-4 bg-white border border-[#E5DBCA] rounded-2xl space-y-2 shadow-2xs">
-                  <div className="w-7 h-7 rounded-full bg-[#5C0A22] text-white flex items-center justify-center font-bold text-xs">
+                <div className="p-4 bg-white border border-[#e6e4e8] rounded-2xl space-y-2 shadow-2xs">
+                  <div className="w-7 h-7 rounded-full bg-[#6f0f2c] text-white flex items-center justify-center font-bold text-xs">
                     2
                   </div>
-                  <h4 className="font-bold text-[#211A15] text-sm">Do seu NotebookLM → para o LDS FDR</h4>
-                  <p className="text-[#6B5D4F] leading-relaxed">
+                  <h4 className="font-bold text-[#1c1a1e] text-sm">Do seu NotebookLM → para o LDS FDR</h4>
+                  <p className="text-[#625d66] leading-relaxed">
                     Se você gerou um resumo, guia de estudo ou transcrição no seu NotebookLM, clique na aba <strong>"3. Importar Notas"</strong> e cole o texto: o agente cataloga na aula certa e o disponibiliza para todo o grupo.
                   </p>
                 </div>
-                <div className="p-4 bg-white border border-[#E5DBCA] rounded-2xl space-y-2 shadow-2xs">
-                  <div className="w-7 h-7 rounded-full bg-[#A9832E] text-white flex items-center justify-center font-bold text-xs">
+                <div className="p-4 bg-white border border-[#e6e4e8] rounded-2xl space-y-2 shadow-2xs">
+                  <div className="w-7 h-7 rounded-full bg-[#625d66] text-white flex items-center justify-center font-bold text-xs">
                     3
                   </div>
-                  <h4 className="font-bold text-[#211A15] text-sm">Gemini 3.8 Flash Nativo</h4>
-                  <p className="text-[#6B5D4F] leading-relaxed">
+                  <h4 className="font-bold text-[#1c1a1e] text-sm">Gemini 3.8 Flash Nativo</h4>
+                  <p className="text-[#625d66] leading-relaxed">
                     Você não precisa sair daqui para conversar com a IA: este sistema já roda com o <strong>Google Gemini</strong> integrado, com todo o conhecimento das 17 aulas, Lei 6.404/76 e CVM carregados na memória!
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 bg-gradient-to-r from-[#F4EDE0] to-[#FAF5EA] border border-[#A9832E]/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 font-['Inter',sans-serif]">
-                <div className="text-xs text-[#211A15]">
-                  <strong className="block text-[#A7002F] text-sm">Pronto para testar a conexão?</strong>
+              <div className="p-4 bg-[#f6f5f7] border border-[#625d66]/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-xs text-[#1c1a1e]">
+                  <strong className="block text-[#8b1538] text-sm">Pronto para testar a conexão?</strong>
                   <span>Exporte os dados da aula atual para criar uma fonte no seu NotebookLM agora mesmo.</span>
                 </div>
                 <button
                   onClick={() => setImportMode('export')}
-                  className="px-4 py-2 bg-[#A7002F] text-white rounded-full text-xs font-semibold hover:bg-[#5C0A22] transition-colors cursor-pointer shrink-0 shadow-xs"
+                  className="px-4 py-2 bg-[#8b1538] text-white rounded-full text-xs font-semibold hover:bg-[#6f0f2c] transition-colors cursor-pointer shrink-0 shadow-xs"
                 >
                   Ir para Exportação de Fonte →
                 </button>
@@ -292,16 +292,16 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             </div>
           ) : importMode === 'export' ? (
             <div className="space-y-4">
-              <div className="p-4 bg-white border border-[#A9832E]/30 rounded-2xl space-y-2">
+              <div className="p-4 bg-white border border-[#625d66]/30 rounded-2xl space-y-2">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-[#A7002F] uppercase tracking-wider mb-1 font-['Inter',sans-serif]">
+                    <label className="block text-xs font-medium text-[#8b1538] mb-1">
                       Selecione a Aula para Exportar como Fonte:
                     </label>
                     <select
                       value={exportLessonNumber}
                       onChange={e => setExportLessonNumber(Number(e.target.value))}
-                      className="bg-[#FAF5EA] border border-[#A9832E]/40 rounded-xl px-3 py-1.5 text-xs text-[#211A15] font-['Inter',sans-serif] focus:outline-none focus:ring-2 focus:ring-[#A7002F]"
+                      className="bg-[#f6f5f7] border border-[#625d66]/40 rounded-xl px-3 py-1.5 text-xs text-[#1c1a1e] focus:outline-none focus:ring-2 focus:ring-[#8b1538]"
                     >
                       {lessons.map(l => (
                         <option key={l.id} value={l.lessonNumber}>
@@ -310,20 +310,20 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                       ))}
                     </select>
                   </div>
-                  <div className="flex items-center gap-2 font-['Inter',sans-serif]">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={handleCopyExportText}
-                      className="px-4 py-2 bg-[#A7002F] hover:bg-[#5C0A22] text-white rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      className="px-4 py-2 bg-[#8b1538] hover:bg-[#6f0f2c] text-white rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       {copiedExport ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copiedExport ? 'Copiado!' : 'Copiar Texto da Fonte'}</span>
                     </button>
                     <button
                       onClick={handleDownloadExportFile}
-                      className="px-3.5 py-2 bg-white hover:bg-[#FAF5EA] text-[#5C0A22] border border-[#A9832E]/40 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+                      className="px-3.5 py-2 bg-white hover:bg-[#f6f5f7] text-[#6f0f2c] border border-[#625d66]/40 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
                       title="Baixar arquivo Markdown para upload no NotebookLM"
                     >
-                      <Download className="w-3.5 h-3.5 text-[#A9832E]" />
+                      <Download className="w-3.5 h-3.5 text-[#625d66]" />
                       <span>Baixar .md</span>
                     </button>
                   </div>
@@ -331,16 +331,16 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs font-['Inter',sans-serif] text-[#6B5D4F]">
+                <div className="flex items-center justify-between text-xs text-[#625d66]">
                   <span className="font-semibold">Pré-visualização da Fonte Estruturada para o NotebookLM:</span>
                   <span>Pronta para arrastar ou colar no Google NotebookLM</span>
                 </div>
-                <pre className="p-4 bg-white border border-[#E5DBCA] rounded-2xl text-xs font-mono text-[#211A15] h-64 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner">
+                <pre className="p-4 bg-white border border-[#e6e4e8] rounded-2xl text-xs font-mono text-[#1c1a1e] h-64 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner">
                   {generateNotebookLmSourceText(currentExportLesson)}
                 </pre>
               </div>
 
-              <div className="p-3 bg-[#F4EDE0] border border-[#E5DBCA] rounded-xl text-xs font-['Inter',sans-serif] text-[#6B5D4F] flex items-center gap-2">
+              <div className="p-3 bg-[#f6f5f7] border border-[#e6e4e8] rounded-xl text-xs text-[#625d66] flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>
                   No NotebookLM: clique em <strong>"+ Adicionar Fontes"</strong> → <strong>"Texto copiado"</strong> ou <strong>"Upload de arquivo"</strong> e selecione o arquivo baixado.
@@ -349,8 +349,8 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
             </div>
           ) : importMode === 'paste' ? (
             <div className="space-y-4">
-              <div className="space-y-2 font-['Inter',sans-serif]">
-                <label className="block text-xs font-bold text-[#A7002F] uppercase tracking-wider">
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-[#8b1538]">
                   Cole o Texto, Resumo ou Citação Exportado do seu NotebookLM:
                 </label>
                 <textarea
@@ -358,19 +358,19 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                   placeholder="Cole aqui notas do seu caderno, transcrições de áudio geradas pelo NotebookLM ou trechos de doutrina..."
                   value={sourceText}
                   onChange={e => handleTextChange(e.target.value)}
-                  className="w-full p-4 bg-white border border-[#A9832E]/35 rounded-2xl text-xs text-[#211A15] font-serif leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#A7002F] shadow-inner"
+                  className="w-full p-4 bg-white border border-[#625d66]/35 rounded-2xl text-xs text-[#1c1a1e] font-serif leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#8b1538] shadow-inner"
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-['Inter',sans-serif] text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div>
-                  <label className="block font-bold text-[#211A15] mb-1">
+                  <label className="block font-bold text-[#1c1a1e] mb-1">
                     Vincular à Aula do Cronograma:
                   </label>
                   <select
                     value={targetLessonNumber}
                     onChange={e => setTargetLessonNumber(Number(e.target.value))}
-                    className="w-full bg-white border border-[#A9832E]/35 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#A7002F]"
+                    className="w-full bg-white border border-[#625d66]/35 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8b1538]"
                   >
                     {lessons.map(l => (
                       <option key={l.id} value={l.lessonNumber}>
@@ -380,13 +380,13 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                   </select>
                 </div>
                 <div>
-                  <label className="block font-bold text-[#211A15] mb-1">
+                  <label className="block font-bold text-[#1c1a1e] mb-1">
                     Natureza do Documento:
                   </label>
                   <select
                     value={detectedType}
                     onChange={e => setDetectedType(e.target.value as DocumentType)}
-                    className="w-full bg-white border border-[#A9832E]/35 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#A7002F]"
+                    className="w-full bg-white border border-[#625d66]/35 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8b1538]"
                   >
                     <option value="Doutrina">Doutrina Autorizada</option>
                     <option value="Norma">Dispositivo Normativo / Lei</option>
@@ -402,7 +402,7 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                   type="button"
                   onClick={handleProcessImport}
                   disabled={!sourceText.trim() || isProcessing}
-                  className="px-6 py-2.5 bg-[#A7002F] hover:bg-[#5C0A22] text-white rounded-full text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer shadow-sm"
+                  className="px-6 py-2.5 bg-[#8b1538] hover:bg-[#6f0f2c] text-white rounded-full text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer shadow-sm"
                 >
                   {isProcessing ? 'Catalogando...' : 'Salvar no Repositório da LDS FDR'}
                 </button>
@@ -411,10 +411,10 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
           ) : (
             <div className="space-y-4">
               <div
-                className={`border-2 border-dashed rounded-3xl p-8 text-center transition-colors cursor-pointer ${
+                className={`border-2 border-dashed rounded-2xl p-8 text-center transition-colors cursor-pointer ${
                   dragOver
-                    ? 'border-[#A7002F] bg-[#A7002F]/5'
-                    : 'border-[#A9832E]/40 hover:border-[#A7002F] bg-white'
+                    ? 'border-[#8b1538] bg-[#8b1538]/5'
+                    : 'border-[#625d66]/40 hover:border-[#8b1538] bg-white'
                 }`}
                 onDragOver={e => {
                   e.preventDefault();
@@ -435,15 +435,15 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
                   }
                 }}
               >
-                <UploadCloud className="w-12 h-12 text-[#A7002F] mx-auto mb-3" />
-                <h4 className="font-['Cormorant_Garamond',serif] text-xl font-bold text-[#211A15] mb-1">
+                <UploadCloud className="w-12 h-12 text-[#8b1538] mx-auto mb-3" />
+                <h4 className="font-serif-title text-xl font-bold text-[#1c1a1e] mb-1">
                   Arraste e solte arquivos de fontes aqui
                 </h4>
-                <p className="text-xs text-[#6B5D4F] font-['Inter',sans-serif] max-w-md mx-auto mb-4">
+                <p className="text-xs text-[#625d66] max-w-md mx-auto mb-4">
                   Envie arquivos de texto (.txt, .md) ou selecione materiais para indexação automática pelo Agente da LDS FDR.
                 </p>
-                <label className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F4EDE0] hover:bg-[#FAF5EA] text-[#5C0A22] border border-[#A9832E]/40 rounded-full text-xs font-semibold cursor-pointer transition-colors shadow-2xs font-['Inter',sans-serif]">
-                  <FolderOpen className="w-4 h-4 text-[#A7002F]" />
+                <label className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f6f5f7] hover:bg-[#f6f5f7] text-[#6f0f2c] border border-[#625d66]/40 rounded-full text-xs font-semibold cursor-pointer transition-colors shadow-2xs">
+                  <FolderOpen className="w-4 h-4 text-[#8b1538]" />
                   <span>Procurar no Computador</span>
                   <input
                     type="file"
@@ -455,16 +455,16 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
               </div>
 
               {sourceText && (
-                <div className="p-4 bg-white border border-[#E5DBCA] rounded-2xl space-y-2">
-                  <div className="text-xs font-bold text-[#A7002F] font-['Inter',sans-serif]">
+                <div className="p-4 bg-white border border-[#e6e4e8] rounded-2xl space-y-2">
+                  <div className="text-xs font-bold text-[#8b1538]">
                     Arquivo Carregado: {sourceTitle || 'Documento'}
                   </div>
-                  <p className="text-xs text-[#6B5D4F] truncate font-mono">
+                  <p className="text-xs text-[#625d66] truncate font-mono">
                     {sourceText.slice(0, 100)}...
                   </p>
                   <button
                     onClick={handleProcessImport}
-                    className="px-5 py-2 bg-[#A7002F] text-white rounded-full text-xs font-semibold shadow-xs"
+                    className="px-5 py-2 bg-[#8b1538] text-white rounded-full text-xs font-semibold shadow-xs"
                   >
                     Confirmar Importação
                   </button>
@@ -475,13 +475,13 @@ Fonte gerada automaticamente pelo Sistema LDS FDR • Faculdade de Direito do Re
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 bg-[#F4EDE0] border-t border-[#E5DBCA] flex items-center justify-between text-xs font-['Inter',sans-serif]">
-          <span className="text-[#6B5D4F]">
+        <div className="p-4 bg-[#f6f5f7] border-t border-[#e6e4e8] flex items-center justify-between text-xs">
+          <span className="text-[#625d66]">
             Ambiente compatível com NotebookLM, Google Drive e Google Docs.
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 bg-white border border-[#A9832E]/30 rounded-full text-[#211A15] hover:bg-[#FAF5EA] cursor-pointer"
+            className="px-4 py-1.5 bg-white border border-[#625d66]/30 rounded-full text-[#1c1a1e] hover:bg-[#f6f5f7] cursor-pointer"
           >
             Fechar
           </button>

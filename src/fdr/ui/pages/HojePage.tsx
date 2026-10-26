@@ -84,10 +84,10 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
   return (
     <div className="space-y-6 pb-6">
       {/* Top Banner Editorial */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#ece8e1]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#e6e4e8]">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Dia a dia • FDR UFPE</span>
+            <span className="text-xs font-medium text-stone-400">Dia a dia • FDR UFPE</span>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
               5º Período Noturno
             </span>
@@ -152,7 +152,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
       {/* Seletor de Dias da Semana (Segunda a Sexta) */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-wider font-mono text-stone-400">
+          <span className="text-xs font-mono text-stone-400">
             Aulas da semana & Registro de presença
           </span>
           <span className="text-xs text-stone-500 font-medium">
@@ -176,7 +176,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                 className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                   selecionado
                     ? 'border-emerald-700 bg-emerald-50 text-emerald-900 font-semibold shadow-2xs'
-                    : 'border-[#ece8e1] bg-white hover:bg-stone-50 text-stone-600'
+                    : 'border-[#e6e4e8] bg-white hover:bg-stone-50 text-stone-600'
                 }`}
               >
                 <div className="flex items-center justify-center gap-1">
@@ -208,7 +208,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
           </div>
 
           {aulas.length === 0 ? (
-            <div className="p-8 text-center text-stone-400 text-sm bg-white rounded-2xl border border-[#ece8e1]">
+            <div className="p-8 text-center text-stone-400 text-sm bg-white rounded-2xl border border-[#e6e4e8]">
               Nenhuma aula cadastrada para este dia da semana.
             </div>
           ) : (
@@ -220,11 +220,11 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                 return (
                   <div
                     key={aula.id}
-                    className="p-4 sm:p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
+                    className="p-4 sm:p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
                   >
                     <div className="space-y-1.5 flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#faf8f5] text-stone-800 border border-[#ece8e1]">
+                        <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f6f5f7] text-stone-800 border border-[#e6e4e8]">
                           {aula.codigo}
                         </span>
                         <span className="text-xs font-mono text-stone-500">
@@ -258,7 +258,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                             {sf.porcentagemDoLimite}% do teto de 25%
                           </span>
                         </div>
-                        <div className="w-full h-1.5 bg-[#f2ede4] rounded-full overflow-hidden">
+                        <div className="w-full h-1.5 bg-[#e6e4e8] rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-300 ${
                               sf.reprovadaPorFalta
@@ -273,7 +273,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                       </div>
                     </div>
                     {/* Botões de Presença e Falta */}
-                    <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#ece8e1]">
+                    <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#e6e4e8]">
                       <button
                         onClick={() =>
                           store.registrarPresencaOuFalta(
@@ -286,7 +286,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                         className={`flex-1 sm:flex-none px-3.5 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           estaPresente
                             ? 'bg-emerald-700 text-white shadow-2xs font-semibold'
-                            : 'bg-[#faf8f5] text-stone-600 hover:bg-emerald-50 hover:text-emerald-800 border border-[#ece8e1]'
+                            : 'bg-[#f6f5f7] text-stone-600 hover:bg-emerald-50 hover:text-emerald-800 border border-[#e6e4e8]'
                         }`}
                         title="Marcar presença na aula de hoje"
                       >
@@ -305,7 +305,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                         className={`flex-1 sm:flex-none px-3.5 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           estaAusente
                             ? 'bg-rose-700 text-white shadow-2xs font-semibold'
-                            : 'bg-[#faf8f5] text-stone-600 hover:bg-rose-50 hover:text-rose-700 border border-[#ece8e1]'
+                            : 'bg-[#f6f5f7] text-stone-600 hover:bg-rose-50 hover:text-rose-700 border border-[#e6e4e8]'
                         }`}
                         title="Registrar falta (computa 2h de falta na matéria)"
                       >
@@ -320,7 +320,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
           )}
 
           {/* Tópicos a Estudar Hoje */}
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-emerald-700" />
@@ -349,7 +349,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                   return (
                     <div
                       key={topico.id}
-                      className="p-3 rounded-xl border border-[#ece8e1] bg-[#faf8f5] flex items-start justify-between gap-3 hover:border-emerald-700/40 transition-all"
+                      className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] flex items-start justify-between gap-3 hover:border-emerald-700/40 transition-all"
                     >
                       <div className="flex items-start gap-2.5">
                         <input
@@ -391,7 +391,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
 
         {/* Coluna Lateral: Calendário de Próximas Provas */}
         <div className="space-y-6">
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-emerald-700" />
@@ -413,7 +413,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                     className={`p-3 rounded-xl border text-xs transition-all ${
                       ehUrgente
                         ? 'border-amber-300 bg-amber-50/50'
-                        : 'border-[#ece8e1] bg-[#faf8f5]'
+                        : 'border-[#e6e4e8] bg-[#f6f5f7]'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
@@ -454,7 +454,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                         {evt.descricao}
                       </p>
                     )}
-                    <div className="flex items-center gap-2 text-stone-400 font-mono text-[10px] mt-2 pt-2 border-t border-[#ece8e1]">
+                    <div className="flex items-center gap-2 text-stone-400 font-mono text-[10px] mt-2 pt-2 border-t border-[#e6e4e8]">
                       <span>{evt.data.split('-').reverse().join('/')}</span>
                       {evt.horario && <span>às {evt.horario}</span>}
                     </div>
@@ -474,7 +474,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
           </div>
 
           {/* Card: Atalho para Estudos & Leituras */}
-          <div className="p-5 bg-gradient-to-br from-[#faf8f5] to-[#f4ebe1] rounded-2xl border border-[#ece8e1] space-y-3">
+          <div className="p-5 bg-[#f6f5f7] rounded-2xl border border-[#e6e4e8] space-y-3">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-emerald-700" />
               <h3 className="text-sm font-bold text-stone-800">
@@ -514,7 +514,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
               value={novoTitulo}
               onChange={(e) => setNovoTitulo(e.target.value)}
               placeholder="Ex: 1ª Avaliação - Processo Civil 2"
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -527,7 +527,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                 required
                 value={novaData}
                 onChange={(e) => setNovaData(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               />
             </div>
             <div>
@@ -538,7 +538,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
                 type="time"
                 value={novoHorario}
                 onChange={(e) => setNovoHorario(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               />
             </div>
           </div>
@@ -550,7 +550,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
               <select
                 value={novoTipo}
                 onChange={(e) => setNovoTipo(e.target.value as any)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               >
                 <option value="prova">Prova</option>
                 <option value="trabalho">Trabalho / Fichamento</option>
@@ -566,7 +566,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
               <select
                 value={novaDisciplina}
                 onChange={(e) => setNovaDisciplina(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               >
                 {matriculadas.map((m) => (
                   <option key={m.componente.codigo} value={m.componente.codigo}>
@@ -586,10 +586,10 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
               onChange={(e) => setNovaDescricao(e.target.value)}
               placeholder="Ex: Petição inicial, contestação e reconvenção (arts. 319 a 343 do CPC)."
               rows={3}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#ece8e1]">
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#e6e4e8]">
             <Button
               variant="outline"
               type="button"

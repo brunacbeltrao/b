@@ -43,7 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         break;
       case 'soft':
         variantStyles =
-          'bg-white text-stone-800 border border-[#ece8e1] hover:bg-stone-50 shadow-2xs';
+          'bg-white text-stone-800 border border-[#e6e4e8] hover:bg-stone-50 shadow-2xs';
         break;
       case 'ghost':
         variantStyles = 'bg-transparent text-stone-800 hover:bg-stone-100';
@@ -67,7 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       case 'chip':
         variantStyles = active
           ? 'bg-stone-900 text-white font-medium rounded-full border border-stone-900'
-          : 'bg-white text-stone-600 hover:text-stone-900 border border-[#ece8e1] rounded-full hover:bg-stone-50';
+          : 'bg-white text-stone-600 hover:text-stone-900 border border-[#e6e4e8] rounded-full hover:bg-stone-50';
         break;
     }
 

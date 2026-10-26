@@ -134,8 +134,8 @@ export const ConfigPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-6">
-      <div className="space-y-2 pb-4 border-b border-[#ece8e1]">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Parâmetros e Dados</span>
+      <div className="space-y-2 pb-4 border-b border-[#e6e4e8]">
+        <span className="text-xs font-medium text-stone-400 block">Parâmetros e Dados</span>
         <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
           Ajustes e Calibração
         </h2>
@@ -154,8 +154,8 @@ export const ConfigPage: React.FC = () => {
 
       {/* Backup e Restauração */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Backup dos Dados</span>
+        <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+          <span className="text-xs font-medium text-stone-400 block">Backup dos Dados</span>
           <h3 className="font-bold text-sm text-stone-900">
             Exportar arquivo JSON
           </h3>
@@ -172,8 +172,8 @@ export const ConfigPage: React.FC = () => {
           </Button>
         </div>
 
-        <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Restauração</span>
+        <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+          <span className="text-xs font-medium text-stone-400 block">Restauração</span>
           <h3 className="font-bold text-sm text-stone-900">
             Importar arquivo JSON
           </h3>
@@ -181,7 +181,7 @@ export const ConfigPage: React.FC = () => {
             Carregue um arquivo JSON gerado anteriormente. Os dados serão validados pelo esquema Zod.
           </p>
           <div>
-            <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-[#ece8e1] bg-white hover:bg-stone-50 text-stone-800 cursor-pointer transition-colors shadow-2xs">
+            <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-[#e6e4e8] bg-white hover:bg-stone-50 text-stone-800 cursor-pointer transition-colors shadow-2xs">
               <Upload className="w-3.5 h-3.5 text-emerald-700" />
               <span>Selecionar Arquivo JSON</span>
               <input
@@ -214,11 +214,11 @@ export const ConfigPage: React.FC = () => {
       {/* Formulário de Parâmetros */}
       <form
         onSubmit={salvarParametros}
-        className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4"
+        className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4"
       >
-        <div className="flex items-center justify-between pb-2 border-b border-[#ece8e1]">
+        <div className="flex items-center justify-between pb-2 border-b border-[#e6e4e8]">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Parâmetros do SIGAA</span>
+            <span className="text-xs font-medium text-stone-400 block">Parâmetros do SIGAA</span>
             <h3 className="font-bold text-sm text-stone-900">
               Calibração de Índices de Rendimento
             </h3>
@@ -238,7 +238,7 @@ export const ConfigPage: React.FC = () => {
               type="text"
               value={paramMu}
               onChange={(e) => setParamMu(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
             <span className="text-[11px] text-stone-400">Padrão FDR: 8.8054</span>
           </div>
@@ -250,7 +250,7 @@ export const ConfigPage: React.FC = () => {
               type="text"
               value={paramSigma}
               onChange={(e) => setParamSigma(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
             <span className="text-[11px] text-stone-400">Padrão FDR: 0.3574</span>
           </div>
@@ -262,7 +262,7 @@ export const ConfigPage: React.FC = () => {
               type="text"
               value={paramChEsp}
               onChange={(e) => setParamChEsp(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
             <span className="text-[11px] text-stone-400">1.260h produz IEPL = 0,9524</span>
           </div>
@@ -275,7 +275,7 @@ export const ConfigPage: React.FC = () => {
               placeholder="Bruna Beltrão"
               value={nomeEstudante}
               onChange={(e) => setNomeEstudante(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div>
@@ -287,7 +287,7 @@ export const ConfigPage: React.FC = () => {
               placeholder="Ex: 2024200..."
               value={matriculaEstudante}
               onChange={(e) => setMatriculaEstudante(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
           </div>
           <div>
@@ -300,12 +300,12 @@ export const ConfigPage: React.FC = () => {
               max="100"
               value={paramPercentual}
               onChange={(e) => setParamPercentual(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
             <span className="text-[11px] text-stone-400">Ex: 15% melhores MCs</span>
           </div>
         </div>
-        <div className="pt-3 border-t border-[#ece8e1] flex items-center justify-between">
+        <div className="pt-3 border-t border-[#e6e4e8] flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
@@ -326,10 +326,10 @@ export const ConfigPage: React.FC = () => {
       </form>
 
       {/* Suíte de Testes de Domínio */}
-      <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#ece8e1]">
+      <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#e6e4e8]">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Qualidade & Regras de Negócio</span>
+            <span className="text-xs font-medium text-stone-400 block">Qualidade & Regras de Negócio</span>
             <h3 className="font-bold text-sm text-stone-900">
               Verificação dos Critérios de Aceite (PRD)
             </h3>
@@ -347,7 +347,7 @@ export const ConfigPage: React.FC = () => {
             <span>{testando ? 'Testando...' : 'Reexecutar'}</span>
           </Button>
         </div>
-        <div className="divide-y divide-[#ece8e1]">
+        <div className="divide-y divide-[#e6e4e8]">
           {testes.map((t, idx) => (
             <div
               key={idx}

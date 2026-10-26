@@ -528,7 +528,7 @@ export const INITIAL_FDR_SUBJECTS: FDRSubject[] = [
     code: 'PG 520',
     professor: 'Prof. Dr. Leonardo Carneiro da Cunha',
     bookBase: 'Fredie Didier Jr. (Curso de Direito Processual Civil - JusPodivm)',
-    color: '#3b628a',
+    color: '#625d66',
     syllabusTopics: [
       '1. Petição Inicial (Requisitos, Emenda, Indeferimento, Improcedência prima facie, Valor da causa, Pedido)',
       '2. Resposta do Réu (Contestação, Revelia, Exceções instrumentais/impedimento/suspeição, Reconvenção)',
@@ -1254,7 +1254,6 @@ export const INITIAL_HEALTH: HealthState = {
 export const INITIAL_FINANCIAL: FinancialTransaction[] = [
   // ==========================================
   // EXTRATO DA CONTA CORRENTE BTG PACTUAL (02/09 A 05/09/2026)
-  // Bruna Cristina Beltrão Girão De Menezes (Ag. 20 • CC 1474925-3)
   // ==========================================
   {
     id: 'ft-btg-1',
@@ -1430,7 +1429,7 @@ export const INITIAL_FINANCIAL: FinancialTransaction[] = [
     date: '2026-09-04',
     time: '18:33',
     paymentMethod: 'transferencia',
-    notes: 'Transferência enviada Bruna Cristina Beltrão Girão De Menezes',
+    notes: 'Transferência para conta própria',
   },
   // Apoio Familiar Semanal (Pai: R$ 150/sem)
   {

@@ -90,10 +90,10 @@ export const PlanejadorPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Previsão e Sugestão */}
-      <div className="space-y-4 pb-4 border-b border-[#ece8e1]">
+      <div className="space-y-4 pb-4 border-b border-[#e6e4e8]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Distribuição Curricular</span>
+            <span className="text-xs font-medium text-stone-400 block">Distribuição Curricular</span>
             <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
               Planejador de Semestres
             </h2>
@@ -134,7 +134,7 @@ export const PlanejadorPage: React.FC = () => {
         </div>
 
         {/* Resumo da Previsão de Formatura */}
-        <div className="p-4 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5">
             <GraduationCap className="w-4 h-4 text-emerald-700 shrink-0" />
             <div>
@@ -154,9 +154,9 @@ export const PlanejadorPage: React.FC = () => {
 
       {/* Disciplinas Pendentes Não Alocadas */}
       {pendentesNaoAlocadas.length > 0 && (
-        <div className="p-4 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-2.5">
+        <div className="p-4 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
+            <span className="text-xs font-medium text-stone-400">
               Disciplinas Pendentes ({pendentesNaoAlocadas.length} não alocadas)
             </span>
             <span className="text-[11px] text-stone-400">
@@ -171,7 +171,7 @@ export const PlanejadorPage: React.FC = () => {
                   setDisciplinaParaMover(comp);
                   setModalMoverAberto(true);
                 }}
-                className="px-2.5 py-1 rounded-xl text-xs border border-[#ece8e1] bg-[#faf8f5] hover:bg-stone-100 text-stone-800 flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-xl text-xs border border-[#e6e4e8] bg-[#f6f5f7] hover:bg-stone-100 text-stone-800 flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <span className="font-mono font-semibold text-stone-500">{comp.codigo}</span>
                 <span>{comp.nome}</span>
@@ -198,11 +198,11 @@ export const PlanejadorPage: React.FC = () => {
                   ? 'border-rose-400'
                   : excedeTeto
                   ? 'border-amber-400'
-                  : 'border-[#ece8e1]'
+                  : 'border-[#e6e4e8]'
               }`}
             >
               {/* Header do Cartão */}
-              <div className="pb-3 border-b border-[#ece8e1] flex items-center justify-between">
+              <div className="pb-3 border-b border-[#e6e4e8] flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-sm text-stone-900 flex items-center gap-2">
                     <span>Semestre {semPlano.semestre}</span>
@@ -220,7 +220,7 @@ export const PlanejadorPage: React.FC = () => {
                   className={`text-xs font-mono px-2 py-0.5 rounded-md border font-semibold ${
                     excedeTeto
                       ? 'bg-amber-50 text-amber-800 border-amber-300'
-                      : 'bg-[#faf8f5] text-stone-800 border-[#ece8e1]'
+                      : 'bg-[#f6f5f7] text-stone-800 border-[#e6e4e8]'
                   }`}
                 >
                   {chTotal}h {excedeTeto ? '(> 480h)' : ''}
@@ -250,7 +250,7 @@ export const PlanejadorPage: React.FC = () => {
                       className={`p-2 rounded-xl border text-xs flex items-center justify-between gap-2 ${
                         erroNesta
                           ? 'border-rose-300 bg-rose-50/50 text-rose-800'
-                          : 'border-[#ece8e1] bg-[#faf8f5] text-stone-800'
+                          : 'border-[#e6e4e8] bg-[#f6f5f7] text-stone-800'
                       }`}
                     >
                       <div className="flex-1 min-w-0">
@@ -290,11 +290,11 @@ export const PlanejadorPage: React.FC = () => {
                 })}
                 {/* Eletivas */}
                 {semPlano.eletivas && semPlano.eletivas.length > 0 && (
-                  <div className="pt-2 border-t border-[#ece8e1] space-y-1">
+                  <div className="pt-2 border-t border-[#e6e4e8] space-y-1">
                     {semPlano.eletivas.map((el) => (
                       <div
                         key={el.id}
-                        className="p-2 rounded-xl border border-[#ece8e1] bg-white text-xs flex items-center justify-between"
+                        className="p-2 rounded-xl border border-[#e6e4e8] bg-white text-xs flex items-center justify-between"
                       >
                         <div className="truncate">
                           <span className="text-stone-800 font-medium">{el.nome}</span>
@@ -317,7 +317,7 @@ export const PlanejadorPage: React.FC = () => {
               </div>
 
               {/* Rodapé do Cartão */}
-              <div className="pt-3 border-t border-[#ece8e1] flex items-center justify-between text-xs">
+              <div className="pt-3 border-t border-[#e6e4e8] flex items-center justify-between text-xs">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -363,7 +363,7 @@ export const PlanejadorPage: React.FC = () => {
               <button
                 key={sem}
                 onClick={() => handleMoverDisciplina(sem)}
-                className="p-3 rounded-xl border border-[#ece8e1] bg-[#faf8f5] hover:bg-stone-100 text-xs font-mono font-medium text-stone-800 transition-all flex items-center justify-between cursor-pointer"
+                className="p-3 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] hover:bg-stone-100 text-xs font-mono font-medium text-stone-800 transition-all flex items-center justify-between cursor-pointer"
               >
                 <span>{sem}</span>
                 <MoveRight className="w-3.5 h-3.5 text-stone-400" />
@@ -390,7 +390,7 @@ export const PlanejadorPage: React.FC = () => {
               placeholder="Ex: Direito Digital, Biodireito..."
               value={nomeEletiva}
               onChange={(e) => setNomeEletiva(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -404,7 +404,7 @@ export const PlanejadorPage: React.FC = () => {
                 step="15"
                 value={chEletiva}
                 onChange={(e) => setChEletiva(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
             <div>
@@ -414,14 +414,14 @@ export const PlanejadorPage: React.FC = () => {
               <select
                 value={catEletiva}
                 onChange={(e) => setCatEletiva(e.target.value as 'perfil' | 'livre')}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-medium text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-medium text-stone-800"
               >
                 <option value="perfil">Eletiva do Perfil (FDR)</option>
                 <option value="livre">Eletiva Livre (UFPE)</option>
               </select>
             </div>
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalEletivaAberto(false)}
