@@ -7,7 +7,7 @@ import path from 'path';
 import { requireAuth } from './auth.js';
 import { query } from './db.js';
 
-export const RECORD_KINDS = ['consulta', 'remedio', 'exame'] as const;
+export const RECORD_KINDS = ['consulta', 'remedio', 'exame', 'conta'] as const;
 type Kind = (typeof RECORD_KINDS)[number];
 
 const isKind = (v: unknown): v is Kind => typeof v === 'string' && (RECORD_KINDS as readonly string[]).includes(v);

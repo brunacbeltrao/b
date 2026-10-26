@@ -1,5 +1,8 @@
 // Health records live only on the server (Postgres), behind the login. Nothing here is cached locally.
 import { useCallback, useEffect, useState } from 'react';
+import { deleteFile, deleteRecord, json, newId, saveRecord, uploadFile } from '../records/client';
+
+export { newId, uploadFile };
 
 export interface Consulta {
   id: string;
@@ -49,50 +52,6 @@ export interface Exame {
 
 export type HealthRecord = Consulta | Remedio | Exame;
 export type HealthKind = HealthRecord['kind'];
-
-export function newId(prefix: string) {
-  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
-}
-
-async function json<T>(res: Response): Promise<T> {
-  if (res.status === 401) throw new Error('Sua sessão expirou. Entre de novo.');
-  if (!res.ok) throw new Error('Não foi possível falar com o servidor.');
-  return res.json();
-}
-
-export async function saveRecord(record: HealthRecord): Promise<HealthRecord> {
-  const res = await fetch(`/api/records/${encodeURIComponent(record.id)}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(record),
-  });
-  return (await json<{ record: HealthRecord }>(res)).record;
-}
-
-export async function deleteRecord(id: string): Promise<void> {
-  await json(await fetch(`/api/records/${encodeURIComponent(id)}`, { method: 'DELETE' }));
-}
-
-export async function uploadFile(file: File): Promise<{ id: string; name: string }> {
-  if (file.size > 3 * 1024 * 1024) throw new Error('O arquivo passa de 3 MB. Reduza o PDF ou envie uma foto menor.');
-  const dataBase64 = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
-    reader.onerror = () => reject(new Error('Não foi possível ler o arquivo.'));
-    reader.readAsDataURL(file);
-  });
-  const res = await fetch('/api/files', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: file.name, contentType: file.type, dataBase64 }),
-  });
-  if (res.status === 413) throw new Error('O arquivo é grande demais (máximo 3 MB).');
-  return (await json<{ file: { id: string; name: string } }>(res)).file;
-}
-
-export async function deleteFile(id: string): Promise<void> {
-  await fetch(`/api/files/${encodeURIComponent(id)}`, { method: 'DELETE' });
-}
 
 /** All health records, with helpers that keep the list in sync after each change. */
 export function useHealthRecords() {
