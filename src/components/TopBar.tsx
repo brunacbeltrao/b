@@ -3,6 +3,7 @@ import { Feather, Search, Menu } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { BrandBIcon } from './BrandB';
 import { formatLongDate, greetingForNow } from '../utils/dateUtils';
+import { SyncButton } from './SyncButton';
 
 export const TopBar: React.FC<{ onOpenQuickCapture?: () => void }> = ({ onOpenQuickCapture }) => {
   const { currentTab, setCurrentTab, setIsMobileNavOpen } = useApp();
@@ -87,6 +88,8 @@ export const TopBar: React.FC<{ onOpenQuickCapture?: () => void }> = ({ onOpenQu
             ⌘K
           </span>
         </div>
+
+        <SyncButton />
 
         {/* Quick capture button */}
         <button

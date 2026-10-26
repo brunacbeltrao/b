@@ -9,7 +9,7 @@ Começou como protótipo no Google AI Studio e agora segue como projeto próprio
 - React 19 + Vite 6 + Tailwind CSS 4
 - Express: rotas `/api/*` em `server/app.ts`, servidas localmente por `server.ts` e na Vercel por `api/index.ts`
 - Gemini (`@google/genai`) para apostilas, glossário e tira-dúvidas da LDS — há respostas de fallback quando não há chave
-- Dados salvos no `localStorage` do navegador (exportação/importação em FDR → Ajustes)
+- Dados salvos no `localStorage` do navegador e, com a senha de sincronização, espelhados num Vercel Blob privado (`server/sync.ts` + `src/sync/cloudSync.ts`)
 
 ## Rodar localmente
 
@@ -27,7 +27,8 @@ O repositório já vem configurado (`vercel.json`): o Vite gera o site estático
 
 1. Em [vercel.com/new](https://vercel.com/new), importe este repositório do GitHub (sem mudar as configurações de build).
 2. Em *Settings → Environment Variables*, crie `GEMINI_API_KEY` com a chave do [Google AI Studio](https://aistudio.google.com/apikey). Sem ela o app funciona, mas a IA da LDS usa respostas prontas.
-3. Cada push na `main` publica uma nova versão.
+3. Para sincronizar entre aparelhos: conecte um Blob store **privado** ao projeto (cria `BLOB_READ_WRITE_TOKEN`) e crie `SYNC_PASSWORD`. No app, o botão de nuvem no topo pede essa senha uma vez por aparelho.
+4. Cada push na `main` publica uma nova versão.
 
 ## Scripts
 
