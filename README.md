@@ -7,7 +7,7 @@ Começou como protótipo no Google AI Studio e agora segue como projeto próprio
 ## Stack
 
 - React 19 + Vite 6 + Tailwind CSS 4
-- Express (`server.ts`) servindo a SPA e as rotas `/api/*`
+- Express: rotas `/api/*` em `server/app.ts`, servidas localmente por `server.ts` e na Vercel por `api/index.ts`
 - Gemini (`@google/genai`) para apostilas, glossário e tira-dúvidas da LDS — há respostas de fallback quando não há chave
 - Dados salvos no `localStorage` do navegador (exportação/importação em FDR → Ajustes)
 
@@ -21,6 +21,14 @@ cp .env.example .env.local   # preencha GEMINI_API_KEY (opcional)
 npm run dev                  # http://localhost:3000
 ```
 
+## Publicar na Vercel
+
+O repositório já vem configurado (`vercel.json`): o Vite gera o site estático e `api/index.ts` roda as rotas `/api/*` como função serverless.
+
+1. Em [vercel.com/new](https://vercel.com/new), importe este repositório do GitHub (sem mudar as configurações de build).
+2. Em *Settings → Environment Variables*, crie `GEMINI_API_KEY` com a chave do [Google AI Studio](https://aistudio.google.com/apikey). Sem ela o app funciona, mas a IA da LDS usa respostas prontas.
+3. Cada push na `main` publica uma nova versão.
+
 ## Scripts
 
 | Comando | O que faz |
@@ -33,7 +41,9 @@ npm run dev                  # http://localhost:3000
 ## Estrutura
 
 ```
-server.ts               API + Gemini
+server.ts               servidor local (Express + Vite)
+server/app.ts           rotas da API + Gemini
+api/index.ts            mesma API como função da Vercel
 src/App.tsx             layout e navegação
 src/components/views/   Cockpit, Calendário, Financeiro, Livros, Rotina, LDS, FDR
 src/fdr/                módulo da graduação (domínio, store zustand, páginas)
