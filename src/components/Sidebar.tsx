@@ -7,6 +7,7 @@ import {
   BookOpen,
   Wallet,
   HeartPulse,
+  Stethoscope,
   RotateCcw,
   X,
 } from 'lucide-react';
@@ -36,6 +37,7 @@ export const TAB_LABELS: Record<NavigationTab, string> = {
   livros: 'Leituras',
   financeiro: 'Finanças',
   rotina: 'Rotina',
+  saude: 'Saúde',
 };
 
 export const Sidebar: React.FC = () => {
@@ -66,6 +68,7 @@ export const Sidebar: React.FC = () => {
       items: [
         { id: 'financeiro', label: TAB_LABELS.financeiro, icon: Wallet },
         { id: 'rotina', label: TAB_LABELS.rotina, icon: HeartPulse },
+        { id: 'saude', label: TAB_LABELS.saude, icon: Stethoscope },
       ],
     },
   ];

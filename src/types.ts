@@ -5,7 +5,8 @@ export type NavigationTab =
   | 'calendario'
   | 'financeiro'
   | 'livros'
-  | 'rotina';
+  | 'rotina'
+  | 'saude';
 
 export interface PriorityItem {
   id: string;
@@ -202,7 +203,7 @@ export interface SpiritualityState {
   };
 }
 
-// Saúde, Consultas, Exames e TDAH (Venvanse)
+// Saúde (estrutura do protótipo, usada só para importar dados antigos)
 export interface HealthAppointment {
   id: string;
   specialty: string;

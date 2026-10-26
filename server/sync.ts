@@ -1,65 +1,20 @@
-// Cloud sync: one JSON snapshot of the app's localStorage, kept in a private Vercel Blob store.
-// Access requires the SYNC_PASSWORD set in the project's environment variables.
-import type { Express, Request as ExpressRequest, Response as ExpressResponse } from 'express';
+// Cloud sync: one JSON snapshot of the app's localStorage.
+// Stored in Postgres (app_state) when a database is available; the private Vercel Blob is the
+// legacy store and is copied into the database the first time it is read.
+import type { Express } from 'express';
 import { get, put } from '@vercel/blob';
-import { timingSafeEqual } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { requireAuth } from './auth.js';
+import { isDatabaseAvailable, query } from './db.js';
 
 const STATE_PATH = 'bruna-os/state.json';
-// Outside Vercel (local dev) without a Blob token, the snapshot lives in a git-ignored file
-const LOCAL_FILE = path.join(process.cwd(), '.data', 'state.json');
-
-function useLocalFile(): boolean {
-  return !process.env.BLOB_READ_WRITE_TOKEN && !process.env.VERCEL;
-}
-
-async function readSnapshot(): Promise<unknown | null> {
-  if (useLocalFile()) {
-    try {
-      return JSON.parse(await fs.readFile(LOCAL_FILE, 'utf8'));
-    } catch {
-      return null;
-    }
-  }
-  const result = await get(STATE_PATH, { access: 'private', useCache: false });
-  if (!result || result.statusCode !== 200) return null;
-  return JSON.parse(await new Response(result.stream).text());
-}
-
-async function writeSnapshot(snapshot: SyncSnapshot): Promise<void> {
-  if (useLocalFile()) {
-    await fs.mkdir(path.dirname(LOCAL_FILE), { recursive: true });
-    await fs.writeFile(LOCAL_FILE, JSON.stringify(snapshot));
-    return;
-  }
-  await put(STATE_PATH, JSON.stringify(snapshot), {
-    access: 'private',
-    allowOverwrite: true,
-    addRandomSuffix: false,
-    contentType: 'application/json',
-  });
-}
+const STATE_KEY = 'snapshot';
+const LEGACY_LOCAL_FILE = path.join(process.cwd(), '.data', 'state.json');
 
 export interface SyncSnapshot {
   updatedAt: number;
   data: Record<string, string>;
-}
-
-function isAuthorized(req: ExpressRequest, res: ExpressResponse): boolean {
-  const password = process.env.SYNC_PASSWORD;
-  if (!password || (!process.env.BLOB_READ_WRITE_TOKEN && process.env.VERCEL)) {
-    res.status(503).json({ error: 'sync-disabled' });
-    return false;
-  }
-  const header = req.headers.authorization || '';
-  const given = Buffer.from(header.startsWith('Bearer ') ? header.slice(7) : '');
-  const expected = Buffer.from(password);
-  if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
-    res.status(401).json({ error: 'unauthorized' });
-    return false;
-  }
-  return true;
 }
 
 function isSnapshot(value: unknown): value is SyncSnapshot {
@@ -73,9 +28,47 @@ function isSnapshot(value: unknown): value is SyncSnapshot {
   );
 }
 
+async function readLegacy(): Promise<SyncSnapshot | null> {
+  try {
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const result = await get(STATE_PATH, { access: 'private', useCache: false });
+      if (!result || result.statusCode !== 200) return null;
+      return JSON.parse(await new Response(result.stream).text());
+    }
+    return JSON.parse(await fs.readFile(LEGACY_LOCAL_FILE, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+async function readSnapshot(): Promise<SyncSnapshot | null> {
+  if (!isDatabaseAvailable()) return readLegacy();
+  const rows = await query<{ value: SyncSnapshot }>('SELECT value FROM app_state WHERE key = $1', [STATE_KEY]);
+  if (rows[0]) return rows[0].value;
+  const legacy = await readLegacy();
+  if (legacy && isSnapshot(legacy)) await writeSnapshot(legacy);
+  return legacy;
+}
+
+async function writeSnapshot(snapshot: SyncSnapshot): Promise<void> {
+  if (!isDatabaseAvailable()) {
+    await put(STATE_PATH, JSON.stringify(snapshot), {
+      access: 'private',
+      allowOverwrite: true,
+      addRandomSuffix: false,
+      contentType: 'application/json',
+    });
+    return;
+  }
+  await query(
+    `INSERT INTO app_state (key, value, updated_at) VALUES ($1, $2, now())
+     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`,
+    [STATE_KEY, JSON.stringify(snapshot)],
+  );
+}
+
 export function registerSyncRoutes(app: Express) {
-  app.get('/api/state', async (req, res) => {
-    if (!isAuthorized(req, res)) return;
+  app.get('/api/state', requireAuth, async (_req, res) => {
     try {
       res.json({ state: await readSnapshot() });
     } catch (error) {
@@ -84,8 +77,7 @@ export function registerSyncRoutes(app: Express) {
     }
   });
 
-  app.put('/api/state', async (req, res) => {
-    if (!isAuthorized(req, res)) return;
+  app.put('/api/state', requireAuth, async (req, res) => {
     if (!isSnapshot(req.body)) {
       res.status(400).json({ error: 'invalid-snapshot' });
       return;

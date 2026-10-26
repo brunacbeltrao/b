@@ -12,6 +12,7 @@ import { LdsView } from './components/views/LdsView';
 import { RotinaBemEstarView } from './components/views/RotinaBemEstarView';
 import { FinanceView } from './components/views/FinanceView';
 import { BooksView } from './components/views/BooksView';
+import { HealthView } from './components/views/HealthView';
 
 const MainLayout: React.FC = () => {
   const { currentTab, setCurrentTab, setIsMobileNavOpen } = useApp();
@@ -32,6 +33,8 @@ const MainLayout: React.FC = () => {
         return <BooksView key="livros" />;
       case 'rotina':
         return <RotinaBemEstarView key="rotina" />;
+      case 'saude':
+        return <HealthView key="saude" />;
       default:
         return <CockpitView key="cockpit-default" />;
     }

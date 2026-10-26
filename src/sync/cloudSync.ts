@@ -3,7 +3,8 @@
 // to /api/state and, on startup or when the tab regains focus, pulls a newer snapshot.
 
 const SYNCED_PREFIXES = ['bruna_os_v3_', 'bruna-fdr:', 'lds_fdr_'];
-const PASSWORD_KEY = 'bruna_os_sync_password';
+// Only read to migrate devices that stored the password before session cookies existed
+const LEGACY_PASSWORD_KEY = 'bruna_os_sync_password';
 const META_KEY = 'bruna_os_sync_meta';
 const PUSH_DEBOUNCE_MS = 2000;
 
@@ -28,6 +29,39 @@ let status: SyncStatus = 'off';
 const listeners = new Set<(s: SyncStatus) => void>();
 let pushTimer: ReturnType<typeof setTimeout> | null = null;
 let applyingRemote = false;
+let authenticated = false;
+
+/** Called by the auth layer once the session is known */
+export function setSyncAuthenticated(value: boolean) {
+  authenticated = value;
+  if (!value) setStatus('off');
+}
+
+/** Devices connected before sessions stored the password; exchange it once for a session cookie. */
+export async function migrateLegacyPassword(): Promise<boolean> {
+  let password: string | null = null;
+  try {
+    password = localStorage.getItem(LEGACY_PASSWORD_KEY);
+  } catch {
+    return false;
+  }
+  if (!password) return false;
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    if (res.ok) {
+      nativeRemoveItem.call(localStorage, LEGACY_PASSWORD_KEY);
+      return true;
+    }
+    if (res.status === 401) nativeRemoveItem.call(localStorage, LEGACY_PASSWORD_KEY);
+  } catch {
+    // offline: try again next launch
+  }
+  return false;
+}
 
 function setStatus(next: SyncStatus) {
   status = next;
@@ -47,16 +81,8 @@ function isSyncedKey(key: string): boolean {
   return SYNCED_PREFIXES.some((prefix) => key.startsWith(prefix));
 }
 
-function readPassword(): string | null {
-  try {
-    return localStorage.getItem(PASSWORD_KEY);
-  } catch {
-    return null;
-  }
-}
-
 export function isSyncConfigured(): boolean {
-  return !!readPassword();
+  return authenticated;
 }
 
 function readMeta(): SyncMeta {
@@ -110,15 +136,11 @@ function applyRemote(snapshot: Snapshot) {
 }
 
 async function request(method: 'GET' | 'PUT', body?: Snapshot): Promise<Response | null> {
-  const password = readPassword();
-  if (!password) return null;
+  if (!authenticated) return null;
   try {
     return await fetch('/api/state', {
       method,
-      headers: {
-        Authorization: `Bearer ${password}`,
-        ...(body ? { 'Content-Type': 'application/json' } : {}),
-      },
+      headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch {
@@ -149,7 +171,7 @@ export async function pushNow(): Promise<boolean> {
     clearTimeout(pushTimer);
     pushTimer = null;
   }
-  if (!readPassword()) return false;
+  if (!authenticated) return false;
   setStatus('syncing');
   const meta = readMeta();
   const snapshot: Snapshot = { updatedAt: meta.localUpdatedAt || Date.now(), data: collectLocal() };
@@ -165,7 +187,7 @@ export async function pushNow(): Promise<boolean> {
 }
 
 function schedulePush() {
-  if (!readPassword()) return;
+  if (!authenticated) return;
   if (pushTimer) clearTimeout(pushTimer);
   pushTimer = setTimeout(() => {
     pushTimer = null;
@@ -184,7 +206,7 @@ function markLocalChange() {
  * Returns true when the cloud copy replaced local data (the page must reload to show it).
  */
 export async function reconcile(): Promise<boolean> {
-  if (!readPassword()) {
+  if (!authenticated) {
     setStatus('off');
     return false;
   }
@@ -207,29 +229,21 @@ export async function reconcile(): Promise<boolean> {
   return false;
 }
 
-/** Saves the password and checks it against the server. */
-export async function connect(password: string): Promise<SyncStatus> {
-  nativeSetItem.call(localStorage, PASSWORD_KEY, password.trim());
-  const replaced = await reconcile();
-  if (status === 'unauthorized' || status === 'unavailable') {
-    nativeRemoveItem.call(localStorage, PASSWORD_KEY);
-    const failed = status;
-    setStatus('off');
-    return failed;
-  }
-  if (replaced) window.location.reload();
-  return status;
-}
-
 export function disconnect() {
   if (pushTimer) clearTimeout(pushTimer);
-  nativeRemoveItem.call(localStorage, PASSWORD_KEY);
   nativeRemoveItem.call(localStorage, META_KEY);
-  setStatus('off');
+  setSyncAuthenticated(false);
 }
 
 /** Run once before rendering the app. */
+let hooksInstalled = false;
+
 export async function initCloudSync(): Promise<void> {
+  if (hooksInstalled) {
+    await reconcile();
+    return;
+  }
+  hooksInstalled = true;
   try {
     // The app re-saves unchanged state on every load, so only real changes count
     Storage.prototype.setItem = function (key: string, value: string) {
@@ -246,9 +260,7 @@ export async function initCloudSync(): Promise<void> {
     // "Restaurar dados" clears everything; keep this device connected to the cloud
     Storage.prototype.clear = function () {
       if (this !== localStorage) return nativeClear.call(this);
-      const password = localStorage.getItem(PASSWORD_KEY);
       nativeClear.call(this);
-      if (password) nativeSetItem.call(this, PASSWORD_KEY, password);
       markLocalChange();
     };
   } catch {
@@ -272,7 +284,7 @@ export async function initCloudSync(): Promise<void> {
       if (pushTimer) void pushNow();
       return;
     }
-    if (pushTimer || !readPassword()) return;
+    if (pushTimer || !authenticated) return;
     if (await reconcile()) window.location.reload();
   });
 }

@@ -123,7 +123,7 @@ interface AppContextType {
   addPrayerIntention: (intention: string) => void;
   removePrayerIntention: (index: number) => void;
 
-  // Saúde, TDAH & Venvanse
+  // Saúde (legado)
   health: HealthState;
   updateAdhdTreatment: (updates: Partial<AdhdTreatment>) => void;
   toggleAdhdPillTakenToday: () => void;
@@ -292,7 +292,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return loaded;
   });
 
-  // Saúde, TDAH, Venvanse & Exames Laboratoriais (Check-up Clínico 04/05/2026)
+  // Saúde (legado do protótipo; os dados novos ficam no banco, aba Saúde)
   const [health, setHealth] = useState<HealthState>(() => {
     const loaded = loadFromStorage('health_v3', null);
     if (loaded && Array.isArray(loaded.exams) && loaded.exams.length > 0) {
@@ -751,7 +751,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }));
   };
 
-  // Saúde, TDAH & Venvanse handlers
+  // Saúde (legado) handlers
   const updateAdhdTreatment = (updates: Partial<AdhdTreatment>) => {
     setHealth(prev => ({
       ...prev,

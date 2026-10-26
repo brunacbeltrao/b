@@ -4,6 +4,8 @@ import { GoogleGenAI, Type } from '@google/genai';
 import { LESSONS_DATABASE, FACULTY_MEMBERS } from '../src/lds/data/curriculum.js';
 import { INITIAL_DOCUMENTS } from '../src/lds/data/documents.js';
 import { registerSyncRoutes } from './sync.js';
+import { registerAuthRoutes, requireAuth } from './auth.js';
+import { registerRecordRoutes } from './records.js';
 
 // Gemini client, created on first use so the key from .env is already loaded
 let aiClient: GoogleGenAI | null | undefined;
@@ -84,7 +86,11 @@ export function createApiApp() {
   const app = express();
   app.use(express.json({ limit: '10mb' }));
 
+  registerAuthRoutes(app);
+  // AI calls spend the Gemini quota, so they need a session too
+  app.use('/api/gemini', requireAuth);
   registerSyncRoutes(app);
+  registerRecordRoutes(app);
 
   // Health check endpoint
   app.get('/api/health', (_req, res) => {
