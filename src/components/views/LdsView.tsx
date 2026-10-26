@@ -185,29 +185,26 @@ export const LdsView: React.FC = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-x-4">
-        <div className="flex-1 min-w-0">
-          <SectionTabs
-            value={activeTab}
-            onChange={setActiveTab}
-            tabs={[
-              { id: 'cronograma', label: 'Aulas' },
-              { id: 'repositorio', label: 'Materiais' },
-              { id: 'glossario', label: 'Glossário' },
-              { id: 'agente', label: 'Tira-dúvidas' },
-              { id: 'docentes', label: 'Docentes' },
-            ]}
-          />
-        </div>
-        <button
-          onClick={() => setIsConductModalOpen(true)}
-          className="mb-6 text-sm text-stone-500 hover:text-[#8b1538] whitespace-nowrap"
-        >
-          Código de conduta
-        </button>
-      </div>
+      <SectionTabs
+        value={activeTab}
+        onChange={setActiveTab}
+        tabs={[
+          { id: 'cronograma', label: 'Aulas' },
+          { id: 'repositorio', label: 'Materiais' },
+          { id: 'glossario', label: 'Glossário' },
+          { id: 'agente', label: 'Tira-dúvidas' },
+          { id: 'docentes', label: 'Docentes' },
+        ]}
+        trailing={
+          <button
+            onClick={() => setIsConductModalOpen(true)}
+            className="h-10 text-sm text-stone-500 hover:text-[#8b1538] whitespace-nowrap"
+          >
+            Código de conduta
+          </button>
+        }
+      />
 
-      {/* Main SubTab Content Area */}
       <div>
         {activeTab === 'cronograma' && (
           <ScheduleView

@@ -116,10 +116,13 @@ export const SectionTabs = <T extends string>({
   value,
   onChange,
   tabs,
+  trailing,
 }: {
   value: T;
   onChange: (value: T) => void;
   tabs: { id: T; label: string; icon?: React.ElementType }[];
+  /** Extra control at the end of the bar (e.g. a link that opens a dialog) */
+  trailing?: React.ReactNode;
 }) => (
   <div className="-mx-4 sm:mx-0 mb-6 border-b border-[#e6e4e8] overflow-x-auto">
     <div role="tablist" className="flex gap-1 px-4 sm:px-0 min-w-max">
@@ -143,6 +146,7 @@ export const SectionTabs = <T extends string>({
           </button>
         );
       })}
+      {trailing && <div className="ml-auto pl-4 flex items-center">{trailing}</div>}
     </div>
   </div>
 );
