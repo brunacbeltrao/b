@@ -122,7 +122,9 @@ export const SyncButton: React.FC = () => {
 const GoogleConnection: React.FC = () => {
   const { status, refresh } = useGoogleStatus();
   const [busy, setBusy] = useState(false);
-  if (!status || !status.configured) return null;
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   return (
     <div className="pt-4 border-t border-[#e6e4e8]">
@@ -130,10 +132,16 @@ const GoogleConnection: React.FC = () => {
         <div className="min-w-0">
           <div className="text-sm font-medium text-[#1c1a1e]">Google</div>
           <div className="text-xs text-stone-500 truncate">
-            {status.connected ? `Conectado: ${status.email || 'conta Google'}` : 'Agenda e faturas do Gmail'}
+            {!status
+              ? 'Verificando…'
+              : !status.configured
+                ? 'Ainda não configurado no servidor'
+                : status.connected
+                  ? `Conectado: ${status.email || 'conta Google'}`
+                  : 'Agenda e faturas do Gmail'}
           </div>
         </div>
-        {status.connected ? (
+        {!status?.configured ? null : status.connected ? (
           <button
             disabled={busy}
             onClick={async () => {
@@ -155,7 +163,7 @@ const GoogleConnection: React.FC = () => {
             href={GOOGLE_CONNECT_URL}
             className="h-8 px-2.5 inline-flex items-center rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-[13px] font-medium"
           >
-            Conectar
+            Conectar Google
           </a>
         )}
       </div>

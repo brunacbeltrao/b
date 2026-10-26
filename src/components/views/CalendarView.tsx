@@ -5,7 +5,7 @@ import { CalendarEvent, EventCategory } from '../../types';
 import { getWeekDays, todayISO } from '../../utils/dateUtils';
 import { Modal } from '../../fdr/ui/components/Modal';
 import { Button, EmptyState, Input, Label, Panel, Segmented, Select, Textarea, cx } from '../ui';
-import { createGoogleEvent, useGoogleEvents, useGoogleStatus } from '../../google/api';
+import { GOOGLE_CONNECT_URL, createGoogleEvent, useGoogleEvents, useGoogleStatus } from '../../google/api';
 
 /** Categories carry meaning, so they get a small, muted categorical palette (dots only). */
 const CATEGORIES: { key: EventCategory; label: string; dot: string }[] = [
@@ -232,6 +232,18 @@ export const CalendarView: React.FC = () => {
           </button>
         )}
       </div>
+
+      {google?.configured && !google.connected && (
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-lg bg-white border border-[#e6e4e8] text-sm">
+          <span className="text-stone-700">Traga os eventos do seu Google Agenda para cá.</span>
+          <a
+            href={GOOGLE_CONNECT_URL}
+            className="h-8 px-3 inline-flex items-center rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-[13px] font-medium"
+          >
+            Conectar Google
+          </a>
+        </div>
+      )}
 
       {googleError && (
         <p className="mb-4 text-[13px] text-amber-800" role="status">

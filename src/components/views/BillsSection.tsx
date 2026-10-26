@@ -5,7 +5,7 @@ import { todayISO } from '../../utils/dateUtils';
 import { Modal } from '../../fdr/ui/components/Modal';
 import { BillBucket, Conta, bucketOf, newId, nextMonth, useBills } from '../../bills/api';
 import { uploadFile } from '../../records/client';
-import { scanGmail, useGoogleStatus } from '../../google/api';
+import { GOOGLE_CONNECT_URL, scanGmail, useGoogleStatus } from '../../google/api';
 import { BRL, Button, EmptyState, Input, Label, Panel, Select, Tag, Textarea, cx } from '../ui';
 
 const BUCKETS: { id: BillBucket; label: string }[] = [
@@ -121,6 +121,15 @@ export const BillsSection: React.FC = () => {
               : ''}
         </p>
         <div className="flex flex-wrap items-center gap-2">
+          {google?.configured && !google.connected && (
+            <a
+              href={GOOGLE_CONNECT_URL}
+              className="h-9 px-3.5 inline-flex items-center gap-1.5 rounded-md bg-white border border-[#e6e4e8] hover:border-stone-300 text-sm font-medium text-[#1c1a1e]"
+            >
+              <Mail className="w-4 h-4" />
+              Conectar Gmail
+            </a>
+          )}
           {google?.connected && (
             <Button icon={scanning ? RefreshCw : Mail} onClick={runScan} disabled={scanning}>
               {scanning ? 'Lendo o Gmail…' : 'Buscar no Gmail'}
