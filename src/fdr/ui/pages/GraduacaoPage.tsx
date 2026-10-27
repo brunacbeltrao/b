@@ -77,14 +77,10 @@ export const GraduacaoPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* Header com Abas */}
-      <div className="space-y-4 pb-4 border-b border-[#ece8e1]">
+      <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Requisitos de Conclusão</span>
-            <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-1">
-              Graduação e Atividades
-            </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-600 max-w-2xl">
               Atividades Complementares (240h), Estágios Supervisionados, TCC e ENADE.
             </p>
           </div>
@@ -124,10 +120,10 @@ export const GraduacaoPage: React.FC = () => {
       {/* 1. ABA ATIVIDADES COMPLEMENTARES */}
       {abaAtiva === 'complementares' && (
         <div className="space-y-6">
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Progresso Obrigatório</span>
+                <span className="text-xs font-medium text-stone-400 block">Progresso Obrigatório</span>
                 <h3 className="font-bold text-stone-900 text-sm">
                   240 Horas de Atividades Complementares
                 </h3>
@@ -146,13 +142,13 @@ export const GraduacaoPage: React.FC = () => {
               atual={totalHorasComp}
               total={metaHorasComp}
               porcentagem={pctComp}
-              corBarra="bg-emerald-700"
+              corBarra="bg-[#8b1538]"
             />
           </div>
 
           {/* Lista de Atividades */}
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+            <span className="text-xs font-medium text-stone-400 block">
               Histórico Registrado ({store.complementares.length})
             </span>
             {store.complementares.length === 0 ? (
@@ -160,7 +156,7 @@ export const GraduacaoPage: React.FC = () => {
                 Nenhuma atividade cadastrada.
               </p>
             ) : (
-              <div className="divide-y divide-[#ece8e1]">
+              <div className="divide-y divide-[#e6e4e8]">
                 {store.complementares.map((c) => (
                   <div
                     key={c.id}
@@ -168,7 +164,7 @@ export const GraduacaoPage: React.FC = () => {
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold uppercase bg-[#faf8f5] text-stone-600 border border-[#ece8e1]">
+                        <span className="px-1.5 py-0.2 rounded text-xs font-semibold bg-[#f6f5f7] text-stone-600 border border-[#e6e4e8]">
                           {c.tipo}
                         </span>
                         <h5 className="font-semibold text-stone-900">
@@ -233,7 +229,7 @@ export const GraduacaoPage: React.FC = () => {
             return (
               <div
                 key={est.codigo}
-                className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4"
+                className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4"
               >
                 <div>
                   <div className="flex items-center justify-between">
@@ -259,7 +255,7 @@ export const GraduacaoPage: React.FC = () => {
                       placeholder="Ex: TJPE, Defensoria Pública..."
                       value={est.local}
                       onChange={(e) => store.atualizarEstagio(est.codigo, { local: e.target.value })}
-                      className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                      className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                     />
                   </div>
                   <div>
@@ -269,7 +265,7 @@ export const GraduacaoPage: React.FC = () => {
                       placeholder="Ex: Juiz de Direito, Defensor..."
                       value={est.supervisor}
                       onChange={(e) => store.atualizarEstagio(est.codigo, { supervisor: e.target.value })}
-                      className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                      className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                     />
                   </div>
                   <div>
@@ -284,7 +280,7 @@ export const GraduacaoPage: React.FC = () => {
                           horasCumpridas: parseFloat(e.target.value) || 0,
                         })
                       }
-                      className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+                      className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
                     />
                   </div>
                 </div>
@@ -293,7 +289,7 @@ export const GraduacaoPage: React.FC = () => {
                   atual={est.horasCumpridas}
                   total={totalExigido}
                   porcentagem={pct}
-                  corBarra="bg-emerald-700"
+                  corBarra="bg-[#8b1538]"
                 />
               </div>
             );
@@ -304,8 +300,8 @@ export const GraduacaoPage: React.FC = () => {
       {/* 3. ABA TRABALHO DE CONCLUSÃO DE CURSO - TCC */}
       {abaAtiva === 'tcc' && (
         <div className="space-y-6">
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Diretrizes e Orientação</span>
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
+            <span className="text-xs font-medium text-stone-400 block">Diretrizes e Orientação</span>
             <h3 className="font-bold text-sm text-stone-900">
               Projeto e Monografia Final
             </h3>
@@ -321,7 +317,7 @@ export const GraduacaoPage: React.FC = () => {
                     placeholder="Nome do(a) orientador(a)..."
                     value={store.tcc.orientador}
                     onChange={(e) => store.atualizarTcc({ orientador: e.target.value })}
-                    className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                    className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                   />
                 </div>
               </div>
@@ -334,17 +330,17 @@ export const GraduacaoPage: React.FC = () => {
                   placeholder="Ex: A eficácia dos direitos sociais..."
                   value={store.tcc.tema}
                   onChange={(e) => store.atualizarTcc({ tema: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                  className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
                 />
               </div>
             </div>
           </div>
 
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+            <span className="text-xs font-medium text-stone-400 block">
               Etapas Sequenciais do TCC (4 Semestres Consecutivos)
             </span>
-            <div className="divide-y divide-[#ece8e1]">
+            <div className="divide-y divide-[#e6e4e8]">
               {store.tcc.etapas.map((etapa, idx) => {
                 const comp = store.componentes.find((c) => c.codigo === etapa.codigo);
                 return (
@@ -373,7 +369,7 @@ export const GraduacaoPage: React.FC = () => {
                           status: e.target.value as StatusEtapaTcc,
                         })
                       }
-                      className="h-8 px-2.5 text-xs rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-medium"
+                      className="h-8 px-2.5 text-xs rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-medium"
                     >
                       <option value="pendente">Pendente</option>
                       <option value="em_andamento">Em Andamento</option>
@@ -390,7 +386,7 @@ export const GraduacaoPage: React.FC = () => {
       {/* 4. ABA ENADE */}
       {abaAtiva === 'enade' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-sm text-stone-900">
                 ENADE Ingressante
@@ -399,7 +395,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="checkbox"
                 checked={store.enade.ingressante}
                 onChange={(e) => store.atualizarEnade({ ingressante: e.target.checked })}
-                className="w-4 h-4 accent-emerald-700 rounded cursor-pointer"
+                className="w-4 h-4 accent-[#8b1538] rounded cursor-pointer"
               />
             </div>
             <p className="text-xs text-stone-500">
@@ -411,12 +407,12 @@ export const GraduacaoPage: React.FC = () => {
                 type="date"
                 value={store.enade.ingressanteEm || ''}
                 onChange={(e) => store.atualizarEnade({ ingressanteEm: e.target.value })}
-                className="w-full p-2 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
           </div>
 
-          <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
+          <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-sm text-stone-900">
                 ENADE Concluinte
@@ -425,7 +421,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="checkbox"
                 checked={store.enade.concluinte}
                 onChange={(e) => store.atualizarEnade({ concluinte: e.target.checked })}
-                className="w-4 h-4 accent-emerald-700 rounded cursor-pointer"
+                className="w-4 h-4 accent-[#8b1538] rounded cursor-pointer"
               />
             </div>
             <p className="text-xs text-stone-500">
@@ -437,7 +433,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="date"
                 value={store.enade.concluinteEm || ''}
                 onChange={(e) => store.atualizarEnade({ concluinteEm: e.target.value })}
-                className="w-full p-2 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
           </div>
@@ -458,7 +454,7 @@ export const GraduacaoPage: React.FC = () => {
             <select
               value={formTipoComp}
               onChange={(e) => setFormTipoComp(e.target.value as TipoComplementar)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-medium text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-medium text-stone-800"
             >
               <option value="monitoria">Monitoria Acadêmica</option>
               <option value="extensao">Projeto de Extensão</option>
@@ -477,7 +473,7 @@ export const GraduacaoPage: React.FC = () => {
               placeholder="Ex: Monitoria em TGP, Congresso de Direito..."
               value={formDescComp}
               onChange={(e) => setFormDescComp(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -491,7 +487,7 @@ export const GraduacaoPage: React.FC = () => {
                 step="5"
                 value={formHorasComp}
                 onChange={(e) => setFormHorasComp(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
             <div>
@@ -502,7 +498,7 @@ export const GraduacaoPage: React.FC = () => {
                 type="date"
                 value={formDataComp}
                 onChange={(e) => setFormDataComp(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
               />
             </div>
           </div>
@@ -515,10 +511,10 @@ export const GraduacaoPage: React.FC = () => {
               placeholder="Ex: certificado_congresso_2025.pdf"
               value={formComprovante}
               onChange={(e) => setFormComprovante(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-stone-800"
             />
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalCompAberto(false)}

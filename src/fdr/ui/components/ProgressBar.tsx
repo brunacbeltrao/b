@@ -15,7 +15,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   atual,
   total,
   porcentagem,
-  corBarra = 'bg-emerald-700',
+  corBarra = 'bg-[#8b1538]',
   unidade = 'h',
   subtitulo,
 }) => {
@@ -39,12 +39,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           <span>
             {total.toLocaleString('pt-BR')} {unidade}
           </span>
-          <span className="ml-1 px-1.5 py-0.2 rounded-md text-[10px] font-semibold bg-[#faf8f5] text-stone-700 border border-[#ece8e1]">
+          <span className="ml-1 px-1.5 py-0.2 rounded-md text-[10px] font-semibold bg-[#f6f5f7] text-stone-700 border border-[#e6e4e8]">
             {p}%
           </span>
         </div>
       </div>
-      <div className="w-full h-2 rounded-full bg-[#f2ede4] overflow-hidden">
+      <div className="w-full h-2 rounded-full bg-[#e6e4e8] overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-300 ease-out ${corBarra}`}
           style={{ width: `${p}%` }}

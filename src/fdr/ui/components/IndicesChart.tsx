@@ -51,7 +51,7 @@ export const IndicesChart: React.FC<IndicesChartProps> = ({ pontos }) => {
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-4 text-xs">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#3b628a] inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#625d66] inline-block" />
             <span className="text-stone-500">CR (Coeficiente de Rendimento)</span>
           </div>
           <div className="flex items-center gap-1.5">
@@ -60,7 +60,7 @@ export const IndicesChart: React.FC<IndicesChartProps> = ({ pontos }) => {
           </div>
         </div>
         {pontoAtivo ? (
-          <div className="text-xs bg-[#faf8f5] text-stone-800 px-2.5 py-1 rounded-lg flex items-center gap-3 font-mono border border-[#ece8e1]">
+          <div className="text-xs bg-[#f6f5f7] text-stone-800 px-2.5 py-1 rounded-lg flex items-center gap-3 font-mono border border-[#e6e4e8]">
             <span className="font-semibold text-stone-900">
               {pontoAtivo.semestre}:
             </span>
@@ -108,7 +108,7 @@ export const IndicesChart: React.FC<IndicesChartProps> = ({ pontos }) => {
           {/* Linha do CR */}
           <polyline
             fill="none"
-            stroke="#3b628a"
+            stroke="#625d66"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -149,7 +149,7 @@ export const IndicesChart: React.FC<IndicesChartProps> = ({ pontos }) => {
                   cx={cx}
                   cy={cyCr}
                   r={isHovered ? 5 : 3.5}
-                  fill="#3b628a"
+                  fill="#625d66"
                   stroke="#ffffff"
                   strokeWidth="1.5"
                   className="transition-all"

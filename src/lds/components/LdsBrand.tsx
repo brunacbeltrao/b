@@ -8,13 +8,13 @@ import React from 'react';
 interface CrestProps {
   className?: string;
   size?: number;
-  color?: string; // default #A7002F
+  color?: string; // default #8b1538
 }
 
 export const LdsCrest: React.FC<CrestProps> = ({
   className = '',
   size = 40,
-  color = '#A7002F'
+  color = '#8b1538'
 }) => {
   return (
     <svg
@@ -74,9 +74,9 @@ export const LdsLogo: React.FC<LogoProps> = ({
   light = false,
   withSubtitle = true
 }) => {
-  const crestColor = light ? '#FAF5EA' : '#A7002F';
-  const textColor = light ? 'text-[#FAF5EA]' : 'text-[#A7002F]';
-  const subtextColor = light ? 'text-[#FAF5EA]/80' : 'text-[#6B5D4F]';
+  const crestColor = light ? '#f6f5f7' : '#8b1538';
+  const textColor = light ? 'text-[#f6f5f7]' : 'text-[#8b1538]';
+  const subtextColor = light ? 'text-[#f6f5f7]/80' : 'text-[#625d66]';
   const crestSize = size === 'sm' ? 28 : size === 'md' ? 36 : size === 'lg' ? 48 : 64;
 
   return (
@@ -85,16 +85,16 @@ export const LdsLogo: React.FC<LogoProps> = ({
       <div className="flex flex-col">
         <div className="flex items-center tracking-tight">
           <span
-            className={`font-['Cormorant_Garamond',serif] font-bold leading-none ${textColor} ${
+            className={`font-serif-title font-bold leading-none ${textColor} ${
               size === 'sm' ? 'text-xl' : size === 'md' ? 'text-2xl' : size === 'lg' ? 'text-3xl' : 'text-4xl'
             }`}
           >
-            LDS<span className="text-[#A9832E] mx-0.5">·</span>FDR
+            LDS<span className="text-[#625d66] mx-0.5">·</span>FDR
           </span>
         </div>
         {withSubtitle && size !== 'sm' && (
           <span
-            className={`eyebrow-lds text-[9px] sm:text-[10px] uppercase font-medium tracking-[0.14em] mt-1 ${subtextColor}`}
+            className={`eyebrow-lds text-xs sm:text-xs font-medium tracking-[0.14em] mt-1 ${subtextColor}`}
           >
             Direito Societário & Mercado de Capitais • FDR
           </span>

@@ -1,23 +1,106 @@
-import React, { useState, useRef } from 'react';
-import {
-  CheckCircle2,
-  Circle,
-  Plus,
-  Trash2,
-  Clock,
-  MapPin,
-  Sparkles,
-  ArrowRight,
-  Sun,
-  Flame,
-  BookOpen,
-  Briefcase,
-  Copy,
-  Check,
-  Wallet,
-} from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Plus, X, ArrowRight, MapPin, Sparkles } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { calculateDaysLeft, todayISO } from '../../utils/dateUtils';
+import { lastDays } from '../../utils/habits';
+import { DeadlineOrigin, EventCategory } from '../../types';
+import { bucketOf, useBills } from '../../bills/api';
+import { useGoogleEvents, useGoogleStatus } from '../../google/api';
+import { useFdrStore } from '../../fdr/store/useStore';
+import { selectAulasDoDia } from '../../fdr/store/selectors';
+import { cx } from '../ui';
+import { useRecords } from '../../records/useRecords';
+import { Assinatura, renewalsDue } from './SubscriptionsSection';
+import { useWeekFocus } from './WeeklyReviewView';
+
+const CATEGORY_LABEL: Record<EventCategory, string> = {
+  estagio: 'Trabalho',
+  lds: 'Liga',
+  fdr: 'Faculdade',
+  descanso: 'Descanso',
+  espiritualidade: 'Espiritualidade',
+  pessoal: 'Pessoal',
+};
+
+/** Where a deadline comes from; each origin keeps one muted colour across the app */
+const ORIGINS: { id: DeadlineOrigin; label: string; dot: string }[] = [
+  { id: 'faculdade', label: 'Faculdade', dot: 'bg-[#1c1a1e]' },
+  { id: 'liga', label: 'Liga', dot: 'bg-[#8b1538]' },
+  { id: 'estagio', label: 'Estágio', dot: 'bg-emerald-600' },
+  { id: 'monitoria', label: 'Monitoria', dot: 'bg-sky-700' },
+  { id: 'bev', label: 'Bevilaqua', dot: 'bg-amber-600' },
+  { id: 'pessoal', label: 'Pessoal', dot: 'bg-stone-400' },
+];
+const originOf = (id: DeadlineOrigin) => ORIGINS.find((o) => o.id === id)!;
+
+const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+function relativeDays(days: number): string {
+  if (days < 0) return 'Atrasado';
+  if (days === 0) return 'Hoje';
+  if (days === 1) return 'Amanhã';
+  return `Em ${days} dias`;
+}
+
+/** Accepts YYYY-MM-DD, DD/MM/YYYY or DD/MM and returns e.g. "10 nov" */
+function formatShortDate(value: string): string {
+  let y: number, m: number, d: number;
+  if (value.includes('/')) {
+    const parts = value.split('/').map(Number);
+    [d, m] = parts;
+    y = parts[2] || new Date().getFullYear();
+  } else {
+    [y, m, d] = value.split('-').map(Number);
+  }
+  if (!y || !m || !d) return value;
+  return new Date(y, m - 1, d).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }).replace(/\.| de/g, '');
+}
+
+/** Section wrapper: one white panel per topic, with a plain heading and an optional link */
+const Panel: React.FC<{
+  title: string;
+  meta?: React.ReactNode;
+  action?: { label: string; onClick: () => void; navigates?: boolean };
+  children: React.ReactNode;
+  className?: string;
+}> = ({ title, meta, action, children, className = '' }) => (
+  <section className={`bg-white border border-[#e6e4e8] rounded-xl ${className}`}>
+    <header className="flex items-center justify-between gap-3 px-5 pt-4 pb-3">
+      <div className="flex items-baseline gap-2 min-w-0">
+        <h2 className="text-[15px] font-semibold text-[#1c1a1e]">{title}</h2>
+        {meta && <span className="text-sm text-stone-500 tabular-nums">{meta}</span>}
+      </div>
+      {action && (
+        <button
+          onClick={action.onClick}
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-[#8b1538] shrink-0"
+        >
+          {action.label}
+          {action.navigates !== false && <ArrowRight className="w-3.5 h-3.5" />}
+        </button>
+      )}
+    </header>
+    <div className="px-5 pb-5">{children}</div>
+  </section>
+);
+
+function monthTotals(txs: { date: string; type: string; amount: number }[], month: string) {
+  const inMonth = txs.filter((t) => t.date.startsWith(month));
+  const income = inMonth.filter((t) => t.type === 'receita').reduce((sum, t) => sum + t.amount, 0);
+  const spent = inMonth.filter((t) => t.type === 'despesa').reduce((sum, t) => sum + t.amount, 0);
+  return { income, spent, balance: income - spent, count: inMonth.length };
+}
+
+function shiftMonth(month: string, delta: number) {
+  const [y, m] = month.split('-').map(Number);
+  const d = new Date(y, m - 1 + delta, 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function monthName(month: string) {
+  const [y, m] = month.split('-').map(Number);
+  return new Date(y, m - 1, 1).toLocaleDateString('pt-BR', { month: 'long' });
+}
 
 export const CockpitView: React.FC = () => {
   const {
@@ -26,496 +109,523 @@ export const CockpitView: React.FC = () => {
     addPriority,
     deletePriority,
     events,
-    quickNote,
-    setQuickNote,
     setCurrentTab,
-    spirituality,
     toggleHabit,
     habits,
     fdrSubjects,
     ldsSessions,
     books,
+    financialTransactions,
+    personalDeadlines,
+    addPersonalDeadline,
+    togglePersonalDeadline,
+    deletePersonalDeadline,
   } = useApp();
 
-  const [newPriorityText, setNewPriorityText] = useState('');
-  const [copiedNote, setCopiedNote] = useState(false);
-  const noteTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const [newPriority, setNewPriority] = useState('');
+  const [originFilter, setOriginFilter] = useState<DeadlineOrigin | 'todos'>('todos');
+  const [addingDeadline, setAddingDeadline] = useState(false);
 
-  const todayStr = todayISO();
-  const todayEvents = events.filter(e => e.date === todayStr);
+  const today = todayISO();
+  const now = new Date();
 
-  const handleAddPriority = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newPriorityText.trim()) return;
-    addPriority(newPriorityText, 'executivo');
-    setNewPriorityText('');
-  };
+  // Today's agenda: own events, Google Agenda and the Faculdade timetable
+  const { status: google } = useGoogleStatus();
+  const { events: googleToday } = useGoogleEvents(today, today, !!google?.connected);
+  const fdrState = useFdrStore();
+  const classesToday = selectAulasDoDia(fdrState, now.getDay(), today);
+  const todayEvents = [
+    ...events.filter((e) => e.date === today).map((e) => ({ ...e, source: CATEGORY_LABEL[e.category] || e.category })),
+    ...googleToday.filter((g) => g.date === today).map((g) => ({ ...g, source: 'Google Agenda' })),
+    ...classesToday.map((a) => ({
+      id: `aula-${a.id}`,
+      title: a.nome,
+      time: `${a.horarioInicio} - ${a.horarioFim}`,
+      location: a.sala,
+      source: 'Aula',
+    })),
+  ].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
 
-  const handleCopyNote = () => {
-    navigator.clipboard.writeText(quickNote);
-    setCopiedNote(true);
-    setTimeout(() => setCopiedNote(false), 2000);
-  };
-
-  const completedPrioritiesCount = priorities.filter(p => p.completed).length;
-  
-  // Dynamic computation of next academic delivery (Exams, Assignments, Fichamentos or LDS Pre-class Study)
-  const allAcademicDeliveries = [
-    ...(fdrSubjects || []).flatMap(s => [
-      ...(s.exams || []).filter(e => !e.completed).map(e => ({
-        subject: s.name,
-        title: e.title,
-        date: e.date,
-        daysLeft: calculateDaysLeft(e.date),
-        type: e.weight ? `Prova Oficial • Peso ${e.weight}` : 'Prova Oficial',
-        categoryTag: 'FDR 5º SEM',
-      })),
-      ...(s.assignments || []).filter(a => !a.completed).map(a => ({
-        subject: s.name,
-        title: a.title,
-        date: a.deadline,
-        daysLeft: calculateDaysLeft(a.deadline),
-        type: 'Caso Prático / Parecer',
-        categoryTag: 'FDR 5º SEM',
-      })),
-      ...(s.fichamentos || []).filter(f => !f.completed).map(f => ({
-        subject: s.name,
-        title: f.title,
-        date: f.deadline,
-        daysLeft: calculateDaysLeft(f.deadline),
-        type: 'Fichamento Doutrinário',
-        categoryTag: 'FDR 5º SEM',
-      })),
-    ]),
-    ...(ldsSessions || [])
-      .filter(sess => sess.status !== 'concluida' && !sess.readingDone)
-      .map(sess => {
-        const fullDate = sess.fullDate || (sess.date.includes('/') ? `2026-${sess.date.split('/')[1]}-${sess.date.split('/')[0]}` : sess.date);
-        return {
-          subject: 'Liga de Direito Societário (LDS)',
-          title: `Estudo Pré-Aula: ${sess.topic}`,
-          date: sess.date,
-          daysLeft: calculateDaysLeft(fullDate),
-          type: 'Leitura Prévia Obrigatória',
-          categoryTag: 'LDS SOCIETÁRIO',
-        };
-      }),
-  ].sort((a, b) => a.daysLeft - b.daysLeft);
-
-  const nextAcademicItem = allAcademicDeliveries[0] || {
-    subject: 'Direito Processual Civil II',
-    title: '1ª Avaliação Oficial (DPC II)',
-    date: '29/09/2026',
-    daysLeft: 24,
-    type: 'P1 Oficial (8.0 pts)',
-    categoryTag: 'FDR 5º SEM',
-  };
-
-  // Category tags for High Density
-  const categoryBadgeStyles = (cat: string) => {
-    switch (cat) {
-      case 'lds':
-        return 'bg-[#fce4e4] text-[#8b1538] border-[#f3ccd1]';
-      case 'fdr':
-        return 'bg-[#e7eef6] text-[#2c4e74] border-[#cddbe8]';
-      case 'pessoal':
-        return 'bg-[#faeaf0] text-[#823b53] border-[#ecccd6]';
-      default:
-        return 'bg-[#faf8f5] text-stone-600 border-[#ece8e1]';
+  const { bills } = useBills();
+  const { items: subscriptions } = useRecords<Assinatura>('assinatura');
+  const weekFocus = useWeekFocus();
+  // Bills due this week and subscriptions about to renew share one panel
+  const billsDue = [
+    ...bills
+      .filter((b) => ['atrasada', 'semana'].includes(bucketOf(b, today)))
+      .map((b) => ({ id: b.id, name: b.name, date: b.date, amount: b.amount, renewal: false })),
+    ...renewalsDue(subscriptions, today).map((s) => ({ id: s.id, name: s.name, date: s.date, amount: s.amount, renewal: true })),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  const openBills = () => {
+    try {
+      sessionStorage.setItem('bruna_os_finance_section', 'contas');
+    } catch {
+      // ignore
     }
+    setCurrentTab('financeiro');
   };
 
-  const categoryLabels: Record<string, string> = {
-    lds: 'LDS Societário',
-    fdr: 'FDR 5º Sem',
-    pessoal: 'Pessoal / Treino',
+  const doneCount = priorities.filter((p) => p.completed).length;
+
+  const deadlines = useMemo(() => {
+    const items: { id: string; title: string; source: string; date: string; origin: DeadlineOrigin; personal?: boolean }[] = [
+      ...(fdrSubjects || []).flatMap((s) => [
+        ...(s.exams || [])
+          .filter((e) => !e.completed)
+          .map((e, i) => ({ id: `ex-${s.id}-${i}`, title: e.title, source: s.name, date: e.date, origin: 'faculdade' as const })),
+        ...(s.assignments || [])
+          .filter((a) => !a.completed)
+          .map((a, i) => ({ id: `as-${s.id}-${i}`, title: a.title, source: s.name, date: a.deadline, origin: 'faculdade' as const })),
+        ...(s.fichamentos || [])
+          .filter((f) => !f.completed)
+          .map((f, i) => ({ id: `fi-${s.id}-${i}`, title: f.title, source: s.name, date: f.deadline, origin: 'faculdade' as const })),
+      ]),
+      ...(ldsSessions || [])
+        .filter((sess) => sess.status !== 'concluida' && !sess.readingDone && sess.fullDate)
+        .map((sess) => ({
+          id: `lds-${sess.id}`,
+          title: `Leitura: ${sess.topic}`,
+          source: 'Liga de Societário',
+          date: sess.fullDate,
+          origin: 'liga' as const,
+        })),
+      ...personalDeadlines
+        .filter((d) => !d.done)
+        .map((d) => ({ id: d.id, title: d.title, source: originOf(d.origin).label, date: d.date, origin: d.origin, personal: true })),
+    ];
+    return items
+      .map((item) => ({ ...item, daysLeft: calculateDaysLeft(item.date) }))
+      .filter((item) => item.daysLeft >= (item.personal ? -30 : 0))
+      .sort((a, b) => a.daysLeft - b.daysLeft);
+  }, [fdrSubjects, ldsSessions, personalDeadlines]);
+
+  const usedOrigins = ORIGINS.filter((o) => deadlines.some((d) => d.origin === o.id));
+  const visibleDeadlines = deadlines.filter((d) => originFilter === 'todos' || d.origin === originFilter).slice(0, 6);
+
+  // Suggest the closest deadlines as priorities, unless they are already on the list
+  const suggestions = deadlines
+    .filter((d) => d.daysLeft <= 3)
+    .filter((d) => !priorities.some((p) => p.text.toLowerCase().includes(d.title.toLowerCase())))
+    .slice(0, 3);
+
+  // Money: always the current month, compared with the previous one
+  const month = today.slice(0, 7);
+  const finance = useMemo(() => {
+    const current = monthTotals(financialTransactions || [], month);
+    const previous = monthTotals(financialTransactions || [], shiftMonth(month, -1));
+    return { current, previous };
+  }, [financialTransactions, month]);
+  const spentDelta = finance.previous.spent ? (finance.current.spent - finance.previous.spent) / finance.previous.spent : null;
+
+  const week = lastDays(today, 7);
+
+  const currentBook = books.find((b) => b.status === 'lendo');
+  const bookProgress = currentBook
+    ? Math.round((currentBook.currentPage / Math.max(1, currentBook.totalPages)) * 100)
+    : 0;
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPriority.trim()) return;
+    addPriority(newPriority.trim(), 'executivo');
+    setNewPriority('');
   };
-
-  const currentBook = books.find(b => b.status === 'lendo') || books[0];
-
-  // Quick lookup for non-negotiable items (Planning, Fitness, Rest, Intellect)
-  const planningDone = habits.find(h => h.id === 'h-4' || h.name.toLowerCase().includes('planejamento'))?.completed || true;
-  const workoutDone = habits.find(h => h.id === 'treino' || h.id === 'h-2' || h.category === 'Corpo')?.completed || false;
-  const sleepDone = habits.find(h => h.id === 'h-1' || h.category === 'Saúde')?.completed || false;
-  const readingDone = habits.find(h => h.id === 'h-3' || h.category === 'Intelecto')?.completed || false;
 
   return (
-    <div className="space-y-6">
-      {/* High Density 3-Column Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Coluna 1: Foco & Rotina */}
-        <div className="space-y-6">
-          {/* Foco Absoluto (Top 3) */}
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Foco Absoluto (Top 3)
-              </h3>
-              <span className="text-[11px] font-semibold text-[#8b1538]">
-                {completedPrioritiesCount}/{priorities.length} feitos
-              </span>
+    <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-5 items-start">
+      <div className="space-y-5 min-w-0">
+        <Panel title="Prioridades" meta={priorities.length ? `${doneCount} de ${priorities.length}` : undefined}>
+          {weekFocus.length > 0 && (
+            <div className="mb-3 pb-3 border-b border-[#e6e4e8]">
+              <div className="text-xs font-medium text-stone-500 mb-1">Foco da semana</div>
+              <ol className="space-y-0.5">
+                {weekFocus.map((f, i) => (
+                  <li key={i} className="text-sm text-[#1c1a1e] leading-snug">
+                    <span className="text-stone-400 tabular-nums mr-1.5">{i + 1}.</span>
+                    {f}
+                  </li>
+                ))}
+              </ol>
             </div>
-
-            <div className="space-y-2.5">
-              {priorities.map((priority, idx) => {
-                const isDone = priority.completed;
-                return (
-                  <div
-                    key={priority.id}
-                    className={`group flex items-start justify-between gap-2 p-2 rounded-lg transition-colors ${
-                      isDone ? 'bg-[#faf8f5]' : 'hover:bg-[#faf8f5]'
-                    }`}
-                  >
-                    <div className="flex items-start min-w-0">
-                      <input
-                        type="checkbox"
-                        checked={isDone}
-                        onChange={() => togglePriority(priority.id)}
-                        className="mt-0.5 mr-2.5 accent-[#8b1538] w-3.5 h-3.5 cursor-pointer shrink-0 rounded"
-                      />
-                      <span
-                        className={`text-xs leading-snug cursor-pointer select-none ${
-                          isDone ? 'line-through text-stone-400' : 'text-stone-800 font-medium'
-                        }`}
-                        onClick={() => togglePriority(priority.id)}
-                      >
-                        {priority.text}
-                      </span>
-                    </div>
-
-                    <button
-                      onClick={() => deletePriority(priority.id)}
-                      className="opacity-0 group-hover:opacity-100 p-0.5 text-stone-400 hover:text-rose-600 transition-opacity shrink-0"
-                      title="Excluir"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Quick Add Priority */}
-            {priorities.length < 5 && (
-              <form onSubmit={handleAddPriority} className="flex gap-2 pt-3 mt-2 border-t border-[#f3ece2]">
+          )}
+          {priorities.length === 0 && (
+            <p className="text-sm text-stone-500 py-1">Nada definido ainda. O que precisa sair hoje?</p>
+          )}
+          <ul className="-mx-2">
+            {priorities.map((p) => (
+              <li key={p.id} className="group flex items-start gap-3 px-2 py-2 rounded-md hover:bg-stone-50">
                 <input
-                  type="text"
-                  placeholder="Nova prioridade..."
-                  value={newPriorityText}
-                  onChange={e => setNewPriorityText(e.target.value)}
-                  className="flex-1 px-3 py-1.5 text-xs rounded-lg bg-[#faf8f5] border border-[#ece8e1] text-[#212021] placeholder:text-stone-400 focus:outline-none focus:ring-1 focus:ring-[#8b1538] focus:bg-white transition-all"
+                  type="checkbox"
+                  checked={p.completed}
+                  onChange={() => togglePriority(p.id)}
+                  aria-label={p.text}
+                  className="mt-0.5 w-4 h-4 accent-[#8b1538] shrink-0 cursor-pointer"
                 />
-                <button
-                  type="submit"
-                  disabled={!newPriorityText.trim()}
-                  className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-[#8b1538] hover:bg-[#72102c] text-white disabled:opacity-50 transition-all flex items-center gap-1 shrink-0"
+                <span
+                  onClick={() => togglePriority(p.id)}
+                  className={`flex-1 text-sm leading-snug cursor-pointer ${
+                    p.completed ? 'line-through text-stone-400' : 'text-[#1c1a1e]'
+                  }`}
                 >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add</span>
+                  {p.text}
+                  {!p.completed && p.date && p.date < today && (
+                    <span className="ml-2 text-xs text-stone-500 whitespace-nowrap">
+                      desde {calculateDaysLeft(p.date) === -1 ? 'ontem' : formatShortDate(p.date)}
+                    </span>
+                  )}
+                </span>
+                <button
+                  onClick={() => deletePriority(p.id)}
+                  aria-label="Remover prioridade"
+                  className="p-0.5 rounded text-stone-400 hover:text-stone-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
+                >
+                  <X className="w-4 h-4" />
                 </button>
-              </form>
-            )}
-          </div>
-
-          {/* Não Negociáveis - High Density 2x2 Grid */}
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1]">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Não Negociáveis
-              </h3>
-              <button
-                onClick={() => setCurrentTab('rotina')}
-                className="text-[10px] text-stone-400 hover:text-[#8b1538] font-semibold transition-colors"
-              >
-                Gerenciar →
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {/* Planejamento & Foco */}
-              <div
-                onClick={() => toggleHabit('h-4')}
-                className="p-3 bg-[#faf8f5] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#f5efe8] transition-colors"
-              >
-                <span className="font-medium text-stone-700">Planejamento</span>
-                <span className={planningDone ? 'text-[#a9cf44] font-bold text-sm' : 'text-stone-300'}>
-                  {planningDone ? '✓' : '○'}
-                </span>
-              </div>
-
-              {/* Musculação / Treino */}
-              <div
-                onClick={() => toggleHabit('h-2')}
-                className="p-3 bg-[#faf8f5] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#f5efe8] transition-colors"
-              >
-                <span className="font-medium text-stone-700">Musculação</span>
-                <span className={workoutDone ? 'text-[#a9cf44] font-bold text-sm' : 'text-stone-300'}>
-                  {workoutDone ? '✓' : '○'}
-                </span>
-              </div>
-
-              {/* Sono 7h30+ */}
-              <div
-                onClick={() => toggleHabit('h-1')}
-                className="p-3 bg-[#faf8f5] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#f5efe8] transition-colors"
-              >
-                <span className="font-medium text-stone-700">Sono 7h30+</span>
-                <span className={sleepDone ? 'text-[#a9cf44] font-bold text-sm' : 'text-stone-300'}>
-                  {sleepDone ? '✓' : '○'}
-                </span>
-              </div>
-
-              {/* Leitura Diária 30m */}
-              <div
-                onClick={() => toggleHabit('h-3')}
-                className="p-3 bg-[#faf8f5] rounded-xl flex items-center justify-between cursor-pointer hover:bg-[#f5efe8] transition-colors"
-              >
-                <span className="font-medium text-stone-700">Leitura 30m</span>
-                <span className={readingDone ? 'text-[#a9cf44] font-bold text-sm' : 'text-stone-300'}>
-                  {readingDone ? '✓' : '○'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Captura Rápida - Bloco de Notas Instantâneo */}
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1]">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Captura Rápida
-              </h3>
-              <button
-                onClick={handleCopyNote}
-                className="text-[11px] font-semibold text-stone-400 hover:text-[#8b1538] transition-colors flex items-center gap-1"
-              >
-                {copiedNote ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                <span>{copiedNote ? 'Copiado' : 'Copiar'}</span>
-              </button>
-            </div>
-            <textarea
-              ref={noteTextareaRef}
-              value={quickNote}
-              onChange={e => setQuickNote(e.target.value)}
-              rows={4}
-              placeholder="Anote ideias rápidas, lembretes de estudo ou reflexões..."
-              className="w-full p-2.5 text-xs text-[#212021] leading-relaxed rounded-xl bg-[#faf8f5] border border-[#ece8e1] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#8b1538] resize-none transition-all font-sans-ui"
+              </li>
+            ))}
+          </ul>
+          <form onSubmit={handleAdd} className="mt-2 flex items-center gap-2">
+            <input
+              id="new-priority-input"
+              type="text"
+              value={newPriority}
+              onChange={(e) => setNewPriority(e.target.value)}
+              placeholder="Adicionar prioridade"
+              className="flex-1 h-9 px-3 text-sm rounded-md border border-[#e6e4e8] bg-white focus:outline-none focus:border-[#8b1538]"
             />
-          </div>
-        </div>
-
-        {/* Coluna 2: Finanças, Academia & Agenda */}
-        <div className="space-y-6">
-          {/* Gestão Financeira Card (Autonomia & Controle) */}
-          <div
-            onClick={() => setCurrentTab('financeiro')}
-            className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1] flex flex-col justify-between h-48 cursor-pointer hover:border-emerald-700/30 transition-all group"
-          >
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[10px] uppercase tracking-widest text-emerald-800 font-bold flex items-center gap-1.5">
-                  <Wallet className="w-3.5 h-3.5 text-emerald-600" />
-                  Finanças & Autonomia
-                </span>
-                <span className="text-[10px] text-stone-400 group-hover:text-emerald-800 transition-colors">
-                  Extrato Completo →
-                </span>
-              </div>
-              <div className="text-xl font-medium text-stone-900 font-serif-title mt-1">
-                R$ 1.100,00 <span className="text-xs text-stone-400 font-sans-ui font-normal">/ mês</span>
-              </div>
-              <p className="text-xs text-stone-500 mt-1">
-                Remuneração mensal + Apoio familiar regular (R$ 150/sem)
-              </p>
-            </div>
-
-            <div className="pt-2 border-t border-[#f2ede4] flex items-center justify-between text-xs">
-              <span className="text-stone-400">Despesas mês: R$ 428,90</span>
-              <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
-                Saldo Saudável
+            <button
+              type="submit"
+              disabled={!newPriority.trim()}
+              aria-label="Adicionar"
+              className="h-9 w-9 flex items-center justify-center rounded-md border border-[#e6e4e8] text-stone-600 hover:text-[#8b1538] hover:border-stone-300 disabled:opacity-40"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+          </form>
+          {suggestions.length > 0 && (
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              <span className="flex items-center gap-1 text-xs text-stone-500 mr-1">
+                <Sparkles className="w-3.5 h-3.5" />
+                Vence logo:
               </span>
+              {suggestions.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => addPriority(s.title, s.origin === 'faculdade' ? 'academico' : 'executivo')}
+                  className="max-w-full truncate h-7 px-2.5 rounded-full border border-[#e6e4e8] text-[13px] text-stone-700 hover:border-[#ead3da] hover:text-[#8b1538]"
+                  title={`Adicionar "${s.title}" às prioridades`}
+                >
+                  + {s.title}
+                </button>
+              ))}
             </div>
-          </div>
+          )}
+          {priorities.some((p) => p.completed) && (
+            <p className="mt-3 text-xs text-stone-500">As concluídas saem amanhã; as pendentes continuam aqui.</p>
+          )}
+        </Panel>
 
-          {/* LDS Card (Palette: Bordeaux & Rose) */}
-          <div
-            onClick={() => setCurrentTab('lds')}
-            className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1] flex flex-col justify-between h-48 cursor-pointer hover:border-[#8b1538]/30 transition-all group"
-          >
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[10px] uppercase tracking-widest text-[#8b1538] font-bold">
-                  LDS 26.2
-                </span>
-                <span className="text-[10px] text-stone-400 group-hover:text-[#8b1538] transition-colors">
-                  Liga LDS →
-                </span>
-              </div>
-              <div
-                className="text-base font-medium text-stone-800 font-serif-title"
-              >
-                Sessão Geral #04: Acordos de Sócios
-              </div>
-              <p className="text-xs text-stone-500 mt-1">
-                Debate: Acordos de Acionistas e Governança
-              </p>
-            </div>
-
-            <div className="p-3 bg-[#fce4e4] text-[#8b1538] rounded-xl text-xs flex justify-between items-center font-medium">
-              <span>Próximo encontro: 09/Set • 14:00</span>
-              <span className="font-bold group-hover:translate-x-1 transition-transform">→</span>
-            </div>
-          </div>
-
-          {/* Mini Timeline de Hoje */}
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1]">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Agenda de Hoje ({todayEvents.length})
-              </h3>
-              <button
-                onClick={() => setCurrentTab('calendario')}
-                className="text-[10px] text-[#8b1538] font-semibold hover:underline"
-              >
-                Calendário →
-              </button>
-            </div>
-
-            {todayEvents.length === 0 ? (
-              <div className="py-4 text-center text-xs text-stone-400">
-                Nenhum compromisso agendado para hoje.
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {todayEvents.map(event => (
-                  <div
-                    key={event.id}
-                    className="p-2.5 rounded-xl bg-[#faf8f5] border border-[#ece8e1] flex items-center justify-between gap-2"
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${categoryBadgeStyles(
-                            event.category
-                          )}`}
-                        >
-                          {categoryLabels[event.category] || event.category}
-                        </span>
-                        <span className="text-xs font-medium text-[#212021] truncate">
-                          {event.title}
-                        </span>
-                      </div>
-                      {event.location && (
-                        <div className="text-[10px] text-stone-400 mt-0.5 truncate flex items-center gap-1">
-                          <MapPin className="w-2.5 h-2.5" />
-                          <span>{event.location}</span>
-                        </div>
+        <Panel
+          title="Agenda de hoje"
+          meta={todayEvents.length ? todayEvents.length : undefined}
+          action={{ label: 'Agenda', onClick: () => setCurrentTab('calendario') }}
+        >
+          {todayEvents.length === 0 ? (
+            <p className="text-sm text-stone-500">
+              Nenhum compromisso hoje.
+              {google && google.configured && !google.connected && (
+                <> Conecte o Google em Conta e conexões para ver a sua agenda aqui.</>
+              )}
+            </p>
+          ) : (
+            <ol className="divide-y divide-[#e6e4e8]">
+              {todayEvents.map((ev) => (
+                <li key={ev.id} className="flex gap-4 py-2.5 first:pt-0 last:pb-0">
+                  <span className="w-24 shrink-0 text-sm text-stone-500 tabular-nums whitespace-nowrap">
+                    {ev.time ? ev.time.replace(/\s*-\s*/, '–') : 'Dia todo'}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-sm font-medium text-[#1c1a1e]">{ev.title}</div>
+                    <div className="text-xs text-stone-500 flex items-center gap-1.5 mt-0.5">
+                      <span>{ev.source}</span>
+                      {ev.location && (
+                        <>
+                          <span aria-hidden>·</span>
+                          <MapPin className="w-3 h-3" />
+                          <span className="truncate">{ev.location}</span>
+                        </>
                       )}
                     </div>
-                    {event.time && (
-                      <span className="text-[11px] font-semibold text-[#8b1538] shrink-0">
-                        {event.time}
-                      </span>
-                    )}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+                </li>
+              ))}
+            </ol>
+          )}
+        </Panel>
 
-        {/* Coluna 3: Foco Estratégico & Leituras */}
-        <div className="space-y-6">
-          {/* Autonomia & Finanças Card */}
-          <div
-            onClick={() => setCurrentTab('financeiro')}
-            className="bg-gradient-to-br from-white to-[#faf7f2] p-5 rounded-2xl shadow-sm border border-[#ece8e1] flex flex-col justify-between h-48 cursor-pointer hover:border-[#8b1538]/30 transition-all group"
-          >
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[10px] uppercase tracking-widest text-[#8b1538] font-bold">
-                  Autonomia & Gestão
-                </span>
-                <span className="text-[10px] text-stone-400 group-hover:text-[#8b1538] transition-colors">
-                  Financeiro →
-                </span>
+        {currentBook && (
+          <Panel title="Lendo agora" action={{ label: 'Leituras', onClick: () => setCurrentTab('livros') }}>
+            <div className="text-sm font-medium text-[#1c1a1e] leading-snug">{currentBook.title}</div>
+            <div className="text-xs text-stone-500 mt-0.5">{currentBook.author}</div>
+            <div className="mt-3 flex items-center gap-3">
+              <div className="flex-1 h-1.5 rounded-full bg-stone-100 overflow-hidden">
+                <div className="h-full bg-[#8b1538] rounded-full" style={{ width: `${bookProgress}%` }} />
               </div>
-              <div className="text-base font-medium text-stone-800 font-serif-title leading-snug">
-                Meta 2026: Independência & Reserva
-              </div>
-              <p className="text-[11px] text-stone-500 mt-2 font-sans-ui">
-                Reserva de Emergência • Saldo positivo e despesas controladas
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-[#8b1538] font-medium pt-2 border-t border-[#f2ede4]">
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="truncate">R$ 1.150 investidos • Saldo Saudável</span>
-              </div>
-              <span className="text-[10px] font-bold text-stone-500">
-                Ver Painel
+              <span className="text-xs text-stone-500 tabular-nums">
+                {currentBook.currentPage}/{currentBook.totalPages}
               </span>
             </div>
-          </div>
+          </Panel>
+        )}
+      </div>
 
-          {/* Próxima Entrega / Prova Banner (FDR 5º Período) */}
-          <div
-            onClick={() => setCurrentTab('fdr')}
-            className="bg-[#8b1538] text-[#fce4e4] p-5 rounded-2xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-[#72102c] transition-all"
+      <div className="space-y-5 min-w-0">
+        {billsDue.length > 0 && (
+          <Panel
+            title="Contas a vencer"
+            meta={billsDue.some((b) => b.amount) ? BRL.format(billsDue.reduce((s, b) => s + (b.amount || 0), 0)) : undefined}
+            action={{ label: 'Contas', onClick: openBills }}
           >
-            <div className="min-w-0 pr-3">
-              <div className="text-[10px] uppercase tracking-widest text-rose-200 font-bold flex items-center gap-1.5">
-                <span>Próxima Entrega / Prova</span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-white/20">FDR 5º Sem</span>
-              </div>
-              <div className="text-sm font-medium text-white mt-0.5 truncate">
-                {nextAcademicItem.title}
-              </div>
-              <div className="text-[11px] text-rose-200 mt-0.5 truncate">
-                {nextAcademicItem.subject} • {nextAcademicItem.date}
-              </div>
-            </div>
-            <div className="text-right shrink-0">
-              <div className="text-2xl font-bold text-white tracking-tight">
-                {nextAcademicItem.daysLeft <= 0 ? 'HOJE' : `D-${nextAcademicItem.daysLeft}`}
-              </div>
-              <div className="text-[9px] uppercase tracking-wider text-rose-200 font-semibold">
-                {nextAcademicItem.categoryTag}
-              </div>
-            </div>
-          </div>
+            <ul className="space-y-3">
+              {billsDue.slice(0, 4).map((b) => {
+                const days = calculateDaysLeft(b.date);
+                return (
+                  <li key={b.id} className="flex items-start gap-3">
+                    <div className={`w-16 shrink-0 text-xs font-medium pt-0.5 ${days <= 2 ? 'text-[#8b1538]' : 'text-stone-500'}`}>
+                      {days < 0 ? (b.renewal ? 'Renovou' : 'Atrasada') : relativeDays(days)}
+                    </div>
+                    <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
+                      <span className="text-sm text-[#1c1a1e] leading-snug truncate">
+                        {b.name}
+                        {b.renewal && <span className="ml-1.5 text-xs text-stone-500">renovação</span>}
+                      </span>
+                      {b.amount ? <span className="text-sm tabular-nums text-stone-600 shrink-0">{BRL.format(b.amount)}</span> : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </Panel>
+        )}
 
-          {/* Estante & Leituras Snapshot */}
-          <div
-            onClick={() => setCurrentTab('livros')}
-            className="bg-white p-5 rounded-2xl shadow-sm border border-[#ece8e1] space-y-3 cursor-pointer hover:border-indigo-200 transition-all group"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-stone-400 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
-                Leitura do Momento
-              </h3>
-              <span className="text-[10px] text-stone-400 group-hover:text-indigo-600 font-semibold transition-colors">
-                Estante →
-              </span>
+        <Panel
+          title="Próximos prazos"
+          action={{ label: addingDeadline ? 'Fechar' : 'Novo prazo', onClick: () => setAddingDeadline((v) => !v), navigates: false }}
+        >
+          {addingDeadline && (
+            <NewDeadlineForm
+              onSave={(d) => {
+                addPersonalDeadline(d);
+                setAddingDeadline(false);
+              }}
+            />
+          )}
+          {usedOrigins.length > 1 && (
+            <div className="flex flex-wrap gap-1 mb-3" aria-label="Filtrar prazos por origem">
+              {[{ id: 'todos' as const, label: 'Todos', dot: '' }, ...usedOrigins].map((o) => (
+                <button
+                  key={o.id}
+                  onClick={() => setOriginFilter(o.id)}
+                  aria-pressed={originFilter === o.id}
+                  className={cx(
+                    'flex items-center gap-1.5 h-7 px-2.5 rounded-full border text-[13px]',
+                    originFilter === o.id
+                      ? 'border-[#ead3da] bg-[#f7ecef] text-[#6f0f2c]'
+                      : 'border-[#e6e4e8] text-stone-600 hover:border-stone-300',
+                  )}
+                >
+                  {o.dot && <span className={cx('w-1.5 h-1.5 rounded-full', o.dot)} />}
+                  {o.label}
+                </button>
+              ))}
             </div>
+          )}
+          {visibleDeadlines.length === 0 ? (
+            <p className="text-sm text-stone-500">Nenhum prazo pela frente.</p>
+          ) : (
+            <ul className="space-y-3">
+              {visibleDeadlines.map((d) => (
+                <li key={d.id} className="group flex items-start gap-3">
+                  <div
+                    className={`w-16 shrink-0 text-xs font-medium pt-0.5 ${
+                      d.daysLeft <= 2 ? 'text-[#8b1538]' : 'text-stone-500'
+                    }`}
+                  >
+                    {relativeDays(d.daysLeft)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm text-[#1c1a1e] leading-snug">{d.title}</div>
+                    <div className="text-xs text-stone-500 mt-0.5 truncate flex items-center gap-1.5">
+                      <span className={cx('w-1.5 h-1.5 rounded-full shrink-0', originOf(d.origin).dot)} aria-hidden />
+                      {d.source} · {formatShortDate(d.date)}
+                    </div>
+                  </div>
+                  {d.personal && (
+                    <div className="flex items-center gap-0.5 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 focus-within:opacity-100">
+                      <button
+                        onClick={() => togglePersonalDeadline(d.id)}
+                        className="h-6 px-1.5 rounded text-xs text-stone-500 hover:text-emerald-700 hover:bg-stone-100"
+                      >
+                        Feito
+                      </button>
+                      <button
+                        onClick={() => deletePersonalDeadline(d.id)}
+                        aria-label={`Remover ${d.title}`}
+                        className="p-1 rounded text-stone-400 hover:text-stone-700"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
 
-            <div className="p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1] flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-xs font-bold text-[#212021] truncate">
-                  {currentBook?.title || 'A Sabedoria dos Provérbios'}
+        <Panel
+          title="Hábitos"
+          meta={habits.length ? `${habits.filter((h) => h.completed).length} de ${habits.length}` : undefined}
+          action={{ label: 'Rotina', onClick: () => setCurrentTab('rotina') }}
+        >
+          {habits.length === 0 ? (
+            <p className="text-sm text-stone-500">
+              Nenhum hábito ainda.{' '}
+              <button onClick={() => setCurrentTab('rotina')} className="text-[#8b1538] hover:underline">
+                Criar em Rotina
+              </button>
+            </p>
+          ) : (
+            <ul className="-mx-2">
+              {habits.slice(0, 6).map((h) => {
+                const done = new Set(h.history || []);
+                return (
+                  <li key={h.id}>
+                    <label className="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-stone-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={h.completed}
+                        onChange={() => toggleHabit(h.id)}
+                        className="w-4 h-4 accent-[#8b1538] shrink-0"
+                      />
+                      <span className={`flex-1 min-w-0 text-sm leading-snug ${h.completed ? 'text-stone-500' : 'text-[#1c1a1e]'}`}>
+                        {h.name}
+                      </span>
+                      <span
+                        className="flex items-center gap-0.5 shrink-0"
+                        title={`${h.streak} ${h.streak === 1 ? 'dia seguido' : 'dias seguidos'}`}
+                        aria-label={`${h.streak} dias seguidos`}
+                      >
+                        {week.map((d) => (
+                          <span
+                            key={d}
+                            className={cx(
+                              'w-1.5 h-3 rounded-sm',
+                              done.has(d) ? 'bg-[#8b1538]' : 'bg-stone-200',
+                              d === today && !done.has(d) && 'ring-1 ring-stone-300 bg-white',
+                            )}
+                          />
+                        ))}
+                      </span>
+                      <span className="w-6 text-right text-xs text-stone-500 tabular-nums shrink-0">
+                        {h.streak > 0 ? `${h.streak}d` : ''}
+                      </span>
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </Panel>
+
+        <Panel
+          title="Finanças"
+          meta={monthName(month)}
+          action={{ label: 'Detalhes', onClick: () => setCurrentTab('financeiro') }}
+        >
+          {finance.current.count === 0 ? (
+            <p className="text-sm text-stone-500">
+              Nenhum lançamento em {monthName(month)} ainda.
+              {finance.previous.count > 0 && (
+                <> Em {monthName(shiftMonth(month, -1))} saíram {BRL.format(finance.previous.spent)}.</>
+              )}
+            </p>
+          ) : (
+            <>
+              <dl className="grid grid-cols-3 gap-3">
+                <div>
+                  <dt className="text-xs text-stone-500">Entrou</dt>
+                  <dd className="text-sm font-medium tabular-nums mt-0.5">{BRL.format(finance.current.income)}</dd>
                 </div>
-                <div className="text-[10px] text-stone-400 truncate mt-0.5">
-                  {currentBook?.author || 'Estudo & Reflexão'} • {currentBook ? `${currentBook.currentPage}/${currentBook.totalPages} págs` : 'Em andamento'}
+                <div>
+                  <dt className="text-xs text-stone-500">Saiu</dt>
+                  <dd className="text-sm font-medium tabular-nums mt-0.5">{BRL.format(finance.current.spent)}</dd>
                 </div>
-              </div>
-              <span className="px-2 py-1 text-[10px] font-bold rounded-md bg-indigo-50 text-indigo-800 shrink-0">
-                {currentBook ? `${Math.round((currentBook.currentPage / currentBook.totalPages) * 100)}%` : '62%'}
-              </span>
-            </div>
-          </div>
-        </div>
+                <div>
+                  <dt className="text-xs text-stone-500">Saldo</dt>
+                  <dd
+                    className={`text-sm font-medium tabular-nums mt-0.5 ${
+                      finance.current.balance < 0 ? 'text-[#8b1538]' : 'text-emerald-700'
+                    }`}
+                  >
+                    {BRL.format(finance.current.balance)}
+                  </dd>
+                </div>
+              </dl>
+              {spentDelta !== null && (
+                <p className="mt-3 text-xs text-stone-500">
+                  Gastos {spentDelta >= 0 ? `${Math.round(spentDelta * 100)}% acima` : `${Math.round(-spentDelta * 100)}% abaixo`} de{' '}
+                  {monthName(shiftMonth(month, -1))} até agora.
+                </p>
+              )}
+            </>
+          )}
+        </Panel>
       </div>
     </div>
+  );
+};
+
+const NewDeadlineForm: React.FC<{ onSave: (d: { title: string; date: string; origin: DeadlineOrigin }) => void }> = ({
+  onSave,
+}) => {
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState(todayISO);
+  const [origin, setOrigin] = useState<DeadlineOrigin>('estagio');
+  const field = 'h-9 px-2.5 text-sm rounded-md border border-[#e6e4e8] bg-white focus:outline-none focus:border-[#8b1538]';
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (title.trim() && date) onSave({ title: title.trim(), date, origin });
+      }}
+      className="mb-4 space-y-2"
+    >
+      <input
+        autoFocus
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="O que vence?"
+        aria-label="Prazo"
+        className={cx(field, 'w-full')}
+      />
+      <div className="flex gap-2">
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Data" className={cx(field, 'flex-1 min-w-0')} />
+        <select value={origin} onChange={(e) => setOrigin(e.target.value as DeadlineOrigin)} aria-label="Origem" className={cx(field, 'flex-1 min-w-0')}>
+          {ORIGINS.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <button
+          type="submit"
+          disabled={!title.trim()}
+          className="h-9 px-3 rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-sm font-medium disabled:opacity-50"
+        >
+          Salvar
+        </button>
+      </div>
+    </form>
   );
 };

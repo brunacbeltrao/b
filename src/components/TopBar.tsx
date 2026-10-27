@@ -1,107 +1,67 @@
-import React, { useState } from 'react';
-import { Feather, Search, Menu } from 'lucide-react';
+import React from 'react';
+import { Plus, Menu } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { BrandBIcon } from './BrandB';
 import { formatLongDate, greetingForNow } from '../utils/dateUtils';
+import { SyncButton } from './SyncButton';
+import { TAB_LABELS } from './Sidebar';
 
-export const TopBar: React.FC<{ onOpenQuickCapture?: () => void }> = ({ onOpenQuickCapture }) => {
+const SUBTITLES: Partial<Record<string, string>> = {
+  fdr: '5º período noturno · Perfil 0807',
+  lds: 'Grupo de estudos · Ciclo 2026.2',
+};
+
+/** Id of the "add priority" field on the Hoje page */
+export const QUICK_CAPTURE_ID = 'new-priority-input';
+
+export const TopBar: React.FC = () => {
   const { currentTab, setCurrentTab, setIsMobileNavOpen } = useApp();
-  const [searchFocused, setSearchFocused] = useState(false);
 
-  const tabTitles: Record<string, { title: string; subtitle: string }> = {
-    cockpit: {
-      title: `${greetingForNow()}, Bruna.`,
-      subtitle: formatLongDate(),
-    },
-    fdr: {
-      title: 'Faculdade de Direito do Recife (FDR / UFPE)',
-      subtitle: 'Perfil Curricular 0807 • 5º Período Noturno • Integralização, SIGAA & Provas',
-    },
-    lds: {
-      title: 'Liga de Direito Societário (LDS)',
-      subtitle: 'Ciclo 26.2 • Encontros Quinzenais, Casos Práticos e Governança Corporativa',
-    },
-    calendario: {
-      title: 'Calendário Geral',
-      subtitle: 'Visão integrada • FDR, LDS, Finanças, Livros e Rotina',
-    },
-    rotina: {
-      title: 'Rotina & Hábitos',
-      subtitle: 'Ritmo Circadiano, Descanso & Disciplina Diária',
-    },
-    financeiro: {
-      title: 'Gestão Financeira',
-      subtitle: 'Controle de Receitas, Apoio Familiar e Despesas Pessoais',
-    },
-    livros: {
-      title: 'Estante de Livros',
-      subtitle: 'Leituras Realizadas, Obras em Andamento & Lista 2026',
-    },
+  const isHome = currentTab === 'cockpit';
+  const title = isHome ? `${greetingForNow()}, Bruna` : TAB_LABELS[currentTab];
+  const subtitle = isHome ? formatLongDate() : SUBTITLES[currentTab];
+
+  const openCapture = () => {
+    if (!isHome) setCurrentTab('cockpit');
+    // Wait for the page transition before focusing the field
+    setTimeout(() => {
+      const field = document.getElementById(QUICK_CAPTURE_ID) as HTMLInputElement | null;
+      field?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      field?.focus();
+    }, isHome ? 0 : 300);
   };
-
-  const currentInfo = tabTitles[currentTab] || tabTitles.cockpit;
 
   return (
     <header
       id="app-topbar"
-      className="h-16 px-4 md:px-8 border-b border-[#ece8e1] bg-[#faf8f5]/90 backdrop-blur-sm sticky top-0 z-20 flex items-center justify-between"
+      className="sticky top-0 z-20 bg-[#f6f5f7]/95 border-b border-[#e6e4e8] px-4 sm:px-6 lg:px-10"
     >
-      <div className="flex items-center gap-3 min-w-0 pr-2">
+      <div className="max-w-6xl mx-auto h-16 flex items-center gap-3">
         <button
           id="btn-mobile-menu-trigger"
           onClick={() => setIsMobileNavOpen(true)}
-          aria-label="Abrir Menu de Navegação"
-          className="p-1.5 -ml-1 rounded-lg text-stone-600 hover:text-[#8b1538] hover:bg-[#fce4e4]/60 lg:hidden shrink-0 transition-colors"
+          aria-label="Abrir menu"
+          className="lg:hidden p-2 -ml-2 rounded-md text-stone-600 hover:bg-stone-200/60"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Mobile Lovable Brand Mark */}
-        <div className="lg:hidden shrink-0">
-          <BrandBIcon size="sm" withGlow={false} />
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-lg sm:text-[22px] leading-tight text-[#1c1a1e] truncate">{title}</h1>
+          {subtitle && <p className="text-xs sm:text-[13px] text-stone-500 truncate">{subtitle}</p>}
         </div>
 
-        <div className="min-w-0">
-          <h2
-            className="font-serif-title text-lg md:text-2xl font-light text-[#212021] tracking-tight truncate"
+        <div className="flex items-center gap-2 shrink-0">
+          <SyncButton />
+          <button
+            id="btn-quick-capture-top"
+            onClick={openCapture}
+            aria-label="Adicionar prioridade"
+            className="flex items-center gap-1.5 h-9 px-3 rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-sm font-medium transition-colors"
           >
-            {currentInfo.title}
-          </h2>
-          <p className="text-stone-400 mt-0.5 uppercase text-[10px] md:text-[11px] tracking-[0.12em] font-semibold truncate font-sans-ui">
-            {currentInfo.subtitle}
-          </p>
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Prioridade</span>
+          </button>
         </div>
-      </div>
-
-      <div className="flex items-center space-x-3 shrink-0">
-        {/* Search input with ⌘K badge from High Density theme */}
-        <div
-          onClick={() => {
-            if (currentTab !== 'cockpit') setCurrentTab('cockpit');
-          }}
-          className="hidden sm:flex items-center px-3.5 py-1.5 bg-white border border-[#ece8e1] rounded-full shadow-2xs text-xs cursor-pointer hover:border-stone-300 transition-colors"
-        >
-          <Search className="w-3.5 h-3.5 text-stone-400 mr-2" />
-          <span className="mr-2 text-stone-400 text-xs">Buscar no sistema...</span>
-          <span className="bg-stone-100 px-1 py-0.5 rounded text-[10px] text-stone-500 font-mono font-bold">
-            ⌘K
-          </span>
-        </div>
-
-        {/* Quick capture button */}
-        <button
-          id="btn-quick-capture-top"
-          onClick={() => {
-            if (currentTab !== 'cockpit') {
-              setCurrentTab('cockpit');
-            }
-            if (onOpenQuickCapture) onOpenQuickCapture();
-          }}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#8b1538] hover:bg-[#72102c] text-white text-xs font-semibold shadow-2xs transition-all"
-        >
-          <Feather className="w-3.5 h-3.5 text-[#fce4e4]" />
-          <span className="whitespace-nowrap">Captura</span>
-        </button>
       </div>
     </header>
   );

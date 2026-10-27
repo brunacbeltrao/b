@@ -21,7 +21,8 @@ export function migrarEstado(dadosBrutos: any): Estado {
   }
 
   const padrao = criarEstadoInicial();
-  if (!estado.horariosAulas || estado.horariosAulas.length === 0) estado.horariosAulas = padrao.horariosAulas || [];
+  // Only seed the sample timetable once; an empty list means the student removed every class
+  if (!estado.horariosAulas) estado.horariosAulas = padrao.horariosAulas || [];
   if (!estado.registrosPresenca) estado.registrosPresenca = padrao.registrosPresenca || [];
   if (!estado.lembretesCalendario || estado.lembretesCalendario.length === 0) estado.lembretesCalendario = padrao.lembretesCalendario || [];
   if (!estado.cadernoErros) estado.cadernoErros = padrao.cadernoErros || [];

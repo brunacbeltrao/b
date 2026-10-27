@@ -5,22 +5,42 @@ export type NavigationTab =
   | 'calendario'
   | 'financeiro'
   | 'livros'
-  | 'rotina';
+  | 'rotina'
+  | 'saude'
+  | 'revisao'
+  | 'carreira'
+  | 'diario'
+  | 'documentos';
 
 export interface PriorityItem {
   id: string;
   text: string;
   completed: boolean;
   category: 'executivo' | 'academico' | 'pessoal' | 'espiritual';
+  /** Day the priority was created (YYYY-MM-DD); pending ones roll over to the next day */
+  date?: string;
+  /** Day it was ticked; completed priorities leave the list the day after */
+  completedOn?: string;
+}
+
+export type DeadlineOrigin = 'faculdade' | 'liga' | 'estagio' | 'monitoria' | 'bev' | 'pessoal';
+
+/** A deadline the student adds by hand (outside the Faculdade and Liga modules) */
+export interface PersonalDeadline {
+  id: string;
+  title: string;
+  date: string; // YYYY-MM-DD
+  origin: DeadlineOrigin;
+  done?: boolean;
 }
 
 export type EventCategory = 
   | 'estagio'        // #0d9488 (Projetos / Atividades)
   | 'lds'            // #8b1538 (Bordô/Vinho)
-  | 'fdr'            // #3b628a (Azul/Marinho suave)
+  | 'fdr'            // #625d66 (Azul/Marinho suave)
   | 'descanso'       // #c89d56 (Dourado/Champagne)
   | 'espiritualidade'
-  | 'pessoal';       // #c48b9f (Rosa seco)
+  | 'pessoal';       // #c9a3ae (Rosa seco)
 
 export interface CalendarEvent {
   id: string;
@@ -174,6 +194,8 @@ export interface HabitItem {
   icon: string;
   completed: boolean;
   streak: number;
+  /** Days the habit was done (YYYY-MM-DD); completed and streak are derived from it */
+  history?: string[];
 }
 
 export interface WorkoutDay {
@@ -202,7 +224,7 @@ export interface SpiritualityState {
   };
 }
 
-// Saúde, Consultas, Exames e TDAH (Venvanse)
+// Saúde (estrutura do protótipo, usada só para importar dados antigos)
 export interface HealthAppointment {
   id: string;
   specialty: string;

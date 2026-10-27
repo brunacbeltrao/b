@@ -112,22 +112,22 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
       subtitulo={`${componente.nome} • ${progresso.concluidos}/${progresso.total} tópicos concluídos (${progresso.porcentagem}%)`}
     >
       <div className="space-y-4 text-xs">
-        <div className="p-3 bg-[#faf8f5] rounded-xl border border-[#ece8e1] space-y-1.5">
+        <div className="p-3 bg-[#f6f5f7] rounded-xl border border-[#e6e4e8] space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Progresso dos Tópicos</span>
+            <span className="text-xs font-medium text-stone-400">Progresso dos Tópicos</span>
             <span className="font-mono text-stone-900 font-medium text-xs">
               {progresso.porcentagem}%
             </span>
           </div>
-          <div className="w-full h-1.5 rounded-full bg-[#f2ede4] overflow-hidden">
+          <div className="w-full h-1.5 rounded-full bg-[#e6e4e8] overflow-hidden">
             <div
-              className="h-full bg-emerald-700 rounded-full transition-all duration-300"
+              className="h-full bg-[#8b1538] rounded-full transition-all duration-300"
               style={{ width: `${progresso.porcentagem}%` }}
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-b border-[#ece8e1] pb-2">
+        <div className="flex items-center justify-between border-b border-[#e6e4e8] pb-2">
           <div className="flex items-center gap-1">
             <Button
               variant="chip"
@@ -187,7 +187,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
               <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-stone-800 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-600" />
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">Aviso do Docente</span>
+                  <span className="text-xs font-medium text-amber-700 block">Aviso do Docente</span>
                   <p>{guia.aviso}</p>
                 </div>
               </div>
@@ -202,8 +202,8 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
                   key={topico.id}
                   className={`p-3 rounded-xl border transition-all ${
                     topico.concluido
-                      ? 'border-[#ece8e1] bg-[#faf8f5]/60'
-                      : 'border-[#ece8e1] bg-white shadow-2xs'
+                      ? 'border-[#e6e4e8] bg-[#f6f5f7]/60'
+                      : 'border-[#e6e4e8] bg-white shadow-2xs'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -224,7 +224,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
                           <span className="font-mono text-[10px] text-stone-400">
                             #{topico.ordem}
                           </span>
-                          <span className="px-1.5 py-0.2 rounded text-[9px] font-medium bg-[#faf8f5] text-stone-600 border border-[#ece8e1]">
+                          <span className="px-1.5 py-0.2 rounded text-[9px] font-medium bg-[#f6f5f7] text-stone-600 border border-[#e6e4e8]">
                             {badgeOrigem(topico.origem)}
                           </span>
                         </div>
@@ -256,7 +256,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
                                 className={`px-2 py-0.5 rounded text-[10px] font-medium border transition-colors cursor-pointer ${
                                   associada
                                     ? 'bg-[#8b1538] text-white border-[#8b1538]'
-                                    : 'bg-white text-stone-600 border-[#ece8e1] hover:text-stone-900'
+                                    : 'bg-white text-stone-600 border-[#e6e4e8] hover:text-stone-900'
                                 }`}
                               >
                                 {av.nome.split(' ')[0]} {av.nome.split(' ')[1] || ''}
@@ -322,46 +322,46 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
             </div>
             <div className="space-y-3">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Ementa do Programa</span>
+                <span className="text-xs font-medium text-stone-400 block mb-1">Ementa do Programa</span>
                 {editandoEmenta ? (
                   <textarea
                     rows={4}
                     value={formEmenta}
                     onChange={(e) => setFormEmenta(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-xs text-stone-800"
+                    className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-xs text-stone-800"
                   />
                 ) : (
-                  <p className="p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1] leading-relaxed text-stone-800 whitespace-pre-line">
+                  <p className="p-3 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] leading-relaxed text-stone-800 whitespace-pre-line">
                     {guia.ementa || 'Ementa não informada.'}
                   </p>
                 )}
               </div>
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Bibliografia Recomendada</span>
+                <span className="text-xs font-medium text-stone-400 block mb-1">Bibliografia Recomendada</span>
                 {editandoEmenta ? (
                   <textarea
                     rows={4}
                     value={formBiblio}
                     onChange={(e) => setFormBiblio(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-mono text-[11px] text-stone-800"
+                    className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-mono text-[11px] text-stone-800"
                   />
                 ) : (
-                  <p className="p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1] leading-relaxed text-stone-800 font-mono text-[11px] whitespace-pre-line">
+                  <p className="p-3 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] leading-relaxed text-stone-800 font-mono text-[11px] whitespace-pre-line">
                     {guia.bibliografia || 'Bibliografia não informada.'}
                   </p>
                 )}
               </div>
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Avisos e Observações</span>
+                <span className="text-xs font-medium text-stone-400 block mb-1">Avisos e Observações</span>
                 {editandoEmenta ? (
                   <input
                     type="text"
                     value={formAviso}
                     onChange={(e) => setFormAviso(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-xs text-stone-800"
+                    className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-xs text-stone-800"
                   />
                 ) : (
-                  <p className="p-2.5 rounded-xl bg-[#faf8f5] border border-[#ece8e1] text-stone-500 italic">
+                  <p className="p-2.5 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8] text-stone-500 italic">
                     {guia.aviso || 'Nenhum aviso registrado.'}
                   </p>
                 )}
@@ -372,7 +372,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
 
         {secaoAtiva === 'perguntas' && (
           <div className="space-y-2.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Perguntas Essenciais ao Docente</span>
+            <span className="text-xs font-medium text-stone-400 block">Perguntas Essenciais ao Docente</span>
             <div className="space-y-1.5">
               {(guia.perguntasProfessor || []).map((perg) => (
                 <div
@@ -380,8 +380,8 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
                   onClick={() => store.alternarPerguntaProfessor(tentativa.id, perg.id)}
                   className={`p-3 rounded-xl border cursor-pointer transition-colors flex items-start gap-2.5 ${
                     perg.respondida
-                      ? 'bg-[#faf8f5] border-[#ece8e1] text-stone-400'
-                      : 'bg-white border-[#ece8e1] text-stone-800 shadow-2xs'
+                      ? 'bg-[#f6f5f7] border-[#e6e4e8] text-stone-400'
+                      : 'bg-white border-[#e6e4e8] text-stone-800 shadow-2xs'
                   }`}
                 >
                   <button type="button" className="mt-0.5 text-stone-400">
@@ -417,7 +417,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
               placeholder="Ex: Teoria Geral do Procedimento Comum"
               value={novoTitulo}
               onChange={(e) => setNovoTitulo(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white"
             />
           </div>
           <div>
@@ -429,7 +429,7 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
               placeholder="Ex: prazos, espécies, nulidades..."
               value={novosSubtopicos}
               onChange={(e) => setNovosSubtopicos(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white"
             />
           </div>
           <div>
@@ -439,14 +439,14 @@ export const GuiaModal: React.FC<GuiaModalProps> = ({
             <select
               value={novaOrigem}
               onChange={(e) => setNovaOrigem(e.target.value as OrigemTopico)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white font-medium"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white font-medium"
             >
               <option value="professor">Indicação do Professor</option>
               <option value="propria">Anotação Própria</option>
               <option value="programa">Programa Oficial</option>
             </select>
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex justify-end gap-2">
+          <div className="pt-3 border-t border-[#e6e4e8] flex justify-end gap-2">
             <Button
               variant="soft"
               onClick={() => setModalNovoTopico(false)}

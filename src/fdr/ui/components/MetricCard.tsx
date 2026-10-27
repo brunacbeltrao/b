@@ -25,19 +25,19 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
   return (
     <div
-      className={`relative bg-white text-stone-900 rounded-2xl p-4 sm:p-5 border transition-all duration-150 ${
+      className={`relative bg-white text-stone-900 rounded-xl p-4 border ${
         destaque
-          ? 'border-[#8b1538]/30 shadow-xs ring-1 ring-[#8b1538]/10'
-          : 'border-[#ece8e1] shadow-2xs'
+          ? 'border-[#ead3da]'
+          : 'border-[#e6e4e8]'
       }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
+          <span className="text-xs text-stone-500 block">
             {sigla} • {rotulo}
           </span>
           <div className="mt-1.5 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-light tracking-tight font-mono text-stone-900">
+            <span className="text-2xl font-semibold tabular-nums text-[#1c1a1e]">
               {valor}
             </span>
           </div>
@@ -58,10 +58,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </button>
       </div>
       {aberto && (
-        <div className="mt-3 pt-3 border-t border-[#f2ede4] text-xs text-stone-600 space-y-2">
+        <div className="mt-3 pt-3 border-t border-[#e6e4e8] text-xs text-stone-600 space-y-2">
           <p className="leading-relaxed">{explicacao}</p>
           {formula && (
-            <div className="p-2 rounded-lg bg-[#faf8f5] text-[11px] font-mono text-stone-800 border border-[#ece8e1]">
+            <div className="p-2 rounded-lg bg-[#f6f5f7] text-[11px] font-mono text-stone-800 border border-[#e6e4e8]">
               {formula}
             </div>
           )}

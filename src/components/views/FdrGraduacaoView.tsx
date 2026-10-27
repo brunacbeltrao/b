@@ -10,6 +10,7 @@ import {
   Award,
   Settings,
 } from 'lucide-react';
+import { SectionTabs } from '../ui';
 import { HojePage } from '../../fdr/ui/pages/HojePage';
 import { EstudosPage } from '../../fdr/ui/pages/EstudosPage';
 import { InicioPage } from '../../fdr/ui/pages/InicioPage';
@@ -34,45 +35,23 @@ export type FdrTabId =
 export const FdrGraduacaoView: React.FC = () => {
   const [abaAtiva, setAbaAtiva] = useState<FdrTabId>('hoje');
 
-  const navItems: { id: FdrTabId; rotulo: string; icone: React.FC<{ className?: string }> }[] = [
-    { id: 'hoje', rotulo: 'Hoje', icone: Sun },
-    { id: 'estudos', rotulo: 'Estudos', icone: Flame },
-    { id: 'inicio', rotulo: 'Dashboard', icone: LayoutDashboard },
-    { id: 'semestre', rotulo: 'Semestre 2026.2', icone: GraduationCap },
-    { id: 'curriculo', rotulo: 'Currículo', icone: BookOpen },
-    { id: 'simulador', rotulo: 'Simulador', icone: Calculator },
-    { id: 'planejador', rotulo: 'Planejador', icone: CalendarDays },
-    { id: 'graduacao', rotulo: 'Graduação', icone: Award },
-    { id: 'config', rotulo: 'Ajustes', icone: Settings },
+  // Most-used first; labels say what each page is for
+  const tabs: { id: FdrTabId; label: string }[] = [
+    { id: 'hoje', label: 'Hoje' },
+    { id: 'semestre', label: 'Semestre' },
+    { id: 'estudos', label: 'Estudos' },
+    { id: 'curriculo', label: 'Currículo' },
+    { id: 'inicio', label: 'Visão geral' },
+    { id: 'simulador', label: 'Simulador de notas' },
+    { id: 'planejador', label: 'Planejador' },
+    { id: 'graduacao', label: 'Formatura' },
+    { id: 'config', label: 'Ajustes' },
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Sub-navegação do Módulo FDR */}
-      <div className="bg-white p-2 rounded-2xl border border-[#ece8e1] shadow-2xs overflow-x-auto">
-        <div className="flex items-center gap-1 min-w-max">
-          {navItems.map((item) => {
-            const Icone = item.icone;
-            const ativo = abaAtiva === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setAbaAtiva(item.id)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  ativo
-                    ? 'bg-[#8b1538] text-white shadow-2xs'
-                    : 'text-stone-600 hover:text-stone-900 hover:bg-[#faf8f5]'
-                }`}
-              >
-                <Icone className={`w-3.5 h-3.5 ${ativo ? 'text-[#fce4e4]' : 'text-stone-400'}`} />
-                <span>{item.rotulo}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+    <div>
+      <SectionTabs value={abaAtiva} onChange={setAbaAtiva} tabs={tabs} />
 
-      {/* Conteúdo da Sub-Aba selecionada */}
       <div>
         {abaAtiva === 'hoje' && <HojePage aoMudarAba={(aba) => setAbaAtiva(aba as FdrTabId)} />}
         {abaAtiva === 'estudos' && <EstudosPage />}

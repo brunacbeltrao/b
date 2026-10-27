@@ -169,18 +169,14 @@ export const EstudosPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* Header Editorial */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#ece8e1]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Metodologia & Estudos</span>
-          <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900 mt-0.5">
-            Para Estudar Melhor
-          </h2>
-          <p className="text-xs text-stone-500">
+          <p className="text-sm text-stone-600 max-w-2xl">
             Acompanhamento semanal, caderno de erros de provas, fila de leitura com fichamentos e súmulas salvas.
           </p>
         </div>
         {/* Abas Superiores */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-stone-100 border border-[#ece8e1]">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-stone-100 border border-[#e6e4e8]">
           <button
             onClick={() => setSecaoAtiva('meta')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
@@ -232,14 +228,14 @@ export const EstudosPage: React.FC = () => {
       {/* 1. ABA META SEMANAL */}
       {secaoAtiva === 'meta' && (
         <div className="space-y-6">
-          <div className="p-6 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-5">
+          <div className="p-6 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center">
                   <Flame className="w-6 h-6" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Meta da Semana</span>
+                  <span className="text-xs font-medium text-stone-400 block">Meta da Semana</span>
                   <h3 className="text-xl font-bold text-stone-900">
                     {resumoSemanal.topicosConcluidosSemana} de {resumoSemanal.metaTopicos} temas estudados
                   </h3>
@@ -256,8 +252,8 @@ export const EstudosPage: React.FC = () => {
                     onClick={() => store.atualizarMetaSemanal(qtd)}
                     className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer ${
                       store.metaSemanal?.metaTopicos === qtd
-                        ? 'bg-emerald-700 text-white font-semibold'
-                        : 'bg-[#faf8f5] text-stone-600 hover:bg-stone-200/60 border border-[#ece8e1]'
+                        ? 'bg-[#8b1538] text-white font-medium'
+                        : 'bg-[#f6f5f7] text-stone-600 hover:bg-stone-200/60 border border-[#e6e4e8]'
                     }`}
                   >
                     {qtd}
@@ -270,9 +266,9 @@ export const EstudosPage: React.FC = () => {
                 <span className="text-stone-500">Ritmo de estudo</span>
                 <span className="text-emerald-700 font-semibold">{resumoSemanal.porcentagemMeta}% concluído</span>
               </div>
-              <div className="w-full h-3 bg-[#f2ede4] rounded-full overflow-hidden">
+              <div className="w-full h-3 bg-[#e6e4e8] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-emerald-700 rounded-full transition-all duration-500"
+                  className="h-full bg-[#8b1538] rounded-full transition-all duration-500"
                   style={{ width: `${resumoSemanal.porcentagemMeta}%` }}
                 />
               </div>
@@ -280,8 +276,8 @@ export const EstudosPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
-              <div className="flex items-center gap-2 pb-2 border-b border-[#ece8e1]">
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
+              <div className="flex items-center gap-2 pb-2 border-b border-[#e6e4e8]">
                 <CalendarCheck className="w-4 h-4 text-emerald-700" />
                 <h4 className="text-base font-bold text-stone-900">
                   Resumo do Domingo (Planejamento Semanal)
@@ -291,13 +287,13 @@ export const EstudosPage: React.FC = () => {
                 Todo domingo você revisa os temas concluídos na semana anterior e já visualiza as provas e entregas dos próximos 7 dias para planejar os blocos de estudo.
               </p>
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1]">
+                <div className="p-3 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8]">
                   <span className="text-[11px] text-stone-400 block font-mono">Temas finalizados</span>
                   <span className="text-2xl font-mono font-medium text-emerald-700">
                     {resumoSemanal.topicosConcluidosSemana}
                   </span>
                 </div>
-                <div className="p-3 rounded-xl bg-[#faf8f5] border border-[#ece8e1]">
+                <div className="p-3 rounded-xl bg-[#f6f5f7] border border-[#e6e4e8]">
                   <span className="text-[11px] text-stone-400 block font-mono">Erros a revisar</span>
                   <span className="text-2xl font-mono font-medium text-amber-600">
                     {resumoSemanal.errosPendentes}
@@ -306,8 +302,8 @@ export const EstudosPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-[#ece8e1]">
+            <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-[#e6e4e8]">
                 <h4 className="text-base font-bold text-stone-900 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-amber-600" />
                   <span>Provas & Prazos da Semana</span>
@@ -404,7 +400,7 @@ export const EstudosPage: React.FC = () => {
 
           <div className="space-y-3">
             {(store.cadernoErros || []).length === 0 ? (
-              <div className="p-8 text-center text-stone-400 text-sm bg-white rounded-2xl border border-[#ece8e1]">
+              <div className="p-8 text-center text-stone-400 text-sm bg-white rounded-2xl border border-[#e6e4e8]">
                 Nenhum erro registrado ainda. Quando fizer a 1ª avaliação de PG520, PG525 ou PR433, registre aqui para não errar novamente na OAB ou na prova final!
               </div>
             ) : (
@@ -414,13 +410,13 @@ export const EstudosPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    className={`p-4 sm:p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3 transition-all ${
-                      item.resolvido ? 'opacity-70 bg-[#faf8f5]' : ''
+                    className={`p-4 sm:p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3 transition-all ${
+                      item.resolvido ? 'opacity-70 bg-[#f6f5f7]' : ''
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#faf8f5] text-stone-800 border border-[#ece8e1]">
+                        <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f6f5f7] text-stone-800 border border-[#e6e4e8]">
                           {tent?.codigo || 'FDR'}
                         </span>
                         {topico && (
@@ -458,7 +454,7 @@ export const EstudosPage: React.FC = () => {
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
                       <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 space-y-1">
-                        <span className="font-bold text-rose-800 uppercase tracking-wider text-[10px] block">
+                        <span className="font-medium text-rose-800 text-xs block">
                           O que eu marquei / errei:
                         </span>
                         <p className="text-stone-800 leading-relaxed">
@@ -466,7 +462,7 @@ export const EstudosPage: React.FC = () => {
                         </p>
                       </div>
                       <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
-                        <span className="font-bold text-emerald-800 uppercase tracking-wider text-[10px] block">
+                        <span className="font-medium text-emerald-800 text-xs block">
                           Gabarito & O que revisar:
                         </span>
                         <p className="text-stone-800 leading-relaxed">
@@ -528,10 +524,10 @@ export const EstudosPage: React.FC = () => {
                 Math.round((obra.paginasLidas / obra.totalPaginas) * 100)
               );
               return (
-                <div key={obra.id} className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3.5 flex flex-col justify-between">
+                <div key={obra.id} className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3.5 flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#faf8f5] text-stone-800 border border-[#ece8e1]">
+                      <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f6f5f7] text-stone-800 border border-[#e6e4e8]">
                         {obra.codigoDisciplina}
                       </span>
                       <span
@@ -557,15 +553,15 @@ export const EstudosPage: React.FC = () => {
                         <span>Páginas: {obra.paginasLidas} / {obra.totalPaginas}</span>
                         <span>{porcentagem}%</span>
                       </div>
-                      <div className="w-full h-2 bg-[#f2ede4] rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-[#e6e4e8] rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-emerald-700 rounded-full transition-all duration-300"
+                          className="h-full bg-[#8b1538] rounded-full transition-all duration-300"
                           style={{ width: `${porcentagem}%` }}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="pt-2 border-t border-[#ece8e1] flex items-center justify-between gap-2">
+                  <div className="pt-2 border-t border-[#e6e4e8] flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
                       <span className="text-[11px] text-stone-400 font-mono">Pág:</span>
                       <input
@@ -579,7 +575,7 @@ export const EstudosPage: React.FC = () => {
                             parseInt(e.target.value, 10) || 0
                           )
                         }
-                        className="w-16 px-1.5 py-0.5 rounded-lg border border-[#ece8e1] text-xs font-mono bg-white"
+                        className="w-16 px-1.5 py-0.5 rounded-lg border border-[#e6e4e8] text-xs font-mono bg-white"
                       />
                     </div>
                     <div className="flex items-center gap-2">
@@ -633,10 +629,10 @@ export const EstudosPage: React.FC = () => {
             {(store.favoritosTopicos || []).map((fav) => {
               const topico = store.topicos.find((t) => t.id === fav.topicoId);
               return (
-                <div key={fav.id} className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3 flex flex-col justify-between">
+                <div key={fav.id} className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3 flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] px-2 py-0.5 rounded-full uppercase font-semibold bg-emerald-100 text-emerald-800">
+                      <span className="font-mono text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800">
                         {fav.tipo}
                       </span>
                       {fav.referencia && (
@@ -659,7 +655,7 @@ export const EstudosPage: React.FC = () => {
                       </p>
                     )}
                   </div>
-                  <div className="pt-2 border-t border-[#ece8e1] flex items-center justify-between">
+                  <div className="pt-2 border-t border-[#e6e4e8] flex items-center justify-between">
                     {fav.url ? (
                       <a
                         href={fav.url}
@@ -703,7 +699,7 @@ export const EstudosPage: React.FC = () => {
             <select
               value={novoErroTentativaId}
               onChange={(e) => setNovoErroTentativaId(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             >
               {matriculadas.map((m) => (
                 <option key={m.tentativa.id} value={m.tentativa.id}>
@@ -722,7 +718,7 @@ export const EstudosPage: React.FC = () => {
               value={novoErroTitulo}
               onChange={(e) => setNovoErroTitulo(e.target.value)}
               placeholder="Ex: Questão 3 - Competência territorial e foro de eleição"
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div>
@@ -735,7 +731,7 @@ export const EstudosPage: React.FC = () => {
               value={novoErroOQueErrou}
               onChange={(e) => setNovoErroOQueErrou(e.target.value)}
               placeholder="Ex: Marquei que a incompetência relativa pode ser conhecida de ofício pelo juiz."
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div>
@@ -748,7 +744,7 @@ export const EstudosPage: React.FC = () => {
               value={novoErroOQueRevisar}
               onChange={(e) => setNovoErroOQueRevisar(e.target.value)}
               placeholder="Ex: Súmula 33 STJ: a incompetência relativa não pode ser declarada de ofício. Revisar arts. 64 e 65 do CPC."
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div>
@@ -756,7 +752,7 @@ export const EstudosPage: React.FC = () => {
               Anexar foto ou PDF escaneado da prova (Opcional)
             </label>
             <div className="flex items-center gap-3">
-              <label className="px-3.5 py-2 rounded-xl border border-[#ece8e1] bg-[#faf8f5] text-xs font-medium flex items-center gap-2 cursor-pointer hover:bg-stone-100 transition-all">
+              <label className="px-3.5 py-2 rounded-xl border border-[#e6e4e8] bg-[#f6f5f7] text-xs font-medium flex items-center gap-2 cursor-pointer hover:bg-stone-100 transition-all">
                 <Upload className="w-4 h-4 text-emerald-700" />
                 <span>Escolher arquivo...</span>
                 <input
@@ -773,7 +769,7 @@ export const EstudosPage: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#ece8e1]">
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#e6e4e8]">
             <Button
               variant="outline"
               type="button"
@@ -797,7 +793,7 @@ export const EstudosPage: React.FC = () => {
       >
         <div className="p-2 space-y-4">
           {anexoVisualizando?.url.startsWith('data:image') ? (
-            <div className="max-h-[70vh] overflow-auto rounded-xl border border-[#ece8e1]">
+            <div className="max-h-[70vh] overflow-auto rounded-xl border border-[#e6e4e8]">
               <img
                 src={anexoVisualizando.url}
                 alt="Prova escaneada"
@@ -805,7 +801,7 @@ export const EstudosPage: React.FC = () => {
               />
             </div>
           ) : (
-            <div className="h-[60vh] w-full rounded-xl border border-[#ece8e1] overflow-hidden">
+            <div className="h-[60vh] w-full rounded-xl border border-[#e6e4e8] overflow-hidden">
               <iframe
                 src={anexoVisualizando?.url}
                 title="Visualizador PDF"
@@ -838,9 +834,9 @@ export const EstudosPage: React.FC = () => {
             value={textoFichamento}
             onChange={(e) => setTextoFichamento(e.target.value)}
             placeholder="Ex: Cap. 3 - Do Contraditório Substancial: O autor defende que o contraditório não é mera garantia formal..."
-            className="w-full p-3 rounded-xl border border-[#ece8e1] bg-white text-stone-800 leading-relaxed font-sans text-xs"
+            className="w-full p-3 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 leading-relaxed font-sans text-xs"
           />
-          <div className="flex items-center justify-between pt-2 border-t border-[#ece8e1]">
+          <div className="flex items-center justify-between pt-2 border-t border-[#e6e4e8]">
             <Button
               variant="outline"
               size="sm"
@@ -890,7 +886,7 @@ export const EstudosPage: React.FC = () => {
               value={novaLeitTitulo}
               onChange={(e) => setNovaLeitTitulo(e.target.value)}
               placeholder="Ex: Curso de Processo Civil - Vol. 1"
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div>
@@ -902,7 +898,7 @@ export const EstudosPage: React.FC = () => {
               value={novaLeitAutor}
               onChange={(e) => setNovaLeitAutor(e.target.value)}
               placeholder="Ex: Fredie Didier Jr."
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -913,7 +909,7 @@ export const EstudosPage: React.FC = () => {
               <select
                 value={novaLeitCodDisc}
                 onChange={(e) => setNovaLeitCodDisc(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               >
                 {matriculadas.map((m) => (
                   <option key={m.componente.codigo} value={m.componente.codigo}>
@@ -930,11 +926,11 @@ export const EstudosPage: React.FC = () => {
                 type="number"
                 value={novaLeitTotalPaginas}
                 onChange={(e) => setNovaLeitTotalPaginas(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
               />
             </div>
           </div>
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#ece8e1]">
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#e6e4e8]">
             <Button
               variant="outline"
               type="button"
@@ -966,7 +962,7 @@ export const EstudosPage: React.FC = () => {
               value={novoFavTitulo}
               onChange={(e) => setNovoFavTitulo(e.target.value)}
               placeholder="Ex: Súmula 235 STJ ou Tema 988 STJ"
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -977,7 +973,7 @@ export const EstudosPage: React.FC = () => {
               <select
                 value={novoFavTipo}
                 onChange={(e) => setNovoFavTipo(e.target.value as any)}
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               >
                 <option value="sumula">Súmula</option>
                 <option value="julgado">Julgado / Precedente</option>
@@ -994,7 +990,7 @@ export const EstudosPage: React.FC = () => {
                 value={novoFavRef}
                 onChange={(e) => setNovoFavRef(e.target.value)}
                 placeholder="Ex: STJ - Corte Especial"
-                className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+                className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
               />
             </div>
           </div>
@@ -1007,7 +1003,7 @@ export const EstudosPage: React.FC = () => {
               value={novoFavUrl}
               onChange={(e) => setNovoFavUrl(e.target.value)}
               placeholder="https://jurisprudencia.stf.jus.br/..."
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800 font-mono"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800 font-mono"
             />
           </div>
           <div>
@@ -1019,10 +1015,10 @@ export const EstudosPage: React.FC = () => {
               value={novoFavAnotacao}
               onChange={(e) => setNovoFavAnotacao(e.target.value)}
               placeholder="Ex: A conexão não determina a reunião dos processos, se um deles já foi julgado."
-              className="w-full p-2.5 rounded-xl border border-[#ece8e1] bg-white text-stone-800"
+              className="w-full p-2.5 rounded-xl border border-[#e6e4e8] bg-white text-stone-800"
             />
           </div>
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#ece8e1]">
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#e6e4e8]">
             <Button
               variant="outline"
               type="button"

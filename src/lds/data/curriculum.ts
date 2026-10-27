@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Lesson, FacultyMember } from '../types';
+import type { Lesson, FacultyMember } from '../types';
 
 export const FACULTY_MEMBERS: FacultyMember[] = [
   {

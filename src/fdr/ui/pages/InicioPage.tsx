@@ -38,24 +38,18 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
   return (
     <div className="space-y-8 pb-6">
       {/* Header Editorial */}
-      <div className="space-y-3 pb-2 border-b border-[#ece8e1]">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
-          Faculdade de Direito do Recife • UFPE
-        </span>
+      <div className="space-y-3">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif-title text-2xl md:text-3xl font-bold text-stone-900">
-              Visão Geral da Graduação
-            </h2>
-            <p className="text-xs text-stone-500 mt-1 max-w-xl">
+            <p className="text-sm text-stone-600 max-w-2xl">
               5º período letivo ({store.perfil.periodoAtual}) • {progresso.total.atual}h integralizadas de {store.perfil.chExigida.total}h ({progresso.total.porcentagem}% do curso).
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <div className="bg-white p-3 rounded-xl border border-[#ece8e1] shadow-2xs flex items-center gap-2">
+            <div className="bg-white p-3 rounded-xl border border-[#e6e4e8] shadow-2xs flex items-center gap-2">
               <Calendar className="w-3.5 h-3.5 text-stone-400" />
               <div>
-                <span className="text-[9px] uppercase tracking-wider text-stone-400 block font-semibold">
+                <span className="text-xs text-stone-400 block font-semibold">
                   Formatura Estimada
                 </span>
                 <span className="font-mono font-bold text-stone-900">
@@ -63,10 +57,10 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
                 </span>
               </div>
             </div>
-            <div className="bg-white p-3 rounded-xl border border-[#ece8e1] shadow-2xs flex items-center gap-2">
+            <div className="bg-white p-3 rounded-xl border border-[#e6e4e8] shadow-2xs flex items-center gap-2">
               <GraduationCap className="w-3.5 h-3.5 text-emerald-700" />
               <div>
-                <span className="text-[9px] uppercase tracking-wider text-stone-400 block font-semibold">
+                <span className="text-xs text-stone-400 block font-semibold">
                   Prazo Regulamentar
                 </span>
                 <span className="font-semibold text-stone-900">
@@ -82,10 +76,10 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           onClick={() => aoMudarAba('hoje')}
-          className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs text-left hover:border-emerald-700/40 transition-all group cursor-pointer flex items-center justify-between gap-3"
+          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-stone-300 transition-all group cursor-pointer flex items-center justify-between gap-3"
         >
           <div className="space-y-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 block">Ação Diária</span>
+            <span className="text-xs font-medium text-emerald-800 block">Ação Diária</span>
             <h4 className="text-base font-bold text-stone-900 group-hover:text-emerald-800 transition-colors">
               Tela Hoje: Aulas, Faltas em 1 toque & Calendário
             </h4>
@@ -97,10 +91,10 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
         </button>
         <button
           onClick={() => aoMudarAba('estudos')}
-          className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs text-left hover:border-emerald-700/40 transition-all group cursor-pointer flex items-center justify-between gap-3"
+          className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs text-left hover:border-stone-300 transition-all group cursor-pointer flex items-center justify-between gap-3"
         >
           <div className="space-y-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 block">Para Estudar Melhor</span>
+            <span className="text-xs font-medium text-emerald-800 block">Para Estudar Melhor</span>
             <h4 className="text-base font-bold text-stone-900 group-hover:text-emerald-800 transition-colors">
               Caderno de Erros, Fila de Leituras & Meta Semanal
             </h4>
@@ -116,7 +110,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Rendimento Acadêmico</span>
+            <span className="text-xs font-medium text-stone-400 block">Rendimento Acadêmico</span>
             <h3 className="text-sm font-bold text-stone-900">
               Índices Oficiais do SIGAA
             </h3>
@@ -187,8 +181,8 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
       {/* Alertas */}
       {alertas.length > 0 && (
         <section className="space-y-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Pontos de Atenção</span>
-          <div className="bg-white rounded-2xl border border-[#ece8e1] shadow-2xs divide-y divide-[#ece8e1]">
+          <span className="text-xs font-medium text-stone-400 block">Pontos de Atenção</span>
+          <div className="bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs divide-y divide-[#e6e4e8]">
             {alertas.map((a) => (
               <div
                 key={a.id}
@@ -219,10 +213,10 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
 
       {/* Duas Colunas: Progresso por Categoria & Disciplinas em Curso */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#ece8e1]">
+        <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#e6e4e8]">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Carga Horária</span>
+              <span className="text-xs font-medium text-stone-400 block">Carga Horária</span>
               <h3 className="font-bold text-stone-900 text-sm">
                 Integralização Curricular
               </h3>
@@ -238,7 +232,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
               atual={progresso.obrigatorias.atual}
               total={progresso.obrigatorias.total}
               porcentagem={progresso.obrigatorias.porcentagem}
-              corBarra="bg-emerald-700"
+              corBarra="bg-[#8b1538]"
             />
             <ProgressBar
               titulo="Eletivas do Perfil"
@@ -254,7 +248,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
               atual={progresso.eletivasLivres.atual}
               total={progresso.eletivasLivres.total}
               porcentagem={progresso.eletivasLivres.porcentagem}
-              corBarra="bg-[#3b628a]"
+              corBarra="bg-[#625d66]"
             />
             <ProgressBar
               titulo="Atividades Complementares"
@@ -267,11 +261,11 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
           </div>
         </div>
 
-        <div className="p-5 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs flex flex-col justify-between space-y-4">
+        <div className="p-5 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs flex flex-col justify-between space-y-4">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-[#ece8e1]">
+            <div className="flex items-center justify-between pb-3 border-b border-[#e6e4e8]">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Semestre {store.perfil.periodoAtual}</span>
+                <span className="text-xs font-medium text-stone-400 block">Semestre {store.perfil.periodoAtual}</span>
                 <h3 className="font-bold text-stone-900 text-sm flex items-center gap-2">
                   <span>Disciplinas em Curso</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
@@ -287,7 +281,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
                 <ArrowRight className="w-3.5 h-3.5 ml-1 inline" />
               </Button>
             </div>
-            <div className="mt-3 divide-y divide-[#ece8e1]">
+            <div className="mt-3 divide-y divide-[#e6e4e8]">
               {matriculadas.map(({ tentativa, componente }) => {
                 const topicos = store.topicos.filter((t) => t.tentativaId === tentativa.id);
                 const concluidos = topicos.filter((t) => t.concluido).length;
@@ -311,7 +305,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
                         {componente.ch}h • {concluidos}/{topicos.length} tópicos concluídos ({pct}%)
                       </p>
                     </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-[#faf8f5] text-stone-600 border border-[#ece8e1]">
+                    <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-[#f6f5f7] text-stone-600 border border-[#e6e4e8]">
                       MATR
                     </span>
                   </div>
@@ -319,7 +313,7 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
               })}
             </div>
           </div>
-          <div className="pt-3 border-t border-[#ece8e1] flex items-center justify-between text-xs text-stone-400">
+          <div className="pt-3 border-t border-[#e6e4e8] flex items-center justify-between text-xs text-stone-400">
             <span>Acompanhe provas, faltas e guias de estudo</span>
             <Button
               variant="link"
@@ -332,9 +326,9 @@ export const InicioPage: React.FC<InicioPageProps> = ({ aoMudarAba }) => {
       </div>
 
       {/* Gráfico de Evolução CR e MC */}
-      <section className="p-5 sm:p-6 bg-white rounded-2xl border border-[#ece8e1] shadow-2xs space-y-3">
-        <div className="pb-3 border-b border-[#ece8e1]">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Histórico</span>
+      <section className="p-5 sm:p-6 bg-white rounded-2xl border border-[#e6e4e8] shadow-2xs space-y-3">
+        <div className="pb-3 border-b border-[#e6e4e8]">
+          <span className="text-xs font-medium text-stone-400 block">Histórico</span>
           <h3 className="font-bold text-stone-900 text-sm">
             Evolução Semestral do CR e da MC
           </h3>
