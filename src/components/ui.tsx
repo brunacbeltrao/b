@@ -97,6 +97,7 @@ export const Segmented = <T extends string>({
     {options.map((o) => (
       <button
         key={o.value}
+        type="button"
         role="tab"
         aria-selected={value === o.value}
         onClick={() => onChange(o.value)}

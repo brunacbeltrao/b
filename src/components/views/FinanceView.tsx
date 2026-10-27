@@ -6,6 +6,11 @@ import { FinancialTransaction } from '../../types';
 import { Modal } from '../../fdr/ui/components/Modal';
 import { BRL, Button, EmptyState, Input, Label, PageActions, Panel, SectionTabs, Segmented, Select, cx } from '../ui';
 import { BillsSection } from './BillsSection';
+import { SubscriptionsSection } from './SubscriptionsSection';
+import { WishlistSection } from './WishlistSection';
+
+type FinanceSection = 'lancamentos' | 'contas' | 'assinaturas' | 'desejos';
+const FINANCE_SECTIONS: FinanceSection[] = ['lancamentos', 'contas', 'assinaturas', 'desejos'];
 
 const EXPENSE_CATEGORIES = [
   'Alimentação',
@@ -45,14 +50,15 @@ function dayLabel(iso: string): string {
 }
 
 export const FinanceView: React.FC = () => {
-  const [section, setSection] = useState<'lancamentos' | 'contas'>(() => {
+  const [section, setSection] = useState<FinanceSection>(() => {
     try {
-      return sessionStorage.getItem('bruna_os_finance_section') === 'contas' ? 'contas' : 'lancamentos';
+      const saved = sessionStorage.getItem('bruna_os_finance_section') as FinanceSection | null;
+      return saved && FINANCE_SECTIONS.includes(saved) ? saved : 'lancamentos';
     } catch {
       return 'lancamentos';
     }
   });
-  const choose = (s: 'lancamentos' | 'contas') => {
+  const choose = (s: FinanceSection) => {
     setSection(s);
     try {
       sessionStorage.setItem('bruna_os_finance_section', s);
@@ -68,9 +74,14 @@ export const FinanceView: React.FC = () => {
         tabs={[
           { id: 'lancamentos', label: 'Lançamentos' },
           { id: 'contas', label: 'Contas a pagar' },
+          { id: 'assinaturas', label: 'Assinaturas' },
+          { id: 'desejos', label: 'Lista de desejos' },
         ]}
       />
-      {section === 'contas' ? <BillsSection /> : <TransactionsSection />}
+      {section === 'contas' && <BillsSection />}
+      {section === 'assinaturas' && <SubscriptionsSection />}
+      {section === 'desejos' && <WishlistSection />}
+      {section === 'lancamentos' && <TransactionsSection />}
     </div>
   );
 };

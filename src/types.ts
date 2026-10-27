@@ -6,7 +6,11 @@ export type NavigationTab =
   | 'financeiro'
   | 'livros'
   | 'rotina'
-  | 'saude';
+  | 'saude'
+  | 'revisao'
+  | 'carreira'
+  | 'diario'
+  | 'documentos';
 
 export interface PriorityItem {
   id: string;

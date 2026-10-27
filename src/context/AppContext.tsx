@@ -60,6 +60,8 @@ interface AppContextType {
   togglePriority: (id: string) => void;
   addPriority: (text: string, category?: PriorityItem['category']) => void;
   deletePriority: (id: string) => void;
+  /** Priorities ticked off, kept after they leave the list (for the weekly review) */
+  priorityLog: { text: string; completedOn: string }[];
   personalDeadlines: PersonalDeadline[];
   addPersonalDeadline: (d: Omit<PersonalDeadline, 'id'>) => void;
   togglePersonalDeadline: (id: string) => void;
@@ -209,6 +211,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [priorities, setPriorities] = useState<PriorityItem[]>(() =>
     loadFromStorage('priorities', INITIAL_PRIORITIES)
   );
+  const [priorityLog, setPriorityLog] = useState<{ text: string; completedOn: string }[]>(() =>
+    loadFromStorage('priorityLog', [] as { text: string; completedOn: string }[])
+  );
   const [personalDeadlines, setPersonalDeadlines] = useState<PersonalDeadline[]>(() =>
     loadFromStorage('personalDeadlines', [] as PersonalDeadline[])
   );
@@ -346,6 +351,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Auto-save listeners
   useEffect(() => saveToStorage('priorities', priorities), [priorities]);
   useEffect(() => saveToStorage('personalDeadlines', personalDeadlines), [personalDeadlines]);
+  useEffect(() => saveToStorage('priorityLog', priorityLog), [priorityLog]);
 
   // New day: drop priorities finished on earlier days (pending ones carry over) and
   // recompute habit checkmarks and streaks from their history. Re-checked while the app stays open.
@@ -424,6 +430,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Cockpit handlers
   const togglePriority = (id: string) => {
+    const target = priorities.find((p) => p.id === id);
+    if (target) {
+      const today = todayISO();
+      setPriorityLog((log) =>
+        target.completed
+          ? log.filter((l) => !(l.text === target.text && l.completedOn === today))
+          : [...log, { text: target.text, completedOn: today }].slice(-300),
+      );
+    }
     setPriorities(prev => {
       const next = prev.map(p => {
         if (p.id === id) {
@@ -1078,6 +1093,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         priorities,
         togglePriority,
         addPriority,
+        priorityLog,
         personalDeadlines,
         addPersonalDeadline,
         togglePersonalDeadline,

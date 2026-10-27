@@ -4,10 +4,25 @@ import { del, get, put } from '@vercel/blob';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { requireAuth } from './auth.js';
+import { requireAuth, vaultUnlocked } from './auth.js';
 import { query } from './db.js';
 
-export const RECORD_KINDS = ['consulta', 'remedio', 'exame', 'conta'] as const;
+export const RECORD_KINDS = [
+  'consulta',
+  'remedio',
+  'exame',
+  'conta',
+  'assinatura',
+  'desejo',
+  'cv',
+  'competencia',
+  'diario',
+  'decisao',
+  'revisao',
+  'documento',
+] as const;
+/** Kinds only readable or writable while the document vault is open */
+const VAULT_KINDS: readonly string[] = ['documento'];
 type Kind = (typeof RECORD_KINDS)[number];
 
 const isKind = (v: unknown): v is Kind => typeof v === 'string' && (RECORD_KINDS as readonly string[]).includes(v);
@@ -30,10 +45,16 @@ export function registerRecordRoutes(app: Express) {
       res.status(400).json({ error: 'invalid-kind' });
       return;
     }
+    if (isKind(kind) && VAULT_KINDS.includes(kind) && !vaultUnlocked(req)) {
+      res.status(423).json({ error: 'vault-locked' });
+      return;
+    }
     try {
       const rows = kind
         ? await query('SELECT * FROM records WHERE kind = $1 ORDER BY date DESC NULLS LAST, created_at DESC', [kind])
-        : await query('SELECT * FROM records ORDER BY date DESC NULLS LAST, created_at DESC');
+        : await query('SELECT * FROM records WHERE NOT (kind = ANY($1)) ORDER BY date DESC NULLS LAST, created_at DESC', [
+            VAULT_KINDS,
+          ]);
       res.json({ records: rows.map(toRecord) });
     } catch (error) {
       console.error('Error listing records:', error);
@@ -48,6 +69,13 @@ export function registerRecordRoutes(app: Express) {
     if (!isKind(kind) || (date != null && typeof date !== 'string')) {
       res.status(400).json({ error: 'invalid-record' });
       return;
+    }
+    if (!vaultUnlocked(req)) {
+      const existing = await query('SELECT kind FROM records WHERE id = $1', [req.params.id]).catch(() => []);
+      if (VAULT_KINDS.includes(kind) || existing.some((r: any) => VAULT_KINDS.includes(r.kind))) {
+        res.status(423).json({ error: 'vault-locked' });
+        return;
+      }
     }
     try {
       const rows = await query(
@@ -65,6 +93,13 @@ export function registerRecordRoutes(app: Express) {
 
   app.delete('/api/records/:id', requireAuth, async (req, res) => {
     try {
+      if (!vaultUnlocked(req)) {
+        const existing = await query('SELECT kind FROM records WHERE id = $1', [req.params.id]);
+        if (existing.some((r: any) => VAULT_KINDS.includes(r.kind))) {
+          res.status(423).json({ error: 'vault-locked' });
+          return;
+        }
+      }
       await query('DELETE FROM records WHERE id = $1', [req.params.id]);
       res.json({ ok: true });
     } catch (error) {
@@ -74,9 +109,13 @@ export function registerRecordRoutes(app: Express) {
   });
 
   app.post('/api/files', requireAuth, async (req, res) => {
-    const { name, contentType, dataBase64 } = req.body || {};
+    const { name, contentType, dataBase64, sensitive } = req.body || {};
     if (typeof name !== 'string' || typeof dataBase64 !== 'string') {
       res.status(400).json({ error: 'invalid-file' });
+      return;
+    }
+    if (sensitive && !vaultUnlocked(req)) {
+      res.status(423).json({ error: 'vault-locked' });
       return;
     }
     const bytes = Buffer.from(dataBase64, 'base64');
@@ -94,13 +133,10 @@ export function registerRecordRoutes(app: Express) {
         await fs.mkdir(LOCAL_FILES, { recursive: true });
         await fs.writeFile(path.join(LOCAL_FILES, id), bytes);
       }
-      await query('INSERT INTO files (id, name, content_type, size, storage_path) VALUES ($1, $2, $3, $4, $5)', [
-        id,
-        name.slice(0, 200),
-        type,
-        bytes.length,
-        storagePath,
-      ]);
+      await query(
+        'INSERT INTO files (id, name, content_type, size, storage_path, sensitive) VALUES ($1, $2, $3, $4, $5, $6)',
+        [id, name.slice(0, 200), type, bytes.length, storagePath, !!sensitive],
+      );
       res.json({ file: { id, name, size: bytes.length, contentType: type } });
     } catch (error) {
       console.error('Error saving file:', error);
@@ -114,6 +150,10 @@ export function registerRecordRoutes(app: Express) {
       const file = rows[0];
       if (!file) {
         res.status(404).end();
+        return;
+      }
+      if (file.sensitive && !vaultUnlocked(req)) {
+        res.status(423).send('Abra o cofre de documentos no app para ver este arquivo.');
         return;
       }
       res.setHeader('Content-Type', file.content_type);
@@ -138,6 +178,11 @@ export function registerRecordRoutes(app: Express) {
 
   app.delete('/api/files/:id', requireAuth, async (req, res) => {
     try {
+      const found = await query('SELECT sensitive FROM files WHERE id = $1', [req.params.id]);
+      if (found[0]?.sensitive && !vaultUnlocked(req)) {
+        res.status(423).json({ error: 'vault-locked' });
+        return;
+      }
       const rows = await query('DELETE FROM files WHERE id = $1 RETURNING storage_path', [req.params.id]);
       if (rows[0]) {
         if (useBlob()) await del(rows[0].storage_path).catch(() => undefined);

@@ -13,6 +13,10 @@ import { RotinaBemEstarView } from './components/views/RotinaBemEstarView';
 import { FinanceView } from './components/views/FinanceView';
 import { BooksView } from './components/views/BooksView';
 import { HealthView } from './components/views/HealthView';
+import { WeeklyReviewView } from './components/views/WeeklyReviewView';
+import { CareerView } from './components/views/CareerView';
+import { JournalView } from './components/views/JournalView';
+import { VaultView } from './components/views/VaultView';
 
 /** Message shown once after returning from Google's consent screen (?google=conectado|erro). */
 const GoogleReturnNotice: React.FC = () => {
@@ -63,6 +67,14 @@ const MainLayout: React.FC = () => {
         return <RotinaBemEstarView key="rotina" />;
       case 'saude':
         return <HealthView key="saude" />;
+      case 'revisao':
+        return <WeeklyReviewView />;
+      case 'carreira':
+        return <CareerView />;
+      case 'diario':
+        return <JournalView />;
+      case 'documentos':
+        return <VaultView />;
       default:
         return <CockpitView key="cockpit-default" />;
     }

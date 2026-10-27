@@ -31,6 +31,8 @@ const SCHEMA = [
      storage_path TEXT NOT NULL,
      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
    )`,
+  // Files attached to vault documents are only served while the vault is open
+  `ALTER TABLE files ADD COLUMN IF NOT EXISTS sensitive BOOLEAN NOT NULL DEFAULT false`,
 ];
 
 export function databaseUrl(): string | undefined {

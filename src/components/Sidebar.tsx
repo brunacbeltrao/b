@@ -8,6 +8,10 @@ import {
   Wallet,
   HeartPulse,
   Stethoscope,
+  ListChecks,
+  Briefcase,
+  NotebookPen,
+  FolderLock,
   X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -37,6 +41,10 @@ export const TAB_LABELS: Record<NavigationTab, string> = {
   financeiro: 'Finanças',
   rotina: 'Rotina',
   saude: 'Saúde',
+  revisao: 'Revisão semanal',
+  carreira: 'Carreira',
+  diario: 'Diário',
+  documentos: 'Documentos',
 };
 
 export const Sidebar: React.FC = () => {
@@ -52,14 +60,16 @@ export const Sidebar: React.FC = () => {
       items: [
         { id: 'cockpit', label: TAB_LABELS.cockpit, icon: Sun, count: pendingPrioritiesCount },
         { id: 'calendario', label: TAB_LABELS.calendario, icon: CalendarDays, count: todayEventsCount },
+        { id: 'revisao', label: TAB_LABELS.revisao, icon: ListChecks },
       ],
     },
     {
-      title: 'Estudos',
+      title: 'Estudos e carreira',
       items: [
         { id: 'fdr', label: TAB_LABELS.fdr, icon: GraduationCap },
         { id: 'lds', label: TAB_LABELS.lds, icon: Scale },
         { id: 'livros', label: TAB_LABELS.livros, icon: BookOpen },
+        { id: 'carreira', label: TAB_LABELS.carreira, icon: Briefcase },
       ],
     },
     {
@@ -68,6 +78,8 @@ export const Sidebar: React.FC = () => {
         { id: 'financeiro', label: TAB_LABELS.financeiro, icon: Wallet },
         { id: 'rotina', label: TAB_LABELS.rotina, icon: HeartPulse },
         { id: 'saude', label: TAB_LABELS.saude, icon: Stethoscope },
+        { id: 'diario', label: TAB_LABELS.diario, icon: NotebookPen },
+        { id: 'documentos', label: TAB_LABELS.documentos, icon: FolderLock },
       ],
     },
   ];

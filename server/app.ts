@@ -289,6 +289,36 @@ Elabore um texto acadêmico de excelência e máxima densidade dogmática.`;
     }
   });
 
+  // POST /api/gemini/cv — writes a CV, profile or cover letter from the living CV entries
+  app.post('/api/gemini/cv', async (req, res) => {
+    const { entries = [], format = 'cv', lang = 'pt', focus = '' } = req.body || {};
+    const ai = getAi();
+    if (!ai) {
+      res.json({ success: false, mode: 'unavailable' });
+      return;
+    }
+    try {
+      const kinds: Record<string, string> = {
+        cv: 'um currículo completo em texto simples, organizado por seções, com datas e resultados quantificados',
+        perfil: 'um resumo de perfil profissional curto (até 120 palavras) para LinkedIn ou bio',
+        candidatura: 'uma carta de apresentação curta (até 250 palavras) para candidatura',
+      };
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: `Escreva ${kinds[format] || kinds.cv}, em ${lang === 'en' ? 'inglês' : 'português do Brasil'}, para Bruna Beltrão, estudante de Direito da Faculdade de Direito do Recife (UFPE).
+${focus ? `Vaga ou foco: ${focus}. Priorize o que for mais relevante para isso.` : ''}
+Use somente os fatos abaixo, sem inventar cargos, números ou datas. Texto simples, sem markdown.
+Registros:
+${JSON.stringify(entries).slice(0, 20000)}`,
+        config: { temperature: 0.3 },
+      });
+      res.json({ success: true, mode: 'gemini', text: response.text || '' });
+    } catch (error) {
+      console.error('Error generating CV:', error);
+      res.json({ success: false, mode: 'error' });
+    }
+  });
+
   // POST /api/gemini/chat
   app.post('/api/gemini/chat', async (req, res) => {
     try {

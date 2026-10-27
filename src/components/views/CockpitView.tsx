@@ -9,6 +9,9 @@ import { useGoogleEvents, useGoogleStatus } from '../../google/api';
 import { useFdrStore } from '../../fdr/store/useStore';
 import { selectAulasDoDia } from '../../fdr/store/selectors';
 import { cx } from '../ui';
+import { useRecords } from '../../records/useRecords';
+import { Assinatura, renewalsDue } from './SubscriptionsSection';
+import { useWeekFocus } from './WeeklyReviewView';
 
 const CATEGORY_LABEL: Record<EventCategory, string> = {
   estagio: 'Trabalho',
@@ -144,9 +147,15 @@ export const CockpitView: React.FC = () => {
   ].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
 
   const { bills } = useBills();
-  const billsDue = bills
-    .filter((b) => ['atrasada', 'semana'].includes(bucketOf(b, today)))
-    .sort((a, b) => a.date.localeCompare(b.date));
+  const { items: subscriptions } = useRecords<Assinatura>('assinatura');
+  const weekFocus = useWeekFocus();
+  // Bills due this week and subscriptions about to renew share one panel
+  const billsDue = [
+    ...bills
+      .filter((b) => ['atrasada', 'semana'].includes(bucketOf(b, today)))
+      .map((b) => ({ id: b.id, name: b.name, date: b.date, amount: b.amount, renewal: false })),
+    ...renewalsDue(subscriptions, today).map((s) => ({ id: s.id, name: s.name, date: s.date, amount: s.amount, renewal: true })),
+  ].sort((a, b) => a.date.localeCompare(b.date));
   const openBills = () => {
     try {
       sessionStorage.setItem('bruna_os_finance_section', 'contas');
@@ -226,6 +235,19 @@ export const CockpitView: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-5 items-start">
       <div className="space-y-5 min-w-0">
         <Panel title="Prioridades" meta={priorities.length ? `${doneCount} de ${priorities.length}` : undefined}>
+          {weekFocus.length > 0 && (
+            <div className="mb-3 pb-3 border-b border-[#e6e4e8]">
+              <div className="text-xs font-medium text-stone-500 mb-1">Foco da semana</div>
+              <ol className="space-y-0.5">
+                {weekFocus.map((f, i) => (
+                  <li key={i} className="text-sm text-[#1c1a1e] leading-snug">
+                    <span className="text-stone-400 tabular-nums mr-1.5">{i + 1}.</span>
+                    {f}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
           {priorities.length === 0 && (
             <p className="text-sm text-stone-500 py-1">Nada definido ainda. O que precisa sair hoje?</p>
           )}
@@ -370,10 +392,13 @@ export const CockpitView: React.FC = () => {
                 return (
                   <li key={b.id} className="flex items-start gap-3">
                     <div className={`w-16 shrink-0 text-xs font-medium pt-0.5 ${days <= 2 ? 'text-[#8b1538]' : 'text-stone-500'}`}>
-                      {days < 0 ? 'Atrasada' : relativeDays(days)}
+                      {days < 0 ? (b.renewal ? 'Renovou' : 'Atrasada') : relativeDays(days)}
                     </div>
                     <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
-                      <span className="text-sm text-[#1c1a1e] leading-snug truncate">{b.name}</span>
+                      <span className="text-sm text-[#1c1a1e] leading-snug truncate">
+                        {b.name}
+                        {b.renewal && <span className="ml-1.5 text-xs text-stone-500">renovação</span>}
+                      </span>
                       {b.amount ? <span className="text-sm tabular-nums text-stone-600 shrink-0">{BRL.format(b.amount)}</span> : null}
                     </div>
                   </li>
