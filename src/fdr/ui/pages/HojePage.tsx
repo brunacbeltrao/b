@@ -9,6 +9,7 @@ import {
 import { exportarIcsParaDownload } from '../../domain/calendar';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
+import { HorariosModal } from '../components/HorariosModal';
 import {
   Calendar,
   CheckCircle2,
@@ -40,12 +41,36 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
   const store = useFdrStore();
   const hoje = new Date();
   const diaSemanaHoje = hoje.getDay();
-  const dataHojeStr = hoje.toISOString().split('T')[0];
+  const dataHojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+  const [horariosAberto, setHorariosAberto] = useState(false);
   const [diaSelecionado, setDiaSelecionado] = useState<number>(
     diaSemanaHoje >= 1 && diaSemanaHoje <= 5 ? diaSemanaHoje : 1
   );
 
   const aulas = selectAulasDoDia(store, diaSelecionado, dataHojeStr);
+
+  // Day chips summarise the real timetable ("Civil / Constitucional"), Saturday only when it has classes
+  const nomeCurto = (codigo: string) => {
+    const nome = store.componentes.find((c) => c.codigo === codigo)?.nome || codigo;
+    const palavras = nome.split(/\s+/).filter((p) => !/^(direito|de|do|da|dos|das|e|[ivx]+)$/i.test(p));
+    return palavras[0] || nome;
+  };
+  const diasVisiveis = [
+    { dia: 1, rotulo: 'Seg' },
+    { dia: 2, rotulo: 'Ter' },
+    { dia: 3, rotulo: 'Qua' },
+    { dia: 4, rotulo: 'Qui' },
+    { dia: 5, rotulo: 'Sex' },
+    { dia: 6, rotulo: 'Sáb' },
+  ]
+    .filter((d) => d.dia !== 6 || (store.horariosAulas || []).some((h) => h.diaSemana === 6))
+    .map((d) => {
+      const codigos = (store.horariosAulas || [])
+        .filter((h) => h.diaSemana === d.dia)
+        .sort((a, b) => a.horarioInicio.localeCompare(b.horarioInicio))
+        .map((h) => nomeCurto(h.codigo));
+      return { ...d, desc: [...new Set(codigos)].join(' / ') || 'Livre' };
+    });
   const statusFaltasGeral = selectStatusFaltasPorDisciplina(store);
   const proximosEventos = selectProximosEventos(store);
   const matriculadas = selectDisciplinasMatriculadas(store);
@@ -146,18 +171,15 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
           <span className="text-xs font-mono text-stone-400">
             Aulas da semana & Registro de presença
           </span>
-          <span className="text-xs text-stone-500 font-medium">
-            {diaSelecionado === diaSemanaHoje ? 'Visualizando hoje' : 'Alternando dia'}
-          </span>
+          <button
+            onClick={() => setHorariosAberto(true)}
+            className="text-[13px] font-medium text-[#8b1538] hover:text-[#6f0f2c]"
+          >
+            Editar horários
+          </button>
         </div>
-        <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
-          {[
-            { dia: 1, rotulo: 'Seg', desc: 'Processo / Const' },
-            { dia: 2, rotulo: 'Ter', desc: 'Civil / Processo' },
-            { dia: 3, rotulo: 'Qua', desc: 'Const / Civil' },
-            { dia: 4, rotulo: 'Qui', desc: 'Processo / Civil' },
-            { dia: 5, rotulo: 'Sex', desc: 'Constitucional' },
-          ].map((item) => {
+        <div className={`grid ${diasVisiveis.length === 6 ? 'grid-cols-6' : 'grid-cols-5'} gap-1.5 sm:gap-2`}>
+          {diasVisiveis.map((item) => {
             const ehHoje = diaSemanaHoje === item.dia;
             const selecionado = diaSelecionado === item.dia;
             return (
@@ -594,6 +616,7 @@ export const HojePage: React.FC<HojePageProps> = ({ aoMudarAba }) => {
           </div>
         </form>
       </Modal>
+      <HorariosModal aberto={horariosAberto} aoFechar={() => setHorariosAberto(false)} />
     </div>
   );
 };

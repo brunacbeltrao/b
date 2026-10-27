@@ -84,11 +84,8 @@ const TransactionsSection: React.FC = () => {
     return [...keys].sort().reverse();
   }, [financialTransactions]);
 
-  // Open on the latest month that has entries
-  const [month, setMonth] = useState<string>(() => {
-    const withData = [...new Set(financialTransactions.map((t) => t.date.slice(0, 7)))].sort().reverse();
-    return withData[0] || todayISO().slice(0, 7);
-  });
+  // Always open on the current month; older months are one click away
+  const [month, setMonth] = useState<string>(() => todayISO().slice(0, 7));
   const [filter, setFilter] = useState<Filter>('todos');
   const [query, setQuery] = useState('');
   const [modalOpen, setModalOpen] = useState(false);

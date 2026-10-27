@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import { todayISO } from '../utils/dateUtils';
+import { withHabitHistory } from '../utils/habits';
 import {
   NavigationTab,
   PriorityItem,
@@ -24,6 +26,7 @@ import {
   BookItem,
   DelegationInboxItem,
   AssessorItem,
+  PersonalDeadline,
 } from '../types';
 import {
   INITIAL_PRIORITIES,
@@ -57,6 +60,10 @@ interface AppContextType {
   togglePriority: (id: string) => void;
   addPriority: (text: string, category?: PriorityItem['category']) => void;
   deletePriority: (id: string) => void;
+  personalDeadlines: PersonalDeadline[];
+  addPersonalDeadline: (d: Omit<PersonalDeadline, 'id'>) => void;
+  togglePersonalDeadline: (id: string) => void;
+  deletePersonalDeadline: (id: string) => void;
   quickNote: string;
   setQuickNote: (note: string) => void;
 
@@ -202,6 +209,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [priorities, setPriorities] = useState<PriorityItem[]>(() =>
     loadFromStorage('priorities', INITIAL_PRIORITIES)
   );
+  const [personalDeadlines, setPersonalDeadlines] = useState<PersonalDeadline[]>(() =>
+    loadFromStorage('personalDeadlines', [] as PersonalDeadline[])
+  );
   const [quickNote, setQuickNote] = useState<string>(() =>
     loadFromStorage('quickNote', INITIAL_QUICK_NOTE)
   );
@@ -335,6 +345,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Auto-save listeners
   useEffect(() => saveToStorage('priorities', priorities), [priorities]);
+  useEffect(() => saveToStorage('personalDeadlines', personalDeadlines), [personalDeadlines]);
+
+  // New day: drop priorities finished on earlier days (pending ones carry over) and
+  // recompute habit checkmarks and streaks from their history. Re-checked while the app stays open.
+  useEffect(() => {
+    const rollOver = () => {
+      const today = todayISO();
+      setPriorities((prev) => {
+        const next = prev
+          .map((p) => (p.completed && !p.completedOn ? { ...p, completedOn: today } : p))
+          .map((p) => (p.date ? p : { ...p, date: today }))
+          .filter((p) => !(p.completed && p.completedOn! < today));
+        return JSON.stringify(next) === JSON.stringify(prev) ? prev : next;
+      });
+      setHabits((prev) => {
+        const next = prev.map((h) => withHabitHistory(h, today));
+        return JSON.stringify(next) === JSON.stringify(prev) ? prev : next;
+      });
+    };
+    rollOver();
+    const timer = setInterval(rollOver, 5 * 60 * 1000);
+    const onFocus = () => rollOver();
+    window.addEventListener('focus', onFocus);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('focus', onFocus);
+    };
+  }, []);
   useEffect(() => saveToStorage('quickNote', quickNote), [quickNote]);
   useEffect(() => saveToStorage('events', events), [events]);
   useEffect(() => saveToStorage('proposals', proposals), [proposals]);
@@ -391,7 +429,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (p.id === id) {
           const completed = !p.completed;
           if (completed) triggerCelebration();
-          return { ...p, completed };
+          return { ...p, completed, completedOn: completed ? todayISO() : undefined };
         }
         return p;
       });
@@ -406,12 +444,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       text: text.trim(),
       completed: false,
       category,
+      date: todayISO(),
     };
-    setPriorities(prev => [...prev.slice(-2), newItem]); // keep around 3
+    setPriorities(prev => [...prev, newItem]);
   };
 
   const deletePriority = (id: string) => {
     setPriorities(prev => prev.filter(p => p.id !== id));
+  };
+
+  const addPersonalDeadline = (d: Omit<PersonalDeadline, 'id'>) => {
+    setPersonalDeadlines(prev => [...prev, { ...d, id: `pz-${Date.now()}` }]);
+  };
+  const togglePersonalDeadline = (id: string) => {
+    setPersonalDeadlines(prev => prev.map(d => (d.id === id ? { ...d, done: !d.done } : d)));
+  };
+  const deletePersonalDeadline = (id: string) => {
+    setPersonalDeadlines(prev => prev.filter(d => d.id !== id));
   };
 
   // Calendar handlers
@@ -938,16 +987,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleHabit = (id: string) => {
     setHabits(prev =>
       prev.map(h => {
-        if (h.id === id) {
-          const completed = !h.completed;
-          if (completed) triggerCelebration();
-          return {
-            ...h,
-            completed,
-            streak: completed ? h.streak + 1 : Math.max(0, h.streak - 1),
-          };
-        }
-        return h;
+        if (h.id !== id) return h;
+        const today = todayISO();
+        const base = withHabitHistory(h, today);
+        const done = base.history!.includes(today);
+        if (!done) triggerCelebration();
+        const history = done ? base.history!.filter((d) => d !== today) : [...base.history!, today];
+        return withHabitHistory({ ...base, history }, today);
       })
     );
   };
@@ -1032,6 +1078,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         priorities,
         togglePriority,
         addPriority,
+        personalDeadlines,
+        addPersonalDeadline,
+        togglePersonalDeadline,
+        deletePersonalDeadline,
         deletePriority,
         quickNote,
         setQuickNote,

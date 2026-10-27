@@ -13,6 +13,21 @@ export interface PriorityItem {
   text: string;
   completed: boolean;
   category: 'executivo' | 'academico' | 'pessoal' | 'espiritual';
+  /** Day the priority was created (YYYY-MM-DD); pending ones roll over to the next day */
+  date?: string;
+  /** Day it was ticked; completed priorities leave the list the day after */
+  completedOn?: string;
+}
+
+export type DeadlineOrigin = 'faculdade' | 'liga' | 'estagio' | 'monitoria' | 'bev' | 'pessoal';
+
+/** A deadline the student adds by hand (outside the Faculdade and Liga modules) */
+export interface PersonalDeadline {
+  id: string;
+  title: string;
+  date: string; // YYYY-MM-DD
+  origin: DeadlineOrigin;
+  done?: boolean;
 }
 
 export type EventCategory = 
@@ -175,6 +190,8 @@ export interface HabitItem {
   icon: string;
   completed: boolean;
   streak: number;
+  /** Days the habit was done (YYYY-MM-DD); completed and streak are derived from it */
+  history?: string[];
 }
 
 export interface WorkoutDay {

@@ -8,7 +8,6 @@ import {
   Wallet,
   HeartPulse,
   Stethoscope,
-  RotateCcw,
   X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -41,7 +40,7 @@ export const TAB_LABELS: Record<NavigationTab, string> = {
 };
 
 export const Sidebar: React.FC = () => {
-  const { currentTab, setCurrentTab, isMobileNavOpen, setIsMobileNavOpen, resetToDefaults, priorities, events } =
+  const { currentTab, setCurrentTab, isMobileNavOpen, setIsMobileNavOpen, priorities, events } =
     useApp();
 
   const todayStr = todayISO();
@@ -135,15 +134,6 @@ export const Sidebar: React.FC = () => {
           <div className="text-sm font-medium text-[#1c1a1e] truncate">Bruna Beltrão</div>
           <div className="text-xs text-stone-500 truncate">FDR · UFPE</div>
         </div>
-        <button
-          id={`btn-reset-defaults${isMobile ? '-mobile' : ''}`}
-          onClick={resetToDefaults}
-          title="Restaurar dados de exemplo"
-          aria-label="Restaurar dados de exemplo"
-          className="p-1.5 rounded-md text-stone-400 hover:text-stone-700 hover:bg-stone-100"
-        >
-          <RotateCcw className="w-3.5 h-3.5" />
-        </button>
       </div>
     </>
   );

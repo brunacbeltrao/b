@@ -1,5 +1,5 @@
 import React from 'react';
-import { PenLine, Menu } from 'lucide-react';
+import { Plus, Menu } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { formatLongDate, greetingForNow } from '../utils/dateUtils';
 import { SyncButton } from './SyncButton';
@@ -10,8 +10,8 @@ const SUBTITLES: Partial<Record<string, string>> = {
   lds: 'Grupo de estudos · Ciclo 2026.2',
 };
 
-/** Id of the quick-capture textarea on the Hoje page */
-export const QUICK_CAPTURE_ID = 'quick-capture-input';
+/** Id of the "add priority" field on the Hoje page */
+export const QUICK_CAPTURE_ID = 'new-priority-input';
 
 export const TopBar: React.FC = () => {
   const { currentTab, setCurrentTab, setIsMobileNavOpen } = useApp();
@@ -24,7 +24,7 @@ export const TopBar: React.FC = () => {
     if (!isHome) setCurrentTab('cockpit');
     // Wait for the page transition before focusing the field
     setTimeout(() => {
-      const field = document.getElementById(QUICK_CAPTURE_ID) as HTMLTextAreaElement | null;
+      const field = document.getElementById(QUICK_CAPTURE_ID) as HTMLInputElement | null;
       field?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       field?.focus();
     }, isHome ? 0 : 300);
@@ -55,10 +55,11 @@ export const TopBar: React.FC = () => {
           <button
             id="btn-quick-capture-top"
             onClick={openCapture}
+            aria-label="Adicionar prioridade"
             className="flex items-center gap-1.5 h-9 px-3 rounded-md bg-[#8b1538] hover:bg-[#6f0f2c] text-white text-sm font-medium transition-colors"
           >
-            <PenLine className="w-4 h-4" />
-            <span className="hidden sm:inline">Anotar</span>
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Prioridade</span>
           </button>
         </div>
       </div>

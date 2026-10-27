@@ -87,6 +87,7 @@ export interface FdrStoreState extends Estado {
   registrarPresencaOuFalta: (tentativaId: string, dataStr: string, presente: boolean, quantidadeHoras?: number) => void;
   adicionarHorarioAula: (h: Omit<HorarioAula, 'id'>) => void;
   removerHorarioAula: (id: string) => void;
+  editarHorarioAula: (id: string, dados: Partial<Omit<HorarioAula, 'id'>>) => void;
 
   // Calendário com lembretes
   adicionarLembreteCalendario: (lembrete: Omit<LembreteCalendario, 'id'>) => void;
@@ -503,6 +504,10 @@ export const useFdrStore = create<FdrStoreState>((set, get) => {
     },
     removerHorarioAula: (id) => {
       const horariosAulas = (get().horariosAulas || []).filter((h) => h.id !== id);
+      salvarEAtualizar({ horariosAulas });
+    },
+    editarHorarioAula: (id, dados) => {
+      const horariosAulas = (get().horariosAulas || []).map((h) => (h.id === id ? { ...h, ...dados } : h));
       salvarEAtualizar({ horariosAulas });
     },
 
